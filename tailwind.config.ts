@@ -1,4 +1,6 @@
+
 import type { Config } from "tailwindcss";
+import { fontFamily } from "tailwindcss/defaultTheme";
 
 export default {
 	darkMode: ["class"],
@@ -61,7 +63,21 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
+				},
+				doodle: {
+					pencil: '#6B6B6B',
+					paper: '#F9F6F0',
+					notebook: '#E8EBF4',
+					highlight: '#FFDE59',
+					accent: '#FF6B6B',
+					blue: '#73A1F5',
+					green: '#96D6B0'
 				}
+			},
+			fontFamily: {
+				sans: ["var(--font-sans)", ...fontFamily.sans],
+				handwritten: ["Gochi Hand", "Comic Sans MS", "cursive"],
+				sketch: ["Pangolin", "Architects Daughter", "cursive"],
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
@@ -70,25 +86,41 @@ export default {
 			},
 			keyframes: {
 				'accordion-down': {
-					from: {
-						height: '0'
-					},
-					to: {
-						height: 'var(--radix-accordion-content-height)'
-					}
+					from: { height: '0' },
+					to: { height: 'var(--radix-accordion-content-height)' }
 				},
 				'accordion-up': {
-					from: {
-						height: 'var(--radix-accordion-content-height)'
-					},
-					to: {
-						height: '0'
-					}
+					from: { height: 'var(--radix-accordion-content-height)' },
+					to: { height: '0' }
+				},
+				float: {
+					'0%, 100%': { transform: 'translateY(0)' },
+					'50%': { transform: 'translateY(-10px)' }
+				},
+				wiggle: {
+					'0%, 100%': { transform: 'rotate(-3deg)' },
+					'50%': { transform: 'rotate(3deg)' }
+				},
+				unfold: {
+					'0%': { transform: 'scaleY(0)', transformOrigin: 'top' },
+					'100%': { transform: 'scaleY(1)', transformOrigin: 'top' }
+				},
+				drawIn: {
+					'0%': { strokeDashoffset: '1000' },
+					'100%': { strokeDashoffset: '0' }
 				}
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
-				'accordion-up': 'accordion-up 0.2s ease-out'
+				'accordion-up': 'accordion-up 0.2s ease-out',
+				'float': 'float 6s ease-in-out infinite',
+				'wiggle': 'wiggle 1s ease-in-out infinite',
+				'unfold': 'unfold 0.5s ease-out forwards',
+				'draw-in': 'drawIn 2s forwards'
+			},
+			backgroundImage: {
+				'paper-texture': "url('/textures/paper-texture.png')",
+				'notebook-lines': "repeating-linear-gradient(#E8EBF4, #E8EBF4 31px, #C3D1E8 31px, #C3D1E8 32px)",
 			}
 		}
 	},

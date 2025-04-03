@@ -1,84 +1,81 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+@import url('https://fonts.googleapis.com/css2?family=Gochi+Hand&family=Pangolin&display=swap');
+
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    --background: 40 33% 98%;
+    --foreground: 220 5% 20%;
 
     --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card-foreground: 220 5% 20%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover-foreground: 220 5% 20%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    --primary: 220 10% 36%;
+    --primary-foreground: 40 33% 98%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 220 20% 92%;
+    --secondary-foreground: 220 10% 36%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --muted: 220 10% 94%;
+    --muted-foreground: 220 5% 45%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --accent: 30 94% 67%;
+    --accent-foreground: 220 10% 30%;
 
     --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive-foreground: 0 0% 98%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
+    --border: 220 10% 85%;
+    --input: 220 10% 85%;
     --ring: 222.2 84% 4.9%;
 
-    --radius: 0.5rem;
+    --radius: 0.75rem;
 
     --sidebar-background: 0 0% 98%;
-
     --sidebar-foreground: 240 5.3% 26.1%;
-
     --sidebar-primary: 240 5.9% 10%;
-
     --sidebar-primary-foreground: 0 0% 98%;
-
     --sidebar-accent: 240 4.8% 95.9%;
-
     --sidebar-accent-foreground: 240 5.9% 10%;
-
     --sidebar-border: 220 13% 91%;
-
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
+    --background: 220 10% 12%;
+    --foreground: 40 33% 98%;
 
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
+    --card: 220 10% 16%;
+    --card-foreground: 40 33% 98%;
 
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
+    --popover: 220 10% 16%;
+    --popover-foreground: 40 33% 98%;
 
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
+    --primary: 220 10% 80%;
+    --primary-foreground: 220 10% 20%;
 
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
+    --secondary: 220 10% 24%;
+    --secondary-foreground: 40 33% 98%;
 
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
+    --muted: 220 10% 20%;
+    --muted-foreground: 220 10% 65%;
 
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
+    --accent: 30 94% 45%;
+    --accent-foreground: 40 33% 98%;
 
     --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive-foreground: 40 33% 98%;
 
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
+    --border: 220 10% 30%;
+    --input: 220 10% 30%;
+    --ring: 220 10% 65%;
+    
     --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;
     --sidebar-primary: 224.3 76.3% 48%;
@@ -96,6 +93,66 @@
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-doodle-paper text-foreground antialiased;
+  }
+}
+
+@layer components {
+  .doodle-container {
+    @apply relative;
+  }
+
+  .doodle-container::before {
+    content: "";
+    @apply absolute inset-0 bg-doodle-paper border-[3px] border-doodle-pencil border-opacity-70 rounded-md -rotate-1 -z-10;
+  }
+  
+  .doodle-frame {
+    @apply relative border-[3px] border-doodle-pencil border-opacity-80 rounded-md p-4 bg-white overflow-hidden;
+    box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.1);
+  }
+
+  .doodle-frame::before {
+    content: "";
+    @apply absolute top-0 left-0 right-0 bottom-0 bg-paper-texture opacity-50 pointer-events-none;
+  }
+  
+  .notebook-paper {
+    @apply relative bg-doodle-notebook rounded-md p-6;
+    background-image: linear-gradient(#E8EBF4 1px, transparent 1px);
+    background-size: 100% 32px;
+  }
+  
+  .notebook-paper::before {
+    content: "";
+    @apply absolute top-0 bottom-0 left-[40px] w-[1px] bg-doodle-accent bg-opacity-30;
+  }
+  
+  .wavy-divider {
+    @apply relative h-[25px] my-8 overflow-hidden;
+  }
+  
+  .wavy-divider::before {
+    content: "";
+    @apply absolute w-full h-[25px] bg-transparent;
+    background-image: url("data:image/svg+xml,%3Csvg width='100' height='25' viewBox='0 0 100 25' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 25C20 10, 30 25, 50 15S70 0, 100 15V25z' fill='%236B6B6B' fill-opacity='0.2'/%3E%3C/svg%3E");
+    background-size: 100px 25px;
+    background-repeat: repeat-x;
+  }
+
+  .pencil-btn {
+    @apply relative px-6 py-2 font-handwritten text-lg transition-transform bg-white hover:scale-105;
+    box-shadow: 1px 1px 0 rgba(0, 0, 0, 0.2);
+  }
+
+  .pencil-btn::before {
+    content: "";
+    @apply absolute inset-0 border-2 border-doodle-pencil rounded-md -z-10;
+    box-shadow: 1px 1px 0 rgba(0, 0, 0, 0.05);
+  }
+  
+  .pencil-btn::after {
+    content: "";
+    @apply absolute -bottom-[2px] -right-[2px] -left-[2px] h-[6px] bg-doodle-highlight rounded-b-md -z-20;
   }
 }
