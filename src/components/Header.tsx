@@ -1,9 +1,11 @@
 
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { Pencil } from 'lucide-react';
 
 const Header: React.FC = () => {
+  const location = useLocation();
+  
   return (
     <header className="border-b border-doodle-pencil border-opacity-30 py-4">
       <div className="container mx-auto px-4 flex justify-between items-center">
@@ -18,7 +20,7 @@ const Header: React.FC = () => {
           <ul className="flex gap-8 font-sketch">
             <li><Link to="/" className="hover:text-doodle-accent transition-colors">Home</Link></li>
             <li><Link to="/" className="hover:text-doodle-accent transition-colors">Themes</Link></li>
-            <li><Link to="/" className="hover:text-doodle-accent transition-colors">About</Link></li>
+            <li><Link to="/about" className="hover:text-doodle-accent transition-colors">About</Link></li>
           </ul>
         </nav>
       </div>
