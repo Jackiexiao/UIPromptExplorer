@@ -1,73 +1,96 @@
-# Welcome to your Lovable project
+# Doodle UI Themes
 
-## Project info
+A playful collection of UI themes prompts and design system for web applications, featuring a whimsical, sketchy aesthetic.
 
-**URL**: https://lovable.dev/projects/b0e119ca-22cd-43f4-8446-979cb6c9e75d
+![Doodle UI Themes](./public/themes/sketchy-dashboard.png)
 
-## How can I edit this code?
+## About
 
-There are several ways of editing your application.
+Doodle UI Themes is a showcase of hand-drawn, sketch-style UI themes for various application types. Each theme features a unique, playful aesthetic with paper textures, hand-drawn elements, and sketch-like components to create a more human, creative digital experience.
 
-**Use Lovable**
+## Technology Stack
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/b0e119ca-22cd-43f4-8446-979cb6c9e75d) and start prompting.
+- **Framework**: React 18
+- **Build Tool**: Vite
+- **Styling**: Tailwind CSS
+- **Language**: TypeScript
+- **UI Components**: Shadcn UI (Radix UI primitives)
+- **Animations**: Framer Motion
+- **Routing**: React Router DOM
+- **State Management**: React Query
+- **Form Handling**: React Hook Form with Zod validation
 
-Changes made via Lovable will be committed automatically to this repo.
+## Features
 
-**Use your preferred IDE**
+- Interactive theme gallery with categorized themes
+- Detailed theme preview with design prompts
+- Responsive design for all device sizes
+- Playful animations and transitions
+- Hand-drawn aesthetic with custom CSS styles
+- Theme categories including:
+  - Dashboards
+  - Productivity apps
+  - Portfolios
+  - Blogs
+  - Galleries
+  - E-commerce
+  - Social apps
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+## Architecture
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+The application follows a component-based architecture with the following structure:
 
-Follow these steps:
+- `/src`: Main source directory
+  - `/components`: Reusable UI components
+    - `/ui`: Shadcn UI components
+  - `/data`: Theme data and utilities
+  - `/hooks`: Custom React hooks
+  - `/lib`: Utility functions and shared logic
+  - `/pages`: Page components for routing
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+## Getting Started
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+### Prerequisites
 
-# Step 3: Install the necessary dependencies.
-npm i
+- Node.js (v18+)
+- npm or bun
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
+### Installation
+
+1. Clone the repository
+   ```
+   git clone https://github.com/yourusername/doodle-ui-themes.git
+   cd doodle-ui-themes
+   ```
+
+2. Install dependencies
+   ```
+   npm install
+   # or
+   bun install
+   ```
+
+3. Start the development server
+   ```
+   npm run dev
+   # or
+   bun dev
+   ```
+
+4. Open your browser and navigate to `http://localhost:8080`
+
+## Building for Production
+
+```
+npm run build
+# or
+bun run build
 ```
 
-**Edit a file directly in GitHub**
+## Contributing
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+Contributions are welcome! Feel free to submit a pull request with new themes, improvements, or bug fixes.
 
-**Use GitHub Codespaces**
+## License
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
-
-## What technologies are used for this project?
-
-This project is built with:
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/b0e119ca-22cd-43f4-8446-979cb6c9e75d) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes it is!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+[MIT](LICENSE)

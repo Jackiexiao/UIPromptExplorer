@@ -1,6 +1,5 @@
-
 import React from 'react';
-import { X } from 'lucide-react';
+import { X, Sparkles, Boxes } from 'lucide-react';
 import { UiTheme } from '../data/themes';
 import { Dialog, DialogContent, DialogOverlay } from '@/components/ui/dialog';
 import { Link } from 'react-router-dom';
@@ -42,11 +41,19 @@ const ThemePreviewModal: React.FC<ThemePreviewModalProps> = ({
             <h2 className="font-sketch text-2xl mb-4">{theme.title}</h2>
             
             <div className="relative rounded-md overflow-hidden mb-6">
-              <div className={cn(
-                "absolute top-3 left-3 px-3 py-1 rounded-full",
-                "bg-doodle-highlight font-handwritten text-sm"
-              )}>
-                {theme.category}
+              <div className="absolute top-3 left-3 flex gap-2">
+                <div className={cn(
+                  "px-3 py-1 rounded-full",
+                  "bg-doodle-highlight font-handwritten text-sm"
+                )}>
+                  {theme.category}
+                </div>
+                <div className={cn(
+                  "px-3 py-1 rounded-full",
+                  "bg-doodle-paper font-handwritten text-sm border border-doodle-pencil border-opacity-30"
+                )}>
+                  {theme.uiStyle}
+                </div>
               </div>
               <img 
                 src={theme.imageUrl} 
@@ -59,7 +66,32 @@ const ThemePreviewModal: React.FC<ThemePreviewModalProps> = ({
               />
             </div>
             
-            <p className="mb-6">{theme.description}</p>
+            <p className="mb-4">{theme.description}</p>
+            
+            <div className="mb-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="flex items-center">
+                <Sparkles className="h-4 w-4 mr-2 text-doodle-accent" />
+                <span className="font-sketch text-sm mr-2">Model:</span>
+                <span className="text-sm font-handwritten">{theme.model}</span>
+              </div>
+              
+              <div className="flex flex-col">
+                <div className="flex items-center mb-2">
+                  <Boxes className="h-4 w-4 mr-2 text-doodle-accent" />
+                  <span className="font-sketch text-sm">Tech:</span>
+                </div>
+                <div className="flex flex-wrap gap-1">
+                  {theme.techStack.map((tech, index) => (
+                    <span 
+                      key={index} 
+                      className="px-2 py-0.5 bg-doodle-paper border border-doodle-pencil/30 rounded text-xs font-handwritten"
+                    >
+                      {tech}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </div>
             
             <Link 
               to={`/theme/${theme.id}`}

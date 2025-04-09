@@ -1,15 +1,15 @@
 import React from 'react';
 import { cn } from '@/lib/utils';
 
-interface FilterTabsProps {
-  categories: string[];
-  selectedCategory: string | null;
-  onChange: (category: string | null) => void;
+interface StyleFilterTabsProps {
+  styles: string[];
+  selectedStyle: string | null;
+  onChange: (style: string | null) => void;
 }
 
-const FilterTabs: React.FC<FilterTabsProps> = ({ 
-  categories, 
-  selectedCategory, 
+const StyleFilterTabs: React.FC<StyleFilterTabsProps> = ({ 
+  styles, 
+  selectedStyle, 
   onChange 
 }) => {
   return (
@@ -18,29 +18,29 @@ const FilterTabs: React.FC<FilterTabsProps> = ({
         onClick={() => onChange(null)}
         className={cn(
           "px-5 py-2 font-handwritten text-base rounded-full transition-all duration-300 border-2 border-doodle-pencil border-opacity-30",
-          selectedCategory === null ? 
+          selectedStyle === null ? 
             "bg-doodle-paper text-doodle-pencil shadow-inner" : 
             "bg-doodle-notebook hover:bg-doodle-notebook/80 text-doodle-pencil/70"
         )}
       >
-        All Themes
+        All Styles
       </button>
-      {categories.map((category) => (
+      {styles.map((style) => (
         <button
-          key={category}
-          onClick={() => onChange(category)}
+          key={style}
+          onClick={() => onChange(style)}
           className={cn(
             "px-5 py-2 font-handwritten text-base rounded-full transition-all duration-300 border-2 border-doodle-pencil border-opacity-30 capitalize",
-            selectedCategory === category ? 
+            selectedStyle === style ? 
               "bg-doodle-paper text-doodle-pencil shadow-inner" : 
               "bg-doodle-notebook hover:bg-doodle-notebook/80 text-doodle-pencil/70"
           )}
         >
-          {category}
+          {style}
         </button>
       ))}
     </div>
   );
 };
 
-export default FilterTabs;
+export default StyleFilterTabs; 

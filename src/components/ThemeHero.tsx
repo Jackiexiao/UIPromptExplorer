@@ -37,11 +37,11 @@ const ThemeHero: React.FC = () => {
         transition={{ duration: 0.6 }}
       >
         <h1 className="text-4xl md:text-6xl font-handwritten text-doodle-pencil mb-4">
-          UI Theme Explorer
+          UI Prompt Explorer
         </h1>
         
         <p className="text-xl md:text-2xl font-sketch text-muted-foreground max-w-2xl mx-auto">
-          A playful collection of hand-drawn UI themes for your next creative project
+          A playful collection of UI themes prompts for your next creative project
         </p>
       </motion.div>
     </div>

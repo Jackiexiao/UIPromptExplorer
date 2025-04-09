@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { motion } from 'framer-motion';
 import { UiTheme } from '../data/themes';
@@ -30,9 +29,14 @@ const ThemeCard: React.FC<ThemeCardProps> = ({ theme, onClick }) => {
         </div>
         <h3 className="font-sketch text-lg">{theme.title}</h3>
         <p className="text-sm text-muted-foreground mt-1">{theme.description}</p>
-        <span className="absolute top-3 right-3 px-2 py-1 bg-doodle-highlight font-handwritten text-xs rounded text-foreground rotate-6">
-          {theme.category}
-        </span>
+        <div className="flex gap-2 mt-2">
+          <span className="px-2 py-1 bg-doodle-highlight font-handwritten text-xs rounded text-foreground rotate-1">
+            {theme.category}
+          </span>
+          <span className="px-2 py-1 bg-doodle-paper font-handwritten text-xs rounded text-foreground rotate-[-1] border border-doodle-pencil border-opacity-30">
+            {theme.uiStyle}
+          </span>
+        </div>
       </div>
     </motion.div>
   );

@@ -1,7 +1,6 @@
-
 import React, { useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, Sparkles, Boxes } from 'lucide-react';
 import { getThemeById, getRelatedThemes } from '../data/themes';
 import Header from '../components/Header';
 import NotebookPrompt from '../components/NotebookPrompt';
@@ -73,33 +72,69 @@ const ThemeDetail = () => {
                 />
                 
                 <div className="mt-4 flex justify-between items-center">
-                  <div className="text-sm text-muted-foreground">{theme.category}</div>
+                  <div className="flex gap-2 items-center">
+                    <div className="px-3 py-1 bg-doodle-highlight rounded-full font-handwritten text-sm">
+                      {theme.category}
+                    </div>
+                    <div className="px-3 py-1 bg-doodle-paper rounded-full font-handwritten text-sm border border-doodle-pencil border-opacity-30">
+                      {theme.uiStyle}
+                    </div>
+                  </div>
                   <div className="px-3 py-1 bg-doodle-notebook rounded-full font-handwritten text-sm">
                     UI Theme
+                  </div>
+                </div>
+                
+                <div className="mt-6">
+                  <p className="mb-4">{theme.description}</p>
+                  
+                  <div className="flex flex-col space-y-4 mt-6">
+                    <div className="flex items-center">
+                      <div className="flex items-center mr-2">
+                        <Sparkles className="h-5 w-5 mr-2 text-doodle-accent" />
+                        <span className="font-sketch text-base">Generated with:</span>
+                      </div>
+                      <div className="px-3 py-1 bg-doodle-accent/10 rounded-md font-handwritten ml-2 border border-doodle-accent/30">
+                        {theme.model}
+                      </div>
+                    </div>
+                    
+                    <div>
+                      <div className="flex items-center mb-2">
+                        <Boxes className="h-5 w-5 mr-2 text-doodle-accent" />
+                        <span className="font-sketch text-base">Tech Stack:</span>
+                      </div>
+                      <div className="flex flex-wrap gap-2 mt-1">
+                        {theme.techStack.map((tech, index) => (
+                          <span 
+                            key={index} 
+                            className="px-3 py-1 bg-doodle-paper border border-doodle-pencil/30 rounded-md font-handwritten text-sm inline-block"
+                          >
+                            {tech}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
                   </div>
                 </div>
               </motion.div>
             </div>
             
             <div className="lg:col-span-1">
-              <motion.div
-                initial={{ y: 20, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ delay: 0.4 }}
-              >
-                <NotebookPrompt prompt={theme.prompt} />
-              </motion.div>
+              <NotebookPrompt prompt={theme.prompt} />
             </div>
           </div>
           
-          <RelatedThemes themes={relatedThemes} />
+          {relatedThemes.length > 0 && (
+            <RelatedThemes themes={relatedThemes} />
+          )}
         </motion.div>
       </main>
       
       <footer className="border-t border-doodle-pencil border-opacity-30 py-8 mt-12">
         <div className="container mx-auto px-4 text-center">
           <p className="font-sketch text-muted-foreground">
-            UI Theme Explorer - A playful collection of hand-drawn UI themes
+            UI Prompt Explorer - A playful collection of UI themes prompts
           </p>
         </div>
       </footer>

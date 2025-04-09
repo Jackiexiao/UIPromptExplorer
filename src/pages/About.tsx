@@ -15,11 +15,11 @@ const About = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
         >
-          <h1 className="text-4xl font-handwritten mb-6">About UI Theme Explorer</h1>
+          <h1 className="text-4xl font-handwritten mb-6">About UI Prompt Explorer</h1>
           
           <div className="doodle-frame bg-white p-6 mb-8">
             <p className="mb-4">
-              Welcome to the UI Theme Explorer, a playful collection of hand-drawn user interface themes designed to inspire your next creative project.
+              Welcome to the UI Prompt Explorer, a playful collection of hand-drawn user interface themes designed to inspire your next creative project.
             </p>
             <p className="mb-4">
               Each theme in our gallery represents a unique visual style that can be adapted for websites, mobile apps, or digital products. 
@@ -61,7 +61,7 @@ const About = () => {
       <footer className="border-t border-doodle-pencil border-opacity-30 py-8 mt-12">
         <div className="container mx-auto px-4 text-center">
           <p className="font-sketch text-muted-foreground">
-            UI Theme Explorer - A playful collection of hand-drawn UI themes
+            UI Prompt Explorer - A playful collection of UI themes prompts
           </p>
         </div>
       </footer>
