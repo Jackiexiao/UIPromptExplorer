@@ -1,12 +1,12 @@
-# Doodle UI Themes
+# UI Prompt Explorer
 
 A playful collection of UI themes prompts and design system for web applications, featuring a whimsical, sketchy aesthetic.
 
-![Doodle UI Themes](./public/themes/sketchy-dashboard.png)
+![UI Prompt Explorer](./public/themes/sketchy-dashboard.png)
 
 ## About
 
-Doodle UI Themes is a showcase of hand-drawn, sketch-style UI themes for various application types. Each theme features a unique, playful aesthetic with paper textures, hand-drawn elements, and sketch-like components to create a more human, creative digital experience.
+UI Prompt Explorer is a showcase of hand-drawn, sketch-style UI themes for various application types. Each theme features a unique, playful aesthetic with paper textures, hand-drawn elements, and sketch-like components to create a more human, creative digital experience.
 
 ## Technology Stack
 
@@ -59,8 +59,8 @@ The application follows a component-based architecture with the following struct
 
 1. Clone the repository
    ```
-   git clone https://github.com/yourusername/doodle-ui-themes.git
-   cd doodle-ui-themes
+   git clone https://github.com/yourusername/UI Prompt Explorer.git
+   cd UI Prompt Explorer
    ```
 
 2. Install dependencies

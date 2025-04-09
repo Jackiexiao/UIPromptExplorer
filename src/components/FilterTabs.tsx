@@ -1,5 +1,6 @@
 import React from 'react';
 import { cn } from '@/lib/utils';
+import { useTranslation } from 'react-i18next';
 
 interface FilterTabsProps {
   categories: string[];
@@ -12,6 +13,8 @@ const FilterTabs: React.FC<FilterTabsProps> = ({
   selectedCategory, 
   onChange 
 }) => {
+  const { t } = useTranslation();
+  
   return (
     <div className="flex flex-wrap justify-center gap-3 mb-10">
       <button
@@ -23,7 +26,7 @@ const FilterTabs: React.FC<FilterTabsProps> = ({
             "bg-doodle-notebook hover:bg-doodle-notebook/80 text-doodle-pencil/70"
         )}
       >
-        All Themes
+        {t('filter.all')}
       </button>
       {categories.map((category) => (
         <button
@@ -36,7 +39,7 @@ const FilterTabs: React.FC<FilterTabsProps> = ({
               "bg-doodle-notebook hover:bg-doodle-notebook/80 text-doodle-pencil/70"
           )}
         >
-          {category}
+          {t(`filter.${category}`, {defaultValue: category})}
         </button>
       ))}
     </div>

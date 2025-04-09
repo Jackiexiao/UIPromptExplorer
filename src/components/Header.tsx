@@ -1,9 +1,12 @@
 import React from 'react';
 import { Link, useLocation, NavLink } from 'react-router-dom';
 import { Pencil } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
+import LanguageSwitcher from './LanguageSwitcher';
 
 const Header: React.FC = () => {
   const location = useLocation();
+  const { t } = useTranslation();
   
   return (
     <header className="border-b border-doodle-pencil border-opacity-30 py-4">
@@ -15,29 +18,32 @@ const Header: React.FC = () => {
           </div>
           <h1 className="text-2xl font-handwritten text-doodle-pencil">UI Prompt Explorer</h1>
         </Link>
-        <nav>
-          <ul className="flex gap-8 font-sketch">
-            <li><Link to="/" className="hover:text-doodle-accent transition-colors">Home</Link></li>
-            <li>
-              {location.pathname === '/' ? (
-                <a 
-                  href="#theme-gallery" 
-                  className="hover:text-doodle-accent transition-colors"
-                >
-                  Themes
-                </a>
-              ) : (
-                <Link 
-                  to="/#theme-gallery" 
-                  className="hover:text-doodle-accent transition-colors"
-                >
-                  Themes
-                </Link>
-              )}
-            </li>
-            <li><Link to="/about" className="hover:text-doodle-accent transition-colors">About</Link></li>
-          </ul>
-        </nav>
+        <div className="flex items-center gap-6">
+          <nav>
+            <ul className="flex gap-8 font-sketch">
+              <li><Link to="/" className="hover:text-doodle-accent transition-colors">{t('header.home')}</Link></li>
+              <li>
+                {location.pathname === '/' ? (
+                  <a 
+                    href="#theme-gallery" 
+                    className="hover:text-doodle-accent transition-colors"
+                  >
+                    {t('header.themes')}
+                  </a>
+                ) : (
+                  <Link 
+                    to="/#theme-gallery" 
+                    className="hover:text-doodle-accent transition-colors"
+                  >
+                    {t('header.themes')}
+                  </Link>
+                )}
+              </li>
+              <li><Link to="/about" className="hover:text-doodle-accent transition-colors">{t('header.about')}</Link></li>
+            </ul>
+          </nav>
+          <LanguageSwitcher />
+        </div>
       </div>
     </header>
   );

@@ -1,19 +1,21 @@
-
 import React from 'react';
 import { UiTheme } from '../data/themes';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import { useTranslation } from 'react-i18next';
 
 interface RelatedThemesProps {
   themes: UiTheme[];
 }
 
 const RelatedThemes: React.FC<RelatedThemesProps> = ({ themes }) => {
+  const { t } = useTranslation();
+  
   if (themes.length === 0) return null;
   
   return (
     <div className="mt-12">
-      <h3 className="font-handwritten text-xl mb-4">Related Themes:</h3>
+      <h3 className="font-handwritten text-xl mb-4">{t('themeDetail.relatedThemes')}</h3>
       
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
         {themes.map((theme, index) => (

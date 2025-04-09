@@ -8,6 +8,8 @@ import FilterTabs from '../components/FilterTabs';
 import StyleFilterTabs from '../components/StyleFilterTabs';
 import WavyDivider from '../components/WavyDivider';
 import { motion } from 'framer-motion';
+import { useTranslation } from 'react-i18next';
+import Footer from "@/components/Footer";
 
 const Index = () => {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
@@ -15,6 +17,7 @@ const Index = () => {
   const [selectedTheme, setSelectedTheme] = useState<typeof uiThemes[0] | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [filterMode, setFilterMode] = useState<'category' | 'style'>('category');
+  const { t } = useTranslation();
 
   const filteredThemes = uiThemes.filter(theme => {
     const matchesCategory = selectedCategory ? theme.category === selectedCategory : true;
@@ -41,29 +44,35 @@ const Index = () => {
         <WavyDivider />
         
         <section id="theme-gallery" className="py-8">
-          <h2 className="text-3xl font-handwritten mb-6 text-center">Theme Gallery</h2>
+          <h2 className="text-3xl font-handwritten mb-6 text-center">{t('gallery.title')}</h2>
           
           <div className="flex justify-center mb-8">
             <div className="inline-flex border-2 border-doodle-pencil border-opacity-50 rounded-full overflow-hidden shadow-md bg-doodle-notebook p-1">
               <button
-                onClick={() => setFilterMode('category')}
+                onClick={() => {
+                  setFilterMode('category');
+                  setSelectedStyle(null);
+                }}
                 className={`px-6 py-3 font-handwritten text-base transition-all duration-300 rounded-full ${
                   filterMode === 'category' 
                     ? 'bg-doodle-paper shadow-inner text-doodle-pencil' 
                     : 'hover:bg-white/50 text-doodle-pencil/60'
                 }`}
               >
-                By Purpose
+                {t('gallery.byPurpose')}
               </button>
               <button
-                onClick={() => setFilterMode('style')}
+                onClick={() => {
+                  setFilterMode('style');
+                  setSelectedCategory(null);
+                }}
                 className={`px-6 py-3 font-handwritten text-base transition-all duration-300 rounded-full ${
                   filterMode === 'style' 
                     ? 'bg-doodle-paper shadow-inner text-doodle-pencil' 
                     : 'hover:bg-white/50 text-doodle-pencil/60'
                 }`}
               >
-                By UI Style
+                {t('gallery.byStyle')}
               </button>
             </div>
           </div>
@@ -100,13 +109,7 @@ const Index = () => {
         </section>
       </main>
       
-      <footer className="border-t border-doodle-pencil border-opacity-30 py-8 mt-12">
-        <div className="container mx-auto px-4 text-center">
-          <p className="font-sketch text-muted-foreground">
-            UI Prompt Explorer - A playful collection of UI themes prompts
-          </p>
-        </div>
-      </footer>
+      <Footer />
       
       <ThemePreviewModal 
         theme={selectedTheme} 

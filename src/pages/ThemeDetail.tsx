@@ -6,10 +6,13 @@ import Header from '../components/Header';
 import NotebookPrompt from '../components/NotebookPrompt';
 import RelatedThemes from '../components/RelatedThemes';
 import { motion } from 'framer-motion';
+import { useTranslation } from 'react-i18next';
+import Footer from "@/components/Footer";
 
 const ThemeDetail = () => {
   const { themeId } = useParams<{ themeId: string }>();
   const theme = themeId ? getThemeById(themeId) : undefined;
+  const { t } = useTranslation();
   
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -20,9 +23,9 @@ const ThemeDetail = () => {
       <div className="min-h-screen">
         <Header />
         <div className="container mx-auto px-4 py-12 text-center">
-          <h2 className="text-2xl font-sketch mb-4">Theme not found</h2>
+          <h2 className="text-2xl font-sketch mb-4">{t('themeDetail.themeNotFound')}</h2>
           <Link to="/" className="text-doodle-blue hover:underline">
-            Return to gallery
+            {t('themeDetail.returnToGallery')}
           </Link>
         </div>
       </div>
@@ -42,7 +45,7 @@ const ThemeDetail = () => {
             className="inline-flex items-center font-sketch text-doodle-pencil hover:text-doodle-accent transition-colors"
           >
             <ArrowLeft className="h-4 w-4 mr-2" />
-            Back to gallery
+            {t('themeDetail.backToGallery')}
           </Link>
         </div>
         
@@ -74,14 +77,14 @@ const ThemeDetail = () => {
                 <div className="mt-4 flex justify-between items-center">
                   <div className="flex gap-2 items-center">
                     <div className="px-3 py-1 bg-doodle-highlight rounded-full font-handwritten text-sm">
-                      {theme.category}
+                      {t(`filter.${theme.category}`, {defaultValue: theme.category})}
                     </div>
                     <div className="px-3 py-1 bg-doodle-paper rounded-full font-handwritten text-sm border border-doodle-pencil border-opacity-30">
-                      {theme.uiStyle}
+                      {t(`style.${theme.uiStyle}`, {defaultValue: theme.uiStyle})}
                     </div>
                   </div>
                   <div className="px-3 py-1 bg-doodle-notebook rounded-full font-handwritten text-sm">
-                    UI Theme
+                    {t('themeDetail.uiTheme')}
                   </div>
                 </div>
                 
@@ -92,7 +95,7 @@ const ThemeDetail = () => {
                     <div className="flex items-center">
                       <div className="flex items-center mr-2">
                         <Sparkles className="h-5 w-5 mr-2 text-doodle-accent" />
-                        <span className="font-sketch text-base">Generated with:</span>
+                        <span className="font-sketch text-base">{t('themeDetail.generatedWith')}</span>
                       </div>
                       <div className="px-3 py-1 bg-doodle-accent/10 rounded-md font-handwritten ml-2 border border-doodle-accent/30">
                         {theme.model}
@@ -102,7 +105,7 @@ const ThemeDetail = () => {
                     <div>
                       <div className="flex items-center mb-2">
                         <Boxes className="h-5 w-5 mr-2 text-doodle-accent" />
-                        <span className="font-sketch text-base">Tech Stack:</span>
+                        <span className="font-sketch text-base">{t('themeDetail.techStack')}</span>
                       </div>
                       <div className="flex flex-wrap gap-2 mt-1">
                         {theme.techStack.map((tech, index) => (
@@ -131,13 +134,8 @@ const ThemeDetail = () => {
         </motion.div>
       </main>
       
-      <footer className="border-t border-doodle-pencil border-opacity-30 py-8 mt-12">
-        <div className="container mx-auto px-4 text-center">
-          <p className="font-sketch text-muted-foreground">
-            UI Prompt Explorer - A playful collection of UI themes prompts
-          </p>
-        </div>
-      </footer>
+      <Footer />
+      
     </div>
   );
 };

@@ -1,5 +1,6 @@
 import React from 'react';
 import { cn } from '@/lib/utils';
+import { useTranslation } from 'react-i18next';
 
 interface StyleFilterTabsProps {
   styles: string[];
@@ -12,6 +13,8 @@ const StyleFilterTabs: React.FC<StyleFilterTabsProps> = ({
   selectedStyle, 
   onChange 
 }) => {
+  const { t } = useTranslation();
+  
   return (
     <div className="flex flex-wrap justify-center gap-3 mb-10">
       <button
@@ -23,7 +26,7 @@ const StyleFilterTabs: React.FC<StyleFilterTabsProps> = ({
             "bg-doodle-notebook hover:bg-doodle-notebook/80 text-doodle-pencil/70"
         )}
       >
-        All Styles
+        {t('style.all')}
       </button>
       {styles.map((style) => (
         <button
@@ -36,7 +39,7 @@ const StyleFilterTabs: React.FC<StyleFilterTabsProps> = ({
               "bg-doodle-notebook hover:bg-doodle-notebook/80 text-doodle-pencil/70"
           )}
         >
-          {style}
+          {t(`style.${style}`, {defaultValue: style})}
         </button>
       ))}
     </div>

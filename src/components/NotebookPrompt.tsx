@@ -1,8 +1,8 @@
-
 import React, { useState } from 'react';
 import { Copy, Check } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { motion } from 'framer-motion';
+import { useTranslation } from 'react-i18next';
 
 interface NotebookPromptProps {
   prompt: string;
@@ -11,6 +11,7 @@ interface NotebookPromptProps {
 
 const NotebookPrompt: React.FC<NotebookPromptProps> = ({ prompt, className }) => {
   const [copied, setCopied] = useState(false);
+  const { t } = useTranslation();
 
   const copyToClipboard = () => {
     navigator.clipboard.writeText(prompt);
@@ -34,14 +35,14 @@ const NotebookPrompt: React.FC<NotebookPromptProps> = ({ prompt, className }) =>
         animate={{ opacity: 1 }}
         transition={{ delay: 0.2 }}
       >
-        <h3 className="text-lg font-handwritten mb-4">Theme Prompt:</h3>
+        <h3 className="text-lg font-handwritten mb-4">{t('themeDetail.themePrompt')}</h3>
         <p>{prompt}</p>
       </motion.div>
       
       <button
         onClick={copyToClipboard}
         className="absolute top-16 right-3 p-2 text-doodle-pencil hover:text-doodle-accent transition-colors"
-        title="Copy prompt"
+        title={t('themeDetail.copyPrompt')}
       >
         {copied ? (
           <Check className="h-5 w-5 text-doodle-green" />

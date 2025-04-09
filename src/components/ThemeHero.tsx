@@ -1,9 +1,11 @@
-
 import React from 'react';
 import { Pencil } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { useTranslation } from 'react-i18next';
 
 const ThemeHero: React.FC = () => {
+  const { t } = useTranslation();
+  
   return (
     <div className="py-12 md:py-20 text-center relative">
       {/* Floating pencil illustrations */}
@@ -37,11 +39,11 @@ const ThemeHero: React.FC = () => {
         transition={{ duration: 0.6 }}
       >
         <h1 className="text-4xl md:text-6xl font-handwritten text-doodle-pencil mb-4">
-          UI Prompt Explorer
+          {t('hero.title')}
         </h1>
         
         <p className="text-xl md:text-2xl font-sketch text-muted-foreground max-w-2xl mx-auto">
-          A playful collection of UI themes prompts for your next creative project
+          {t('hero.subtitle')}
         </p>
       </motion.div>
     </div>
