@@ -6,7 +6,7 @@
   },
   "hero": {
     "title": "UI Prompt Explorer",
-    "subtitle": "为您的下一个设计提供的趣味UI主题提示集合",
+    "subtitle": "为您的下一个设计提供的UI主题提示集合",
     "explore": "探索主题"
   },
   "gallery": {
@@ -38,7 +38,7 @@
     "minimalist": "极简"
   },
   "footer": {
-    "description": "UI提示探索者 - 趣味UI主题提示集合",
+    "description": "UI提示探索者 - UI主题提示集合",
     "about": "关于我们",
     "terms": "服务条款",
     "privacy": "隐私政策"
