@@ -1,29 +1,28 @@
-import { defineConfig } from "vite";
-import react from "@vitejs/plugin-react-swc";
-import path from "path";
-import { componentTagger } from "lovable-tagger";
-
-// https://vitejs.dev/config/
-export default defineConfig(({ mode }) => ({
-  server: {
-    host: "::",
-    port: 8080,
-  },
-  build: {
-    rollupOptions: {
-      input: {
-        main: path.resolve(__dirname, "src/index.html"),
-      },
-    },
-  },
-  plugins: [
-    react(),
-    mode === 'development' &&
-    componentTagger(),
-  ].filter(Boolean),
-  resolve: {
-    alias: {
-      "@": path.resolve(__dirname, "./src"),
-    },
-  },
-}));
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UI Prompt Explorer</title>
+  <meta name="description" content="Explore UI themes and prompts for your next project">
+  <meta name="author" content="pekingzcc">
+  <meta property="og:title" content="UI Prompt Explorer">
+  <meta property="og:description" content="Explore UI themes and prompts for your next project">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://lovable.dev/opengraph-image-p98pqg.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@pekingzcc">
+  <meta name="twitter:image" content="https://lovable.dev/opengraph-image-p98pqg.png">
+</head>
+<body>
+  <div id="root"></div>
+  <script src="https://cdn.gpteng.co/gptengineer.js" type="module"></script>
+  <script type="module" src="/src/main.tsx"></script>
+  <script>
+    (function() {
+      var userLang = navigator.language || navigator.userLanguage;
+      document.documentElement.lang = userLang.split('-')[0] || 'en';
+    })();
+  </script>
+</body>
+</html>
