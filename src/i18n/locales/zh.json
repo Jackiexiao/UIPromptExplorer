@@ -6,16 +6,16 @@
   },
   "hero": {
     "title": "UI Prompt Explorer",
-    "subtitle": "为您的下一个设计提供的UI主题提示集合",
+    "subtitle": "为您的下一次设计找到合适的UI提示词",
     "explore": "探索主题"
   },
   "gallery": {
-    "title": "主题画廊",
+    "title": "UI提示词画廊",
     "byPurpose": "按用途分类",
     "byStyle": "按UI风格分类"
   },
   "theme": {
-    "prompts": "提示语",
+    "prompts": "提示词",
     "techStack": "技术栈",
     "relatedThemes": "相关主题",
     "viewDetails": "查看详情",
@@ -45,8 +45,8 @@
     "privacy": "隐私政策"
   },
   "about": {
-    "title": "关于UI提示探索者",
-    "description": "涂鸦UI主题是手绘风格UI设计概念的集合，可以为您的下一个项目提供灵感。",
+    "title": "关于UI提示探索",
+    "description": "UI提示探索网站，可以为您的下一个项目提供灵感。",
     "welcome": "欢迎来到UI提示探索者，这是一个为您的下一个创意项目设计的手绘用户界面主题的有趣集合。",
     "purpose": "我们画廊中的每个主题都代表了一种独特的视觉风格，可以应用于网站、移动应用或数字产品。浏览我们的收藏以寻找灵感，或使用提供的提示语生成类似的设计。",
     "project": "这个项目是对创意设计可能性的探索，展示了手绘美学如何为数字界面带来温暖和个性。",

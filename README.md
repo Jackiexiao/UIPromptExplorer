@@ -2,7 +2,7 @@
 
 A playful collection of UI themes prompts and design system for web applications, featuring a whimsical, sketchy aesthetic.
 
-![UI Prompt Explorer](./public/themes/sketchy-dashboard.png)
+![UI Prompt Explorer](./public/demo.png)
 
 ## About
 
