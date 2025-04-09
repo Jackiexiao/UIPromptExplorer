@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Artistic Blog</title>
+    <link rel="stylesheet" href="https://unpkg.com/tailwindcss@2.2.19/dist/tailwind.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Source+Sans+Pro:wght@400;600&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/rough-notation@0.5.1/lib/rough-notation.iife.js"></script>
+    <style>
+        :root {
+            --ink-black: #1a1a1a;
+            --watercolor-blue: #5b7b9a;
+            --pencil-gray: #6b6b6b;
+            --paper-white: #fafaf8;
+            --accent-color: #e76f51;
+        }
+
+        body {
+            background-color: var(--paper-white);
+            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%239C92AC' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E");
+            font-family: 'Source Sans Pro', sans-serif;
+            color: var(--ink-black);
+        }
+
+        .artistic-frame {
+            border: 2px solid var(--ink-black);
+            border-radius: 2px;
+            position: relative;
+            transition: transform 0.3s ease;
+        }
+
+        .artistic-frame::before {
+            content: '';
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            right: -8px;
+            bottom: -8px;
+            background: var(--watercolor-blue);
+            opacity: 0.1;
+            z-index: -1;
+        }
+
+        .artistic-frame:hover {
+            transform: translateY(-5px);
+        }
+
+        h1, h2, h3 {
+            font-family: 'Playfair Display', serif;
+        }
+
+        .category-tag {
+            background: var(--paper-white);
+            border: 1px dashed var(--pencil-gray);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            color: var(--pencil-gray);
+            transition: all 0.3s ease;
+        }
+
+        .category-tag:hover {
+            background: var(--watercolor-blue);
+            color: var(--paper-white);
+            border-style: solid;
+        }
+
+        .progress-bar {
+            height: 2px;
+            background: var(--accent-color);
+            position: fixed;
+            top: 0;
+            left: 0;
+            transition: width 0.3s ease;
+        }
+
+        .hand-drawn-divider {
+            height: 2px;
+            background-image: url("data:image/svg+xml,%3Csvg width='100' height='2' viewBox='0 0 100 2' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 1c5 0 5-1 10-1s5 1 10 1 5-1 10-1 5 1 10 1 5-1 10-1 5 1 10 1 5-1 10-1 5 1 10 1 5-1 10-1 5 1 10 1' stroke='%236b6b6b' fill='none'/%3E%3C/svg%3E");
+            background-repeat: repeat-x;
+            margin: 2rem 0;
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+    <div class="progress-bar" id="progress-bar"></div>
+    
+    <nav class="fixed left-0 top-0 h-full w-64 p-6 hidden lg:block">
+        <div class="artistic-frame p-6 bg-white">
+            <h2 class="text-2xl font-bold mb-6">Categories</h2>
+            <ul class="space-y-4">
+                <li><a href="#" class="category-tag">Art & Design</a></li>
+                <li><a href="#" class="category-tag">Creative Writing</a></li>
+                <li><a href="#" class="category-tag">Photography</a></li>
+                <li><a href="#" class="category-tag">Digital Art</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="max-w-4xl mx-auto px-6 py-12 lg:ml-64">
+        <header class="mb-16">
+            <h1 class="text-5xl font-bold mb-4">The Creative Journal</h1>
+            <p class="text-lg text-gray-600">Exploring art, design, and creative inspiration</p>
+        </header>
+
+        <article class="artistic-frame p-8 mb-12 bg-white">
+            <h2 class="text-3xl font-bold mb-4">The Art of Digital Illustration</h2>
+            <div class="flex gap-2 mb-6">
+                <span class="category-tag">Digital Art</span>
+                <span class="text-gray-500">• 5 min read</span>
+            </div>
+            <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=800&q=80" 
+                 alt="Digital Illustration" 
+                 class="w-full h-64 object-cover mb-6">
+            <p class="text-lg leading-relaxed mb-6">
+                In the ever-evolving world of digital art, illustration has taken on new forms and possibilities...
+            </p>
+            <a href="#" class="text-accent-color hover:underline">Read more →</a>
+        </article>
+
+        <div class="hand-drawn-divider"></div>
+
+        <article class="artistic-frame p-8 mb-12 bg-white">
+            <h2 class="text-3xl font-bold mb-4">Photography in the Digital Age</h2>
+            <div class="flex gap-2 mb-6">
+                <span class="category-tag">Photography</span>
+                <span class="text-gray-500">• 8 min read</span>
+            </div>
+            <img src="https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&w=800&q=80" 
+                 alt="Photography" 
+                 class="w-full h-64 object-cover mb-6">
+            <p class="text-lg leading-relaxed mb-6">
+                As technology advances, the line between traditional and digital photography continues to blur...
+            </p>
+            <a href="#" class="text-accent-color hover:underline">Read more →</a>
+        </article>
+    </main>
+
+    <script>
+        // Reading progress bar
+        window.addEventListener('scroll', () => {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.getElementById('progress-bar').style.width = scrolled + '%';
+        });
+
+        // Animate elements on scroll
+        document.addEventListener('DOMContentLoaded', () => {
+            const articles = document.querySelectorAll('article');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            articles.forEach(article => {
+                article.style.opacity = '0';
+                article.style.transform = 'translateY(20px)';
+                article.style.transition = 'all 0.6s ease-out';
+                observer.observe(article);
+            });
+        });
+    </script>
+</body>
+</html> 

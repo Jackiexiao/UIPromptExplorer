@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sketch Chat</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.2/socket.io.min.js"></script>
+    <script src="https://unpkg.com/roughjs@4.6.6/bundled/rough.js"></script>
+    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap');
+
+        body {
+            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23f0f0f0' fill-opacity='0.4'%3E%3Ccircle cx='2' cy='2' r='1'/%3E%3C/g%3E%3C/svg%3E");
+            font-family: 'Patrick Hand', cursive;
+        }
+
+        .message-bubble {
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .message-bubble::before {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 0;
+            border-style: solid;
+        }
+
+        .message-sent::before {
+            right: -10px;
+            bottom: 10px;
+            border-width: 10px 0 10px 10px;
+            border-color: transparent transparent transparent #e2e8f0;
+        }
+
+        .message-received::before {
+            left: -10px;
+            bottom: 10px;
+            border-width: 10px 10px 10px 0;
+            border-color: transparent #ffffff transparent transparent;
+        }
+
+        .typing-indicator {
+            display: flex;
+            gap: 4px;
+            padding: 8px;
+        }
+
+        .typing-dot {
+            width: 8px;
+            height: 8px;
+            background: #94a3b8;
+            border-radius: 50%;
+            animation: typing 1s infinite;
+        }
+
+        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes typing {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-4px); }
+        }
+
+        .reaction {
+            transition: transform 0.2s ease;
+        }
+
+        .reaction:hover {
+            transform: scale(1.2);
+        }
+
+        .send-button {
+            transition: transform 0.2s ease;
+        }
+
+        .send-button:hover {
+            transform: scale(1.1);
+        }
+
+        .avatar {
+            position: relative;
+        }
+
+        .avatar::after {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            border: 2px solid #94a3b8;
+            border-radius: 50%;
+            animation: sketch 0.5s ease forwards;
+        }
+
+        @keyframes sketch {
+            0% { clip-path: polygon(0 0, 0 0, 0 0); }
+            100% { clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); }
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-gray-50">
+    <div class="container mx-auto max-w-4xl h-screen flex flex-col">
+        <!-- Header -->
+        <header class="p-4 border-b bg-white/80 backdrop-blur-sm">
+            <div class="flex items-center gap-4">
+                <div class="avatar">
+                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" alt="Current user" class="w-10 h-10 rounded-full">
+                </div>
+                <div>
+                    <h1 class="text-xl">Sketch Chat</h1>
+                    <p class="text-sm text-gray-500">Online</p>
+                </div>
+            </div>
+        </header>
+
+        <!-- Chat Area -->
+        <div class="flex-1 overflow-y-auto p-4 space-y-4" id="chat-area">
+            <!-- Received Message -->
+            <div class="flex items-end gap-2 max-w-[80%]">
+                <div class="avatar">
+                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=John" alt="John" class="w-8 h-8 rounded-full">
+                </div>
+                <div class="message-bubble message-received bg-white p-3 rounded-lg shadow-sm">
+                    <p class="text-gray-800">Hey! How's your day going? 😊</p>
+                    <div class="flex gap-1 mt-1">
+                        <span class="reaction bg-gray-100 p-1 rounded-full text-xs">👍 1</span>
+                        <span class="reaction bg-gray-100 p-1 rounded-full text-xs">❤️ 2</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sent Message -->
+            <div class="flex items-end gap-2 max-w-[80%] ml-auto">
+                <div class="message-bubble message-sent bg-gray-200 p-3 rounded-lg shadow-sm">
+                    <p class="text-gray-800">Pretty good! Just working on some designs. Check this out!</p>
+                    <div class="mt-2 bg-gray-100 p-2 rounded flex items-center gap-2">
+                        <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13">
+                            </path>
+                        </svg>
+                        <span class="text-sm text-gray-600">design-preview.png</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Typing Indicator -->
+            <div class="flex items-end gap-2 max-w-[80%]">
+                <div class="avatar">
+                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=John" alt="John" class="w-8 h-8 rounded-full">
+                </div>
+                <div class="typing-indicator bg-white rounded-lg shadow-sm">
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Input Area -->
+        <div class="p-4 border-t bg-white/80 backdrop-blur-sm">
+            <div class="flex gap-2">
+                <div class="flex-1 bg-gray-100 rounded-lg p-2 min-h-[44px]" contenteditable="true" 
+                    style="background-image: repeating-linear-gradient(transparent, transparent 23px, #e5e7eb 23px, #e5e7eb 24px);">
+                </div>
+                <button class="send-button bg-blue-500 text-white p-2 rounded-lg flex items-center justify-center">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8">
+                        </path>
+                    </svg>
+                </button>
+            </div>
+            <div class="flex gap-2 mt-2">
+                <button class="p-2 text-gray-500 hover:text-gray-700">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13">
+                        </path>
+                    </svg>
+                </button>
+                <button class="p-2 text-gray-500 hover:text-gray-700">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z">
+                        </path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize Rough.js
+        const rc = rough.canvas(document.createElement('canvas'));
+
+        // Add sketch effect to message bubbles
+        document.querySelectorAll('.message-bubble').forEach(bubble => {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            });
+
+            bubble.style.opacity = '0';
+            bubble.style.transform = 'translateY(20px)';
+            observer.observe(bubble);
+        });
+
+        // Simulate sending a message
+        const chatArea = document.getElementById('chat-area');
+        const input = document.querySelector('[contenteditable]');
+        const sendButton = document.querySelector('.send-button');
+
+        sendButton.addEventListener('click', () => {
+            if (input.textContent.trim()) {
+                const messageHTML = `
+                    <div class="flex items-end gap-2 max-w-[80%] ml-auto">
+                        <div class="message-bubble message-sent bg-gray-200 p-3 rounded-lg shadow-sm">
+                            <p class="text-gray-800">${input.textContent}</p>
+                        </div>
+                    </div>
+                `;
+                chatArea.insertAdjacentHTML('beforeend', messageHTML);
+                input.textContent = '';
+                chatArea.scrollTop = chatArea.scrollHeight;
+            }
+        });
+
+        // Handle enter key
+        input.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendButton.click();
+            }
+        });
+    </script>
+</body>
+</html> 

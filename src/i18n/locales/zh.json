@@ -18,7 +18,8 @@
     "prompts": "提示语",
     "techStack": "技术栈",
     "relatedThemes": "相关主题",
-    "viewDetails": "查看详情"
+    "viewDetails": "查看详情",
+    "preview": "预览"
   },
   "filter": {
     "all": "全部",
@@ -67,7 +68,8 @@
     "techStack": "技术栈：",
     "themePrompt": "主题提示语：",
     "copyPrompt": "复制提示语",
-    "relatedThemes": "相关主题："
+    "relatedThemes": "相关主题：",
+    "onlinePreview": "在线预览"
   },
   "notFound": {
     "title": "404",

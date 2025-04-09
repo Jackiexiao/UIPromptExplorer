@@ -95,7 +95,7 @@ const ThemePreviewModal: React.FC<ThemePreviewModalProps> = ({
             
             <Link 
               to={`/theme/${theme.id}`}
-              className="pencil-btn inline-block"
+              className="inline-flex items-center px-6 py-3 bg-doodle-accent text-white rounded-lg font-handwritten text-lg hover:bg-doodle-accent/90 transition-all hover:scale-105 shadow-md hover:shadow-lg"
             >
               View Details
             </Link>

@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Digital Notebook</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/paper@0.12.15/dist/paper-full.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/framer-motion@10.12.16/dist/framer-motion.js"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600;700&family=Patrick+Hand&display=swap');
+    
+    :root {
+      --paper-white: #fdfbf7;
+      --line-blue: #a3bee6;
+      --margin-red: #e2a6a6;
+      --ink-blue: #183153;
+      --ink-black: #2d2d2d;
+    }
+    
+    body {
+      background-color: #e5e0d5;
+      font-family: 'Caveat', cursive;
+      height: 100vh;
+      overflow: hidden;
+    }
+    
+    .notebook {
+      background-color: var(--paper-white);
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3), 0 0 5px rgba(0, 0, 0, 0.1) inset;
+      position: relative;
+      background-image: 
+        linear-gradient(90deg, transparent 39px, var(--margin-red) 39px, var(--margin-red) 40px, transparent 40px),
+        linear-gradient(var(--paper-white) 24px, var(--line-blue) 25px);
+      background-size: 100% 25px;
+      border-radius: 5px;
+      overflow: hidden;
+    }
+    
+    .notebook::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-image: url('data:image/png;base64,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');
+      opacity: 0.05;
+      z-index: 1;
+      pointer-events: none;
+    }
+    
+    .page {
+      min-height: 100%;
+      padding: 25px 50px 25px 50px;
+      position: relative;
+      z-index: 2;
+    }
+    
+    .page-title {
+      font-family: 'Patrick Hand', cursive;
+      font-size: 28px;
+      color: var(--ink-black);
+      margin-top: 10px;
+      margin-bottom: 25px;
+      margin-left: -10px;
+      position: relative;
+    }
+    
+    .tabs {
+      position: absolute;
+      right: 0;
+      top: 10px;
+    }
+    
+    .tab {
+      display: inline-block;
+      padding: 5px 15px;
+      margin-right: 5px;
+      background: #f0e6d2;
+      border-radius: 5px 5px 0 0;
+      box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
+      transform: perspective(20px) rotateX(5deg);
+      font-family: 'Patrick Hand', cursive;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      position: relative;
+      border-bottom: 1px solid #d9c8a7;
+    }
+    
+    .tab:hover {
+      transform: perspective(20px) rotateX(0deg) translateY(-3px);
+    }
+    
+    .tab.active {
+      background: var(--paper-white);
+      border-bottom: 1px solid var(--paper-white);
+      z-index: 10;
+    }
+    
+    .note-item {
+      position: relative;
+      margin-bottom: 20px;
+      padding-left: 5px;
+      cursor: pointer;
+    }
+    
+    .note-title {
+      font-size: 20px;
+      color: var(--ink-blue);
+      transition: all 0.2s ease;
+    }
+    
+    .note-date {
+      font-size: 14px;
+      color: #888;
+      margin-top: -5px;
+    }
+    
+    .note-item:hover .note-title {
+      transform: translateX(10px);
+    }
+    
+    .note-item::before {
+      content: '';
+      position: absolute;
+      left: -5px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background-color: var(--ink-blue);
+      opacity: 0;
+      transition: all 0.2s ease;
+    }
+    
+    .note-item:hover::before {
+      opacity: 1;
+    }
+    
+    .bookmark {
+      position: absolute;
+      right: 20px;
+      top: -10px;
+      width: 20px;
+      height: 40px;
+      background: #f86d6d;
+      border-radius: 2px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+    
+    .tools {
+      position: absolute;
+      bottom: 20px;
+      right: 20px;
+      display: flex;
+      gap: 10px;
+    }
+    
+    .tool {
+      width: 40px;
+      height: 40px;
+      background: #fff;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    
+    .tool:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+    
+    .paper-clip {
+      position: absolute;
+      top: -5px;
+      right: 20px;
+      width: 35px;
+      height: 14px;
+      border: 2px solid #9e9e9e;
+      border-radius: 5px 5px 0 0;
+      border-bottom: none;
+      transform: rotate(90deg);
+    }
+    
+    .paper-clip::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 4px;
+      width: 25px;
+      height: 25px;
+      border: 2px solid #9e9e9e;
+      border-radius: 50%;
+      border-bottom-right-radius: 0;
+      border-top: none;
+      border-left: none;
+    }
+    
+    .note-content {
+      position: relative;
+      margin-top: 40px;
+      font-size: 20px;
+      line-height: 25px;
+      color: var(--ink-black);
+    }
+    
+    /* Handwriting cursor */
+    .editing-area {
+      position: relative;
+      cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="%23183153" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg>') 2 22, auto;
+    }
+    
+    /* Checkbox styling */
+    .todo-item {
+      display: flex;
+      align-items: flex-start;
+      margin-bottom: 15px;
+    }
+    
+    .todo-checkbox {
+      appearance: none;
+      -webkit-appearance: none;
+      width: 20px;
+      height: 20px;
+      margin-right: 10px;
+      margin-top: 3px;
+      border: 2px solid var(--ink-blue);
+      border-radius: 3px;
+      position: relative;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    
+    .todo-checkbox:checked {
+      background-color: rgba(24, 49, 83, 0.1);
+    }
+    
+    .todo-checkbox:checked::after {
+      content: '✓';
+      font-size: 16px;
+      color: var(--ink-blue);
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+    
+    .todo-label {
+      font-size: 20px;
+      line-height: 25px;
+      flex-grow: 1;
+      transition: all 0.2s ease;
+    }
+    
+    .todo-checkbox:checked + .todo-label {
+      text-decoration: line-through;
+      opacity: 0.6;
+    }
+    
+    /* Animation classes */
+    .page-turn-enter {
+      transform: rotateY(0deg);
+      transform-origin: left center;
+      z-index: 10;
+    }
+    
+    .page-turn-enter-active {
+      transform: rotateY(-180deg);
+      transition: transform 0.5s ease;
+    }
+    
+    .page-turn-exit {
+      transform: rotateY(-180deg);
+      transform-origin: left center;
+    }
+    
+    .page-turn-exit-active {
+      transform: rotateY(0deg);
+      transition: transform 0.5s ease;
+    }
+    
+    @keyframes drawIn {
+      from { stroke-dashoffset: 1000; }
+      to { stroke-dashoffset: 0; }
+    }
+    
+    .drawn-element {
+      stroke-dasharray: 1000;
+      stroke-dashoffset: 1000;
+      animation: drawIn 1s forwards;
+    }
+  </style>
+</head>
+<body class="flex items-center justify-center p-5">
+  <div class="notebook w-full max-w-4xl h-[90vh] rounded-lg overflow-auto">
+    <div class="page">
+      <div class="relative">
+        <div class="bookmark"></div>
+        <div class="paper-clip"></div>
+        <h1 class="page-title">My Digital Notebook</h1>
+        
+        <div class="tabs">
+          <div class="tab active">Notes</div>
+          <div class="tab">Tasks</div>
+          <div class="tab">Ideas</div>
+        </div>
+      </div>
+
+      <div class="note-content editing-area">
+        <p class="mb-6">Welcome to your digital notebook! This skeuomorphic interface mimics a real paper notebook with all its analog charm but enhanced with digital capabilities.</p>
+        
+        <div class="mb-8">
+          <h2 class="text-xl mb-2">Recent Notes:</h2>
+          <div class="note-item">
+            <div class="note-title">Meeting with Design Team</div>
+            <div class="note-date">April 12, 2023</div>
+          </div>
+          <div class="note-item">
+            <div class="note-title">Project Roadmap Updates</div>
+            <div class="note-date">April 10, 2023</div>
+          </div>
+          <div class="note-item">
+            <div class="note-title">Weekly Goals</div>
+            <div class="note-date">April 7, 2023</div>
+          </div>
+        </div>
+        
+        <div class="mb-8">
+          <h2 class="text-xl mb-2">Todo List:</h2>
+          <div class="todo-item">
+            <input type="checkbox" class="todo-checkbox" id="task1">
+            <label class="todo-label" for="task1">Complete project proposal</label>
+          </div>
+          <div class="todo-item">
+            <input type="checkbox" class="todo-checkbox" id="task2" checked>
+            <label class="todo-label" for="task2">Schedule team meeting</label>
+          </div>
+          <div class="todo-item">
+            <input type="checkbox" class="todo-checkbox" id="task3">
+            <label class="todo-label" for="task3">Review client feedback</label>
+          </div>
+          <div class="todo-item">
+            <input type="checkbox" class="todo-checkbox" id="task4">
+            <label class="todo-label" for="task4">Research new tools</label>
+          </div>
+        </div>
+        
+        <div>
+          <h2 class="text-xl mb-2">Quick Notes:</h2>
+          <p>Remember to check the research paper about skeuomorphic design and its impact on user experience. The texture and tactile feedback seems to improve memory retention.</p>
+        </div>
+      </div>
+      
+      <div class="tools">
+        <div class="tool">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M17 3C17.2626 2.73735 17.5744 2.52901 17.9176 2.38687C18.2608 2.24473 18.6286 2.17157 19 2.17157C19.3714 2.17157 19.7392 2.24473 20.0824 2.38687C20.4256 2.52901 20.7374 2.73735 21 3C21.2626 3.26264 21.471 3.57444 21.6131 3.9176C21.7553 4.26077 21.8284 4.62856 21.8284 5C21.8284 5.37143 21.7553 5.73923 21.6131 6.08239C21.471 6.42555 21.2626 6.73735 21 7L7.5 20.5L2 22L3.5 16.5L17 3Z" stroke="#2d2d2d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <div class="tool">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M19 7L18 8M3 21L12 12M7 3L16 3C16.7956 3 17.5587 3.31607 18.1213 3.87868C18.6839 4.44129 19 5.20435 19 6L19 15" stroke="#2d2d2d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <div class="tool">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 4V20M4 12H20" stroke="#2d2d2d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Tab switching
+      const tabs = document.querySelectorAll('.tab');
+      tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+          tabs.forEach(t => t.classList.remove('active'));
+          tab.classList.add('active');
+        });
+      });
+      
+      // Page turning sound effect
+      function playPageTurn() {
+        const audio = new Audio('data:audio/mp3;base64,SUQzAwAAAAAAJlRQRTEAAAAcAAAAU291bmRKYXkuY29tIFNvdW5kIEVmZmVjdHMAmktlcm5lbAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//uQZAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWGluZwAAAA8AAAAUAAAWiwCLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn7S0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0yMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjU1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3ejo6Ojo6Ojo6Ojo6Ojo6Ojo6Ojo6Ojo6OgAAAHRTVEFSdAAAAAAAPG1kYXRhAAAAIcgAAABnwFhTBQwB//OoH/3XBoqsVWqvFwJAJiIbZ8OEiAAAABYhUNzg2s6Vl4eQEKtBr4GAoIBZAL//+o5y9hS///63pXAckAK81R+JBOvNTUEf///s6EiPRvXMZqK9lZl7SfLx46PH///jJzUzJNJTMxrUizVRZu/KxYxGf/9cTU2t8wWCQwMDAEEmvXO+cczZKV0HLJmU79G9TtWjqcfgEDqk/pT2d08uc////////1WrIEOYG3KwMXITf/9f////m/1f/6n/1VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVU=');
+        audio.volume = 0.2;
+        audio.play();
+      }
+      
+      // Note item click
+      const noteItems = document.querySelectorAll('.note-item');
+      noteItems.forEach(item => {
+        item.addEventListener('click', () => {
+          playPageTurn();
+          
+          // Add page turn effect
+          const page = document.querySelector('.page');
+          page.style.transform = 'rotateY(-5deg)';
+          page.style.transition = 'transform 0.2s ease';
+          
+          setTimeout(() => {
+            page.style.transform = 'rotateY(0)';
+          }, 300);
+        });
+      });
+      
+      // Create paper texture
+      const canvas = document.createElement('canvas');
+      const paperjs = new paper.PaperScope();
+      paperjs.setup(canvas);
+      
+      // Handwriting cursor effect
+      const editingArea = document.querySelector('.editing-area');
+      editingArea.addEventListener('click', (e) => {
+        const path = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+        path.setAttribute('width', '30');
+        path.setAttribute('height', '30');
+        path.setAttribute('viewBox', '0 0 30 30');
+        path.style.position = 'absolute';
+        path.style.left = `${e.offsetX - 5}px`;
+        path.style.top = `${e.offsetY - 5}px`;
+        path.style.pointerEvents = 'none';
+        path.innerHTML = '<circle cx="15" cy="15" r="5" stroke="#183153" stroke-width="2" fill="none" class="drawn-element"/>';
+        
+        editingArea.appendChild(path);
+        
+        setTimeout(() => {
+          path.remove();
+        }, 1500);
+      });
+      
+      // Checkbox animation
+      const checkboxes = document.querySelectorAll('.todo-checkbox');
+      checkboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', function() {
+          const label = this.nextElementSibling;
+          
+          if (this.checked) {
+            const audio = new Audio('data:audio/mp3;base64,SUQzAwAAAAAAFlRYWFgAAAASAAADbWFqb3JfYnJhbmQAZGFzaABUWFhYAAAAEQAAA21pbm9yX3ZlcnNpb24AMABUWFhYAAAAIAAAA2NvbXBhdGlibGVfYnJhbmRzAGlzbzZtcDQxAFRERU4AAAAVAAADMDE5MwCwAwAAAAAAAUdQUk8AAAACAABlAFRERU4AAAAVAAMDMjAxNwDAdwAAAAAAAUdQUk8AAAACAABlAFRTU0UAAAAPAAACTGF2ZjU5LjI3LjEwMApUU1NFAAAADwACFkxhdmY1OS4yNy4xMDAAVERJVAAAABUAAwAzCYAFAAAAAAAAAAFHUFJPAAAAAgAIZABUREVSAAAAFQADAyMAAAAAAAAAAAAAVElUMgAAAAEAAAxlbmcAVElUMgAAAAEAAAxQZW4gVGFwIDAzIC0gUGVuIFRhcHBpbmcgU0ZYAAlDb21tZW50AAAAAAAAVFNTRQAAAA8AAhZMYXZmNTkuMjcuMTAwAA==');
+            audio.volume = 0.2;
+            audio.play();
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html> 

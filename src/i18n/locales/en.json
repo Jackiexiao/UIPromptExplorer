@@ -18,7 +18,8 @@
     "prompts": "Prompts",
     "techStack": "Tech Stack",
     "relatedThemes": "Related Themes",
-    "viewDetails": "View Details"
+    "viewDetails": "View Details",
+    "preview": "Preview"
   },
   "filter": {
     "all": "All",
@@ -65,9 +66,10 @@
     "uiTheme": "UI Theme",
     "generatedWith": "Generated with:",
     "techStack": "Tech Stack:",
-    "themePrompt": "Theme Prompt:",
+    "themePrompt": "Suggested Prompt:",
     "copyPrompt": "Copy prompt",
-    "relatedThemes": "Related Themes:"
+    "relatedThemes": "Related Themes:",
+    "onlinePreview": "Online Preview"
   },
   "notFound": {
     "title": "404",

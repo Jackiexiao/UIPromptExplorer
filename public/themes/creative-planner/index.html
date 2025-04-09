@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Creative Planner</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+    <style>
+        body {
+            background-image: url('data:image/svg+xml;utf8,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><rect width="100" height="100" fill="none" stroke="%23e5e7eb" stroke-width="0.5" stroke-dasharray="4 4"/></svg>');
+            background-color: #f8f9fa;
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+        }
+        
+        .paper-texture {
+            background-color: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            border-radius: 8px;
+            border: 2px solid #e0e0e0;
+        }
+        
+        .tab {
+            position: relative;
+            border-radius: 10px 10px 0 0;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        
+        .tab::before {
+            content: "";
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            border-radius: 1px;
+        }
+        
+        .tab.active::before {
+            background-color: currentColor;
+        }
+        
+        .calendar-container {
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .fc-header-toolbar {
+            padding: 10px;
+        }
+        
+        .fc-day {
+            border: 1px dashed #ddd !important;
+        }
+        
+        .fc-day-today {
+            background-color: rgba(189, 224, 254, 0.3) !important;
+        }
+        
+        .checkbox {
+            display: inline-block;
+            width: 22px;
+            height: 22px;
+            margin-right: 10px;
+            border: 2px solid #a0a0a0;
+            border-radius: 50%;
+            position: relative;
+        }
+        
+        .checkbox.checked::after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 12px;
+            height: 12px;
+            background-color: #a0d2eb;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+        }
+        
+        .task-item {
+            transition: all 0.3s ease;
+        }
+        
+        .task-item:hover {
+            transform: scale(1.01);
+        }
+        
+        .task-completed {
+            text-decoration: line-through;
+            color: #a0a0a0;
+        }
+        
+        .arrow {
+            position: relative;
+            display: inline-block;
+            width: 30px;
+            height: 10px;
+            background-image: url('data:image/svg+xml;utf8,<svg width="30" height="10" xmlns="http://www.w3.org/2000/svg"><path d="M0,5 C5,0 10,10 15,5 C20,0 25,10 30,5" fill="none" stroke="%23333" stroke-width="1"/></svg>');
+            background-repeat: no-repeat;
+            margin: 0 5px;
+        }
+        
+        .doodle-star {
+            position: relative;
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            background-image: url('data:image/svg+xml;utf8,<svg width="20" height="20" xmlns="http://www.w3.org/2000/svg"><path d="M10,0 L13,7 L20,8 L15,13 L16,20 L10,17 L4,20 L5,13 L0,8 L7,7 Z" fill="none" stroke="%23ff9a76" stroke-width="1"/></svg>');
+            background-repeat: no-repeat;
+        }
+        
+        .doodle-flag {
+            position: relative;
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            background-image: url('data:image/svg+xml;utf8,<svg width="20" height="20" xmlns="http://www.w3.org/2000/svg"><path d="M5,0 L5,20 M5,3 C8,1 10,5 15,3 L15,13 C10,15 8,11 5,13 Z" fill="none" stroke="%23f8a978" stroke-width="1"/></svg>');
+            background-repeat: no-repeat;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen p-6">
+    <div class="max-w-7xl mx-auto">
+        <header class="flex justify-between items-center mb-8">
+            <div>
+                <h1 class="text-4xl font-bold text-gray-800" style="font-family: 'Comic Sans MS', cursive;">Creative Planner</h1>
+                <p class="text-gray-600 mt-1">Your hand-drawn productivity companion</p>
+            </div>
+            <div class="flex space-x-3">
+                <button class="px-4 py-2 bg-pink-100 text-pink-700 rounded-lg paper-texture">
+                    <span class="doodle-star"></span> Today
+                </button>
+                <button class="px-4 py-2 bg-purple-100 text-purple-700 rounded-lg paper-texture">
+                    <svg class="inline-block w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
+                    New Task
+                </button>
+            </div>
+        </header>
+
+        <div class="flex mb-6 overflow-x-auto">
+            <div class="tab active py-2 px-6 text-green-500 bg-green-50 paper-texture">Day</div>
+            <div class="tab py-2 px-6 text-blue-500 bg-blue-50 mx-2 paper-texture">Week</div>
+            <div class="tab py-2 px-6 text-purple-500 bg-purple-50 paper-texture">Month</div>
+            <div class="tab py-2 px-6 text-yellow-500 bg-yellow-50 mx-2 paper-texture">Goals</div>
+            <div class="tab py-2 px-6 text-pink-500 bg-pink-50 paper-texture">Journal</div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <!-- Calendar Section -->
+            <div class="lg:col-span-2 paper-texture p-4">
+                <div class="calendar-container" id="calendar"></div>
+            </div>
+
+            <!-- Tasks Section -->
+            <div class="paper-texture p-6">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-2xl font-bold text-gray-800">Today's Tasks</h2>
+                    <div class="text-gray-600">April 20, 2023</div>
+                </div>
+
+                <div class="task-list space-y-4 mt-6">
+                    <div class="task-item flex items-start p-3 bg-yellow-50 rounded-lg">
+                        <div class="checkbox checked"></div>
+                        <div class="flex-1 task-completed">
+                            <div class="font-medium">Morning meditation</div>
+                            <div class="text-sm text-gray-500">08:00 AM - 08:30 AM</div>
+                        </div>
+                    </div>
+
+                    <div class="task-item flex items-start p-3 bg-green-50 rounded-lg">
+                        <div class="checkbox"></div>
+                        <div class="flex-1">
+                            <div class="font-medium">Team brainstorm meeting</div>
+                            <div class="text-sm text-gray-500">10:00 AM - 11:30 AM</div>
+                        </div>
+                        <div class="doodle-flag"></div>
+                    </div>
+
+                    <div class="task-item flex items-start p-3 bg-blue-50 rounded-lg">
+                        <div class="checkbox"></div>
+                        <div class="flex-1">
+                            <div class="font-medium">Work on project proposal</div>
+                            <div class="text-sm text-gray-500">01:00 PM - 03:00 PM</div>
+                        </div>
+                        <div class="doodle-star"></div>
+                    </div>
+
+                    <div class="task-item flex items-start p-3 bg-purple-50 rounded-lg">
+                        <div class="checkbox"></div>
+                        <div class="flex-1">
+                            <div class="font-medium">Grocery shopping</div>
+                            <div class="text-sm text-gray-500">05:30 PM - 06:30 PM</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-8">
+                    <div class="p-4 bg-pink-50 rounded-lg">
+                        <h3 class="text-xl font-bold text-gray-800">Weekly Goal</h3>
+                        <div class="flex items-center mt-3">
+                            <div class="w-full h-4 bg-white rounded-full">
+                                <div class="h-4 bg-pink-300 rounded-full" style="width: 65%;"></div>
+                            </div>
+                            <span class="ml-3 font-medium">65%</span>
+                        </div>
+                        <div class="text-sm text-gray-600 mt-2">Complete project outline <span class="arrow"></span> 3/5 tasks done</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
+            <!-- Notes Section -->
+            <div class="paper-texture p-6">
+                <h2 class="text-2xl font-bold text-gray-800 mb-4">Quick Notes</h2>
+                <textarea class="w-full h-40 p-4 bg-white border-2 border-gray-200 rounded-lg focus:outline-none focus:border-blue-300" placeholder="Write your thoughts here..."></textarea>
+            </div>
+
+            <!-- Upcoming Events -->
+            <div class="paper-texture p-6">
+                <h2 class="text-2xl font-bold text-gray-800 mb-4">Upcoming Events</h2>
+                <div class="space-y-3">
+                    <div class="p-3 bg-green-50 rounded-lg">
+                        <div class="font-medium">Project Deadline</div>
+                        <div class="text-sm text-gray-500">April 25, 2023</div>
+                    </div>
+                    <div class="p-3 bg-blue-50 rounded-lg">
+                        <div class="font-medium">Sarah's Birthday</div>
+                        <div class="text-sm text-gray-500">April 27, 2023</div>
+                    </div>
+                    <div class="p-3 bg-purple-50 rounded-lg">
+                        <div class="font-medium">Quarterly Review</div>
+                        <div class="text-sm text-gray-500">April 30, 2023</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="mt-10 text-center text-gray-500 text-sm">
+        <p>Created with ❤️ using the Creative Planner UI Theme</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize FullCalendar
+            var calendarEl = document.getElementById('calendar');
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'dayGridMonth',
+                headerToolbar: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'dayGridMonth,timeGridWeek,timeGridDay'
+                },
+                events: [
+                    {
+                        title: 'Team Meeting',
+                        start: '2023-04-20T10:00:00',
+                        end: '2023-04-20T11:30:00',
+                        backgroundColor: '#c4b5fd'
+                    },
+                    {
+                        title: 'Project Deadline',
+                        start: '2023-04-25',
+                        backgroundColor: '#bfdbfe'
+                    },
+                    {
+                        title: 'Sarah\'s Birthday',
+                        start: '2023-04-27',
+                        backgroundColor: '#fecdd3'
+                    },
+                    {
+                        title: 'Quarterly Review',
+                        start: '2023-04-30',
+                        backgroundColor: '#a7f3d0'
+                    }
+                ]
+            });
+            calendar.render();
+
+            // Task checkbox functionality
+            document.querySelectorAll('.checkbox').forEach(checkbox => {
+                checkbox.addEventListener('click', function() {
+                    this.classList.toggle('checked');
+                    const taskText = this.nextElementSibling;
+                    taskText.classList.toggle('task-completed');
+                    
+                    if (this.classList.contains('checked')) {
+                        // Animation for completing a task
+                        anime({
+                            targets: taskText,
+                            opacity: [1, 0.6],
+                            easing: 'easeInOutSine',
+                            duration: 300
+                        });
+                    } else {
+                        // Animation for uncompleting a task
+                        anime({
+                            targets: taskText,
+                            opacity: [0.6, 1],
+                            easing: 'easeInOutSine',
+                            duration: 300
+                        });
+                    }
+                });
+            });
+
+            // Task hover animation
+            document.querySelectorAll('.task-item').forEach(task => {
+                task.addEventListener('mouseenter', function() {
+                    anime({
+                        targets: this,
+                        scale: 1.02,
+                        duration: 300,
+                        easing: 'easeOutElastic(1, .8)'
+                    });
+                });
+                
+                task.addEventListener('mouseleave', function() {
+                    anime({
+                        targets: this,
+                        scale: 1,
+                        duration: 300,
+                        easing: 'easeInElastic(1, .8)'
+                    });
+                });
+            });
+
+            // Tab switching animation
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.addEventListener('click', function() {
+                    document.querySelector('.tab.active').classList.remove('active');
+                    this.classList.add('active');
+                    
+                    anime({
+                        targets: this,
+                        scale: [1.05, 1],
+                        duration: 300,
+                        easing: 'easeOutElastic(1, .8)'
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html> 

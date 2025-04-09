@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doodle Portfolio - Material Design</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #6200ee;
+            --primary-variant: #3700b3;
+            --secondary-color: #03dac6;
+            --secondary-variant: #018786;
+            --background: #f5f5f5;
+            --surface: #ffffff;
+            --error: #b00020;
+            --on-primary: #ffffff;
+            --on-secondary: #000000;
+            --on-background: #000000;
+            --on-surface: #000000;
+            --on-error: #ffffff;
+            --grid-unit: 8px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--background);
+            color: var(--on-background);
+            line-height: 1.5;
+            min-height: 100vh;
+        }
+
+        .app-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: calc(var(--grid-unit) * 8);
+            background-color: var(--primary-color);
+            color: var(--on-primary);
+            display: flex;
+            align-items: center;
+            padding: 0 var(--grid-unit);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            z-index: 100;
+        }
+
+        .app-bar h1 {
+            font-size: 20px;
+            font-weight: 500;
+            margin-left: var(--grid-unit);
+            flex-grow: 1;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: calc(var(--grid-unit) * 3);
+            margin-right: calc(var(--grid-unit) * 2);
+        }
+
+        .nav-links a {
+            color: var(--on-primary);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 14px;
+            padding: calc(var(--grid-unit)) calc(var(--grid-unit) * 2);
+            border-radius: 4px;
+            transition: background-color 0.2s;
+        }
+
+        .nav-links a:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .hero {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-variant));
+            color: var(--on-primary);
+            padding: calc(var(--grid-unit) * 12) calc(var(--grid-unit) * 3) calc(var(--grid-unit) * 6);
+            text-align: center;
+            margin-bottom: calc(var(--grid-unit) * 4);
+        }
+
+        .hero h2 {
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: calc(var(--grid-unit) * 2);
+        }
+
+        .hero p {
+            font-size: 18px;
+            max-width: 600px;
+            margin: 0 auto;
+            opacity: 0.9;
+        }
+
+        .main-content {
+            margin-top: calc(var(--grid-unit) * 8);
+        }
+
+        .section-title {
+            font-size: 34px;
+            font-weight: 700;
+            margin: calc(var(--grid-unit) * 6) calc(var(--grid-unit) * 4) calc(var(--grid-unit) * 4);
+            color: var(--primary-color);
+        }
+
+        .project-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: calc(var(--grid-unit) * 3);
+            padding: calc(var(--grid-unit) * 2) calc(var(--grid-unit) * 4);
+        }
+
+        .project-card {
+            background: var(--surface);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+            position: relative;
+            cursor: pointer;
+        }
+
+        .project-card:hover {
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+            transform: translateY(-4px);
+        }
+
+        .project-image {
+            width: 100%;
+            height: 240px;
+            object-fit: cover;
+        }
+
+        .project-content {
+            padding: calc(var(--grid-unit) * 3);
+        }
+
+        .project-title {
+            font-size: 24px;
+            font-weight: 500;
+            margin-bottom: calc(var(--grid-unit) * 1.5);
+            color: var(--primary-color);
+        }
+
+        .project-description {
+            color: rgba(0,0,0,0.7);
+            font-size: 16px;
+            margin-bottom: calc(var(--grid-unit) * 2);
+            line-height: 1.6;
+        }
+
+        .project-tags {
+            display: flex;
+            gap: var(--grid-unit);
+            flex-wrap: wrap;
+        }
+
+        .tag {
+            background-color: var(--secondary-color);
+            color: var(--on-secondary);
+            padding: calc(var(--grid-unit) * 0.5) calc(var(--grid-unit) * 1.5);
+            border-radius: 16px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .fab {
+            position: fixed;
+            bottom: calc(var(--grid-unit) * 4);
+            right: calc(var(--grid-unit) * 4);
+            width: 56px;
+            height: 56px;
+            border-radius: 28px;
+            background-color: var(--secondary-color);
+            color: var(--on-secondary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+            border: none;
+        }
+
+        .fab:hover {
+            transform: scale(1.1);
+            background-color: var(--secondary-variant);
+        }
+
+        .sketch-element {
+            position: absolute;
+            pointer-events: none;
+        }
+
+        .footer {
+            background-color: var(--surface);
+            padding: calc(var(--grid-unit) * 6) calc(var(--grid-unit) * 4);
+            margin-top: calc(var(--grid-unit) * 8);
+            text-align: center;
+            color: var(--on-surface);
+        }
+
+        .footer p {
+            margin-bottom: calc(var(--grid-unit) * 2);
+            opacity: 0.7;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: calc(var(--grid-unit) * 2);
+        }
+
+        .social-links a {
+            color: var(--primary-color);
+            text-decoration: none;
+            padding: var(--grid-unit);
+            border-radius: 50%;
+            transition: background-color 0.2s;
+        }
+
+        .social-links a:hover {
+            background-color: rgba(98, 0, 238, 0.1);
+        }
+
+        @media (max-width: 600px) {
+            .project-grid {
+                grid-template-columns: 1fr;
+                padding: calc(var(--grid-unit) * 2);
+            }
+
+            .hero h2 {
+                font-size: 32px;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .section-title {
+                font-size: 28px;
+                margin: calc(var(--grid-unit) * 4) calc(var(--grid-unit) * 2);
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="app-bar">
+        <span class="material-icons">palette</span>
+        <h1>Creative Portfolio</h1>
+        <nav class="nav-links">
+            <a href="#work">Work</a>
+            <a href="#about">About</a>
+            <a href="#contact">Contact</a>
+        </nav>
+    </header>
+
+    <div class="hero">
+        <h2>Bringing Ideas to Life</h2>
+        <p>Crafting beautiful digital experiences with Material Design and creative flair</p>
+    </div>
+
+    <main class="main-content">
+        <h3 class="section-title" id="work">Featured Projects</h3>
+        <div class="project-grid">
+            <div class="project-card">
+                <img src="https://images.unsplash.com/photo-1522542550221-31fd19575a2d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Design System" class="project-image">
+                <div class="project-content">
+                    <h2 class="project-title">Material Design System</h2>
+                    <p class="project-description">A comprehensive design system built with Material Design principles and playful sketch elements, focusing on accessibility and user experience.</p>
+                    <div class="project-tags">
+                        <span class="tag">UI Design</span>
+                        <span class="tag">Material</span>
+                        <span class="tag">System</span>
+                    </div>
+                </div>
+            </div>
+            <div class="project-card">
+                <img src="https://images.unsplash.com/photo-1561070791-2526d30994b5?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Brand Identity" class="project-image">
+                <div class="project-content">
+                    <h2 class="project-title">Creative Branding</h2>
+                    <p class="project-description">Complete brand identity design with custom illustrations and material components, creating a cohesive visual language.</p>
+                    <div class="project-tags">
+                        <span class="tag">Branding</span>
+                        <span class="tag">Identity</span>
+                        <span class="tag">Design</span>
+                    </div>
+                </div>
+            </div>
+            <div class="project-card">
+                <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Web Application" class="project-image">
+                <div class="project-content">
+                    <h2 class="project-title">Dashboard UI</h2>
+                    <p class="project-description">Modern web application featuring Material Design patterns and interactive elements, optimized for performance and usability.</p>
+                    <div class="project-tags">
+                        <span class="tag">Web App</span>
+                        <span class="tag">Dashboard</span>
+                        <span class="tag">UI</span>
+                    </div>
+                </div>
+            </div>
+            <div class="project-card">
+                <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Mobile App" class="project-image">
+                <div class="project-content">
+                    <h2 class="project-title">Mobile Experience</h2>
+                    <p class="project-description">Intuitive mobile application design with smooth animations and gesture-based interactions, following Material Design guidelines.</p>
+                    <div class="project-tags">
+                        <span class="tag">Mobile</span>
+                        <span class="tag">UX</span>
+                        <span class="tag">App</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <p>Let's create something amazing together</p>
+        <div class="social-links">
+            <a href="#" aria-label="GitHub"><span class="material-icons">code</span></a>
+            <a href="#" aria-label="LinkedIn"><span class="material-icons">work</span></a>
+            <a href="#" aria-label="Twitter"><span class="material-icons">chat</span></a>
+            <a href="#" aria-label="Email"><span class="material-icons">email</span></a>
+        </div>
+    </footer>
+
+    <button class="fab" aria-label="Add project">
+        <span class="material-icons">add</span>
+    </button>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/rough.js/4.5.2/rough.min.js"></script>
+    <script>
+        // Add sketch elements using Rough.js
+        document.addEventListener('DOMContentLoaded', () => {
+            const cards = document.querySelectorAll('.project-card');
+            
+            cards.forEach(card => {
+                const rect = card.getBoundingClientRect();
+                
+                // Create sketch overlay
+                const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+                svg.setAttribute('width', '100%');
+                svg.setAttribute('height', '100%');
+                svg.style.position = 'absolute';
+                svg.style.top = '0';
+                svg.style.left = '0';
+                svg.style.pointerEvents = 'none';
+                
+                const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+                const d = `M 0 0 L ${rect.width} 0 L ${rect.width} ${rect.height} L 0 ${rect.height} Z`;
+                path.setAttribute('d', d);
+                path.setAttribute('stroke', '#6200ee20');
+                path.setAttribute('fill', 'none');
+                path.setAttribute('stroke-width', '2');
+                
+                svg.appendChild(path);
+                card.appendChild(svg);
+            });
+        });
+
+        // Add ripple effect
+        document.querySelectorAll('.project-card, .fab, .nav-links a').forEach(element => {
+            element.addEventListener('click', (e) => {
+                const rect = element.getBoundingClientRect();
+                const ripple = document.createElement('div');
+                ripple.style.position = 'absolute';
+                ripple.style.width = '5px';
+                ripple.style.height = '5px';
+                ripple.style.background = 'rgba(255, 255, 255, 0.5)';
+                ripple.style.borderRadius = '50%';
+                ripple.style.transform = 'scale(1)';
+                ripple.style.left = `${e.clientX - rect.left}px`;
+                ripple.style.top = `${e.clientY - rect.top}px`;
+                ripple.style.transition = 'transform 0.6s cubic-bezier(0.4, 0.0, 0.2, 1)';
+                
+                element.appendChild(ripple);
+                requestAnimationFrame(() => {
+                    ripple.style.transform = 'scale(100)';
+                    ripple.style.opacity = '0';
+                });
+                
+                setTimeout(() => ripple.remove(), 600);
+            });
+        });
+
+        // Smooth scroll for navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html> 

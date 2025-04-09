@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { ArrowLeft, Sparkles, Boxes } from 'lucide-react';
+import { ArrowLeft, Sparkles, Boxes, ExternalLink } from 'lucide-react';
 import { getThemeById, getRelatedThemes } from '../data/themes';
 import Header from '../components/Header';
 import NotebookPrompt from '../components/NotebookPrompt';
@@ -54,7 +54,18 @@ const ThemeDetail = () => {
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5 }}
         >
-          <h1 className="text-3xl md:text-4xl font-handwritten mb-4">{theme.title}</h1>
+          <div className="flex justify-between items-center mb-4">
+            <h1 className="text-3xl md:text-4xl font-handwritten">{theme.title}</h1>
+            <a
+              href={theme.previewUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center px-4 py-2 bg-doodle-accent text-white rounded-md hover:bg-doodle-accent/90 transition-colors font-handwritten"
+            >
+              <ExternalLink className="h-4 w-4 mr-2" />
+              {t('themeDetail.onlinePreview', 'Online Preview')}
+            </a>
+          </div>
           
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mt-8">
             <div className="lg:col-span-2">

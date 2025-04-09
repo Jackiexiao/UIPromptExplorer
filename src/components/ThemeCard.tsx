@@ -31,7 +31,7 @@ const ThemeCard: React.FC<ThemeCardProps> = ({ theme, onClick }) => {
           />
           <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-30 transition-all flex items-center justify-center opacity-0 group-hover:opacity-100">
             <span className="font-handwritten text-white px-3 py-1 bg-doodle-accent/80 rounded-full">
-              {t('theme.viewDetails')}
+              {t('theme.preview')}
             </span>
           </div>
         </div>
