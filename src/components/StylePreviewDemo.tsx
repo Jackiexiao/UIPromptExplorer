@@ -20,23 +20,46 @@ export function StylePreviewDemo() {
       name: 'Modern Minimal',
       style: 'Vercel风格 - 简约现代',
       component: (
-        <div className="p-6 bg-white border border-gray-200 rounded-lg shadow-sm">
-          <h3 className="text-lg font-semibold text-gray-900 mb-3">登录</h3>
-          <div className="space-y-3">
-            <input 
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-              placeholder="邮箱"
-              readOnly
-            />
-            <input 
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-              placeholder="密码"
-              type="password"
-              readOnly
-            />
-            <button className="w-full bg-gray-900 text-white py-2 rounded-md hover:bg-gray-800 transition-colors">
-              登录
-            </button>
+        <div className="w-full max-w-md bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden">
+          {/* Header */}
+          <div className="px-6 py-4 border-b border-gray-100">
+            <div className="flex items-center justify-between">
+              <h3 className="text-lg font-semibold text-gray-900">Dashboard</h3>
+              <div className="flex gap-2">
+                <div className="w-2 h-2 bg-gray-300 rounded-full"></div>
+                <div className="w-2 h-2 bg-gray-300 rounded-full"></div>
+                <div className="w-2 h-2 bg-gray-900 rounded-full"></div>
+              </div>
+            </div>
+          </div>
+          
+          {/* Stats Cards */}
+          <div className="p-6 space-y-4">
+            <div className="grid grid-cols-2 gap-3">
+              <div className="p-3 bg-gray-50 rounded-lg">
+                <p className="text-xs text-gray-500 mb-1">用户</p>
+                <p className="text-xl font-semibold text-gray-900">1,234</p>
+                <p className="text-xs text-green-600">+12%</p>
+              </div>
+              <div className="p-3 bg-gray-50 rounded-lg">
+                <p className="text-xs text-gray-500 mb-1">收入</p>
+                <p className="text-xl font-semibold text-gray-900">¥5,678</p>
+                <p className="text-xs text-green-600">+8%</p>
+              </div>
+            </div>
+            
+            {/* Quick Actions */}
+            <div className="space-y-2">
+              <p className="text-sm font-medium text-gray-700">快速操作</p>
+              <div className="flex gap-2">
+                <button className="flex-1 px-3 py-2 bg-gray-900 text-white text-sm rounded-md hover:bg-gray-800 transition-colors">
+                  新建
+                </button>
+                <button className="flex-1 px-3 py-2 border border-gray-300 text-gray-700 text-sm rounded-md hover:bg-gray-50 transition-colors">
+                  导出
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       )
@@ -46,23 +69,46 @@ export function StylePreviewDemo() {
       name: 'Neobrutalism',
       style: '新粗野主义 - 大胆直接',
       component: (
-        <div className="p-6 bg-white border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
-          <h3 className="text-lg font-bold text-black mb-3 font-mono">LOGIN!</h3>
-          <div className="space-y-3">
-            <input 
-              className="w-full px-3 py-2 border-2 border-black bg-white font-mono focus:outline-none"
-              placeholder="EMAIL"
-              readOnly
-            />
-            <input 
-              className="w-full px-3 py-2 border-2 border-black bg-white font-mono focus:outline-none"
-              placeholder="PASSWORD"
-              type="password"
-              readOnly
-            />
-            <button className="w-full bg-yellow-400 border-2 border-black py-2 font-bold text-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[2px] hover:translate-y-[2px] transition-all">
-              LOGIN NOW!
-            </button>
+        <div className="w-full max-w-md bg-white border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] overflow-hidden">
+          {/* Header */}
+          <div className="px-6 py-4 bg-yellow-400 border-b-4 border-black">
+            <div className="flex items-center justify-between">
+              <h3 className="text-lg font-bold text-black font-mono">DASHBOARD!</h3>
+              <div className="flex gap-1">
+                <div className="w-3 h-3 bg-black rotate-45"></div>
+                <div className="w-3 h-3 bg-black"></div>
+                <div className="w-3 h-3 bg-red-500 rotate-45"></div>
+              </div>
+            </div>
+          </div>
+          
+          {/* Stats Cards */}
+          <div className="p-6 space-y-4">
+            <div className="grid grid-cols-2 gap-3">
+              <div className="p-3 bg-pink-300 border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+                <p className="text-xs font-bold text-black font-mono mb-1">USERS</p>
+                <p className="text-xl font-black text-black font-mono">1,234</p>
+                <p className="text-xs font-bold text-green-800 font-mono">+12%</p>
+              </div>
+              <div className="p-3 bg-cyan-300 border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+                <p className="text-xs font-bold text-black font-mono mb-1">MONEY</p>
+                <p className="text-xl font-black text-black font-mono">¥5,678</p>
+                <p className="text-xs font-bold text-green-800 font-mono">+8%</p>
+              </div>
+            </div>
+            
+            {/* Quick Actions */}
+            <div className="space-y-2">
+              <p className="text-sm font-bold text-black font-mono">QUICK ACTIONS!</p>
+              <div className="flex gap-2">
+                <button className="flex-1 px-3 py-2 bg-red-400 border-2 border-black text-black font-bold font-mono shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] hover:shadow-[1px_1px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[2px] hover:translate-y-[2px] transition-all">
+                  NEW!
+                </button>
+                <button className="flex-1 px-3 py-2 bg-blue-400 border-2 border-black text-black font-bold font-mono shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] hover:shadow-[1px_1px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[2px] hover:translate-y-[2px] transition-all">
+                  EXPORT!
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       )
@@ -72,23 +118,46 @@ export function StylePreviewDemo() {
       name: 'Glassmorphism',
       style: '玻璃形态 - 透明模糊',
       component: (
-        <div className="p-6 bg-white/20 backdrop-blur-md border border-white/30 rounded-xl shadow-lg">
-          <h3 className="text-lg font-semibold text-gray-800 mb-3">Sign In</h3>
-          <div className="space-y-3">
-            <input 
-              className="w-full px-3 py-2 bg-white/40 backdrop-blur-sm border border-white/50 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400/50 placeholder-gray-600"
-              placeholder="Email"
-              readOnly
-            />
-            <input 
-              className="w-full px-3 py-2 bg-white/40 backdrop-blur-sm border border-white/50 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400/50 placeholder-gray-600"
-              placeholder="Password"
-              type="password"
-              readOnly
-            />
-            <button className="w-full bg-gradient-to-r from-blue-400/80 to-purple-400/80 backdrop-blur-sm text-white py-2 rounded-lg hover:from-blue-500/80 hover:to-purple-500/80 transition-all">
-              Sign In
-            </button>
+        <div className="w-full max-w-md bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl shadow-2xl overflow-hidden">
+          {/* Header */}
+          <div className="px-6 py-4 bg-white/10 backdrop-blur-md border-b border-white/20">
+            <div className="flex items-center justify-between">
+              <h3 className="text-lg font-semibold text-white">Dashboard</h3>
+              <div className="flex gap-2">
+                <div className="w-2 h-2 bg-white/30 rounded-full"></div>
+                <div className="w-2 h-2 bg-white/30 rounded-full"></div>
+                <div className="w-2 h-2 bg-gradient-to-r from-blue-400 to-purple-400 rounded-full"></div>
+              </div>
+            </div>
+          </div>
+          
+          {/* Stats Cards */}
+          <div className="p-6 space-y-4">
+            <div className="grid grid-cols-2 gap-3">
+              <div className="p-3 bg-white/20 backdrop-blur-md border border-white/30 rounded-xl">
+                <p className="text-xs text-white/70 mb-1">用户</p>
+                <p className="text-xl font-semibold text-white">1,234</p>
+                <p className="text-xs text-green-300">+12%</p>
+              </div>
+              <div className="p-3 bg-white/20 backdrop-blur-md border border-white/30 rounded-xl">
+                <p className="text-xs text-white/70 mb-1">收入</p>
+                <p className="text-xl font-semibold text-white">¥5,678</p>
+                <p className="text-xs text-green-300">+8%</p>
+              </div>
+            </div>
+            
+            {/* Quick Actions */}
+            <div className="space-y-2">
+              <p className="text-sm font-medium text-white/90">快速操作</p>
+              <div className="flex gap-2">
+                <button className="flex-1 px-3 py-2 bg-gradient-to-r from-blue-400/60 to-purple-400/60 backdrop-blur-sm border border-white/30 text-white text-sm rounded-xl hover:from-blue-500/60 hover:to-purple-500/60 transition-all">
+                  新建
+                </button>
+                <button className="flex-1 px-3 py-2 bg-white/20 backdrop-blur-sm border border-white/40 text-white text-sm rounded-xl hover:bg-white/30 transition-all">
+                  导出
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       )
@@ -98,23 +167,46 @@ export function StylePreviewDemo() {
       name: 'Apple Design',
       style: 'Apple风格 - 精致优雅',
       component: (
-        <div className="p-6 bg-white/80 backdrop-blur-xl border border-gray-200/50 rounded-2xl shadow-sm">
-          <h3 className="text-lg font-medium text-gray-900 mb-3 -apple-system">Sign In</h3>
-          <div className="space-y-3">
-            <input 
-              className="w-full px-4 py-3 bg-gray-50 border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition-all"
-              placeholder="Email"
-              readOnly
-            />
-            <input 
-              className="w-full px-4 py-3 bg-gray-50 border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition-all"
-              placeholder="Password"
-              type="password"
-              readOnly
-            />
-            <button className="w-full bg-blue-500 text-white py-3 rounded-xl hover:bg-blue-600 transition-colors font-medium">
-              Sign In
-            </button>
+        <div className="w-full max-w-md bg-white/90 backdrop-blur-2xl border border-gray-200/50 rounded-3xl shadow-lg overflow-hidden">
+          {/* Header */}
+          <div className="px-6 py-5 bg-white/60 backdrop-blur-xl border-b border-gray-200/30">
+            <div className="flex items-center justify-between">
+              <h3 className="text-lg font-medium text-gray-900" style={{fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display"'}}>Dashboard</h3>
+              <div className="flex gap-1.5">
+                <div className="w-3 h-3 bg-red-400 rounded-full"></div>
+                <div className="w-3 h-3 bg-yellow-400 rounded-full"></div>
+                <div className="w-3 h-3 bg-green-400 rounded-full"></div>
+              </div>
+            </div>
+          </div>
+          
+          {/* Stats Cards */}
+          <div className="p-6 space-y-4">
+            <div className="grid grid-cols-2 gap-4">
+              <div className="p-4 bg-gray-50/80 backdrop-blur-sm rounded-2xl">
+                <p className="text-xs text-gray-500 mb-2 font-medium">用户</p>
+                <p className="text-2xl font-semibold text-gray-900" style={{fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display"'}}>1,234</p>
+                <p className="text-xs text-green-600 font-medium">+12%</p>
+              </div>
+              <div className="p-4 bg-gray-50/80 backdrop-blur-sm rounded-2xl">
+                <p className="text-xs text-gray-500 mb-2 font-medium">收入</p>
+                <p className="text-2xl font-semibold text-gray-900" style={{fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display"'}}>¥5,678</p>
+                <p className="text-xs text-green-600 font-medium">+8%</p>
+              </div>
+            </div>
+            
+            {/* Quick Actions */}
+            <div className="space-y-3">
+              <p className="text-sm font-medium text-gray-900">快速操作</p>
+              <div className="flex gap-3">
+                <button className="flex-1 px-4 py-3 bg-blue-500 text-white text-sm font-medium rounded-xl hover:bg-blue-600 transition-all active:scale-95">
+                  新建
+                </button>
+                <button className="flex-1 px-4 py-3 bg-gray-100 text-gray-900 text-sm font-medium rounded-xl hover:bg-gray-200 transition-all active:scale-95">
+                  导出
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       )
@@ -124,33 +216,46 @@ export function StylePreviewDemo() {
       name: 'Material Design',
       style: 'Material - 层次分明',
       component: (
-        <div className="p-6 bg-white rounded-lg shadow-md">
-          <h3 className="text-lg font-medium text-gray-900 mb-4">Sign in</h3>
-          <div className="space-y-4">
-            <div className="relative">
-              <input 
-                className="w-full px-0 py-2 border-0 border-b-2 border-gray-300 bg-transparent focus:outline-none focus:border-purple-500 transition-colors peer"
-                placeholder=" "
-                readOnly
-              />
-              <label className="absolute left-0 top-2 text-gray-500 transition-all peer-focus:-top-4 peer-focus:text-sm peer-focus:text-purple-500">
-                Email
-              </label>
+        <div className="w-full max-w-md bg-white rounded-lg shadow-lg overflow-hidden" style={{elevation: '4'}}>
+          {/* Header */}
+          <div className="px-6 py-5 bg-purple-600 text-white">
+            <div className="flex items-center justify-between">
+              <h3 className="text-lg font-medium" style={{fontFamily: 'Roboto, sans-serif'}}>Dashboard</h3>
+              <div className="flex gap-2">
+                <div className="w-6 h-1 bg-white/30 rounded-full"></div>
+                <div className="w-6 h-1 bg-white/30 rounded-full"></div>
+                <div className="w-6 h-1 bg-white rounded-full"></div>
+              </div>
             </div>
-            <div className="relative">
-              <input 
-                className="w-full px-0 py-2 border-0 border-b-2 border-gray-300 bg-transparent focus:outline-none focus:border-purple-500 transition-colors peer"
-                placeholder=" "
-                type="password"
-                readOnly
-              />
-              <label className="absolute left-0 top-2 text-gray-500 transition-all peer-focus:-top-4 peer-focus:text-sm peer-focus:text-purple-500">
-                Password
-              </label>
+          </div>
+          
+          {/* Stats Cards */}
+          <div className="p-6 space-y-4">
+            <div className="grid grid-cols-2 gap-4">
+              <div className="p-4 bg-white rounded-lg shadow-md border-l-4 border-purple-500">
+                <p className="text-xs text-gray-600 mb-2 uppercase tracking-wide font-medium">用户</p>
+                <p className="text-2xl font-bold text-gray-900" style={{fontFamily: 'Roboto, sans-serif'}}>1,234</p>
+                <p className="text-xs text-green-600 font-medium">+12%</p>
+              </div>
+              <div className="p-4 bg-white rounded-lg shadow-md border-l-4 border-indigo-500">
+                <p className="text-xs text-gray-600 mb-2 uppercase tracking-wide font-medium">收入</p>
+                <p className="text-2xl font-bold text-gray-900" style={{fontFamily: 'Roboto, sans-serif'}}>¥5,678</p>
+                <p className="text-xs text-green-600 font-medium">+8%</p>
+              </div>
             </div>
-            <button className="w-full bg-purple-600 text-white py-3 rounded hover:bg-purple-700 transition-colors font-medium uppercase tracking-wide">
-              Sign in
-            </button>
+            
+            {/* Quick Actions */}
+            <div className="space-y-3">
+              <p className="text-sm font-medium text-gray-700 uppercase tracking-wide">快速操作</p>
+              <div className="flex gap-3">
+                <button className="flex-1 px-4 py-3 bg-purple-600 text-white text-sm font-medium rounded shadow-md hover:bg-purple-700 hover:shadow-lg transition-all active:shadow-sm uppercase tracking-wide">
+                  新建
+                </button>
+                <button className="flex-1 px-4 py-3 border border-purple-600 text-purple-600 text-sm font-medium rounded hover:bg-purple-50 transition-all uppercase tracking-wide">
+                  导出
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       )
@@ -187,10 +292,10 @@ export function StylePreviewDemo() {
       {/* 背景渐变，根据当前风格变化 */}
       <div className={`absolute inset-0 rounded-3xl transition-all duration-1000 ${
         currentStyleIndex === 0 ? 'bg-gradient-to-br from-gray-50 to-blue-50' :
-        currentStyleIndex === 1 ? 'bg-gradient-to-br from-yellow-50 to-red-50' :
-        currentStyleIndex === 2 ? 'bg-gradient-to-br from-blue-50 to-purple-50' :
-        currentStyleIndex === 3 ? 'bg-gradient-to-br from-gray-50 to-indigo-50' :
-        'bg-gradient-to-br from-purple-50 to-pink-50'
+        currentStyleIndex === 1 ? 'bg-gradient-to-br from-yellow-200 to-pink-200' :
+        currentStyleIndex === 2 ? 'bg-gradient-to-br from-purple-500 via-pink-500 to-blue-500' :
+        currentStyleIndex === 3 ? 'bg-gradient-to-br from-blue-50 to-indigo-100' :
+        'bg-gradient-to-br from-purple-100 to-indigo-100'
       }`} />
       
       <div className="relative p-8">
@@ -211,10 +316,10 @@ export function StylePreviewDemo() {
             </button>
           </div>
           <h3 className="text-2xl font-bold text-gray-900 mb-2">
-            同一个组件，五种风格
+            同一个界面，五种风格
           </h3>
           <p className="text-gray-600">
-            看看登录表单在不同设计语言下的表现
+            看看Dashboard在不同设计语言下的惊艳表现
           </p>
         </div>
 
