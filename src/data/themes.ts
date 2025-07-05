@@ -10,6 +10,11 @@ export interface UiTheme {
   model: string;
   techStack: string[];
   previewUrl: string;
+  // New fields for external links
+  externalUrl?: string; // 外部网站链接
+  githubUrl?: string; // GitHub 代码模板链接
+  figmaUrl?: string; // Figma 设计模板链接
+  demoUrl?: string; // 在线演示链接
 }
 
 export interface DesignStyle {
@@ -52,7 +57,11 @@ export const uiThemes: UiTheme[] = [
     relatedThemes: ["artistic-blog", "doodle-portfolio"],
     model: "Claude 3.7 Sonnet",
     techStack: ["Tailwind CSS", "PhotoSwipe", "GSAP", "Paper.js"],
-    previewUrl: "/themes/sketchbook-gallery/index.html"
+    previewUrl: "/themes/sketchbook-gallery/index.html",
+    externalUrl: "https://unsplash.com",
+    githubUrl: "https://github.com/tailwindlabs/tailwindcss",
+    figmaUrl: "https://www.figma.com/community/file/example-gallery",
+    demoUrl: "https://sketchbook-gallery-demo.vercel.app"
   },
   {
     id: "sketchy-dashboard",
@@ -78,7 +87,10 @@ export const uiThemes: UiTheme[] = [
     relatedThemes: ["sketchy-dashboard", "notebook-app"],
     model: "Claude 3.7 Sonnet",
     techStack: ["Tailwind CSS", "FullCalendar", "Anime.js", "Radix UI"],
-    previewUrl: "/themes/creative-planner/index.html"
+    previewUrl: "/themes/creative-planner/index.html",
+    externalUrl: "https://notion.so",
+    githubUrl: "https://github.com/vercel/next.js",
+    demoUrl: "https://creative-planner-demo.vercel.app"
   },
   {
     id: "doodle-portfolio",
@@ -104,7 +116,10 @@ export const uiThemes: UiTheme[] = [
     relatedThemes: ["sketchy-dashboard", "creative-planner"],
     model: "Claude 3.5 Sonnet",
     techStack: ["Tailwind CSS", "React DnD", "Framer Motion", "Paper.js"],
-    previewUrl: "/themes/notebook-web-app/index.html"
+    previewUrl: "/themes/notebook-web-app/index.html",
+    externalUrl: "https://www.notion.so",
+    githubUrl: "https://github.com/microsoft/fluentui",
+    demoUrl: "https://notebook-app-demo.vercel.app"
   },
   {
     id: "artistic-blog",
@@ -131,7 +146,11 @@ export const uiThemes: UiTheme[] = [
     relatedThemes: ["doodle-portfolio", "creative-planner"],
     model: "Claude 3.7 Sonnet",
     techStack: ["Tailwind CSS", "Shadcn UI", "React Hook Form", "Framer Motion"],
-    previewUrl: "/themes/doodle-commerce/index.html"
+    previewUrl: "/themes/doodle-commerce/index.html",
+    externalUrl: "https://www.apple.com/app-store/",
+    githubUrl: "https://github.com/shadcn-ui/ui",
+    figmaUrl: "https://www.figma.com/community/file/apple-design-system",
+    demoUrl: "https://doodle-commerce-demo.vercel.app"
   },
   {
     id: "sketch-chat",

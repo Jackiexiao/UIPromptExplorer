@@ -14,7 +14,6 @@ import { Filter, Sparkles, ArrowDown } from 'lucide-react';
 
 export default function Index() {
   const [filteredThemes, setFilteredThemes] = useState<UiTheme[]>(uiThemes);
-  const [selectedTheme, setSelectedTheme] = useState<UiTheme | null>(null);
   const [selectedStyle, setSelectedStyle] = useState<DesignStyle>(getDefaultDesignStyle());
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [styles, setStyles] = useState<StyleConfig[]>([]);
@@ -48,9 +47,7 @@ export default function Index() {
     }
   };
 
-  const handleThemeSelect = (theme: UiTheme) => {
-    setSelectedTheme(theme);
-  };
+
 
   const handleStyleSelect = (styleId: string) => {
     const style = getDesignStyleById(styleId);
@@ -81,7 +78,6 @@ export default function Index() {
               <div className="w-full max-w-lg">
                 <GlobalSearch
                   styles={styles}
-                  onThemeSelect={handleThemeSelect}
                   onStyleSelect={handleStyleConfigSelect}
                 />
               </div>
@@ -203,7 +199,6 @@ export default function Index() {
                 <ThemeCard
                   key={theme.id}
                   theme={theme}
-                  onClick={() => handleThemeSelect(theme)}
                 />
               ))}
             </div>
@@ -233,61 +228,7 @@ export default function Index() {
 
       <Footer />
 
-      {/* Theme Modal */}
-      {selectedTheme && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-          <div className="bg-white rounded-lg max-w-4xl w-full max-h-[90vh] overflow-auto">
-            <div className="p-6 border-b border-gray-200">
-              <div className="flex justify-between items-start">
-                <div>
-                  <h2 className="text-2xl font-bold text-gray-900 mb-2">
-                    {selectedTheme.title}
-                  </h2>
-                  <p className="text-gray-600">{selectedTheme.description}</p>
-                </div>
-                <button
-                  onClick={() => setSelectedTheme(null)}
-                  className="text-gray-500 hover:text-gray-700"
-                >
-                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                  </svg>
-                </button>
-              </div>
-            </div>
-            <div className="p-6">
-              <div className="mb-6">
-                <img
-                  src={selectedTheme.imageUrl}
-                  alt={selectedTheme.title}
-                  className="w-full h-64 object-cover rounded-lg"
-                />
-              </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                  <h3 className="text-lg font-semibold mb-3">提示词</h3>
-                  <p className="text-gray-700 text-sm leading-relaxed">
-                    {selectedTheme.prompt}
-                  </p>
-                </div>
-                <div>
-                  <h3 className="text-lg font-semibold mb-3">技术栈</h3>
-                  <div className="flex flex-wrap gap-2">
-                    {selectedTheme.techStack.map((tech, index) => (
-                      <span
-                        key={index}
-                        className="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded"
-                      >
-                        {tech}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
+
 
       {/* Style Config Modal */}
       {selectedStyleConfig && (

@@ -19,7 +19,7 @@ interface SearchResult {
 
 interface GlobalSearchProps {
   styles: StyleConfig[];
-  onThemeSelect: (theme: UiTheme) => void;
+  onThemeSelect?: (theme: UiTheme) => void;
   onStyleSelect: (style: StyleConfig) => void;
 }
 
@@ -147,7 +147,7 @@ export function GlobalSearch({ styles, onThemeSelect, onStyleSelect }: GlobalSea
   const handleResultClick = (result: SearchResult) => {
     if (result.type === 'theme') {
       const theme = uiThemes.find(t => t.id === result.id);
-      if (theme) {
+      if (theme && onThemeSelect) {
         onThemeSelect(theme);
       }
     } else {

@@ -115,7 +115,13 @@
   },
   "themes": {
     "title": "Theme Gallery",
-    "subtitle": "Browse our collection of UI themes and find inspiration for your next project"
+    "subtitle": "Browse our collection of UI themes and find inspiration for your next project",
+    "external_website": "Official Website",
+    "code_template": "Code Template",
+    "design_template": "Design Template",
+    "online_demo": "Online Demo",
+    "view_source": "View Source",
+    "visit_website": "Visit Website"
   },
   "cta": {
     "title": "Ready to Start Designing?",

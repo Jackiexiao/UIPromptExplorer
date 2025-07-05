@@ -115,7 +115,13 @@
   },
   "themes": {
     "title": "主题画廊",
-    "subtitle": "浏览我们的UI主题集合，为您的下一个项目寻找灵感"
+    "subtitle": "浏览我们的UI主题集合，为您的下一个项目寻找灵感",
+    "external_website": "官方网站",
+    "code_template": "代码模板",
+    "design_template": "设计模板",
+    "online_demo": "在线演示",
+    "view_source": "查看源码",
+    "visit_website": "访问网站"
   },
   "cta": {
     "title": "准备开始设计了吗？",
