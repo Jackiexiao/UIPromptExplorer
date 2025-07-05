@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Play, Pause, RotateCcw } from 'lucide-react';
+import { useI18n } from '../hooks/useI18n';
+import { getStyleNameInChinese } from '../utils/styleTranslations';
 
 interface StylePreview {
   id: string;
@@ -12,6 +14,7 @@ interface StylePreview {
 export function StylePreviewDemo() {
   const [currentStyleIndex, setCurrentStyleIndex] = useState(0);
   const [isAutoPlay, setIsAutoPlay] = useState(true);
+  const { t } = useI18n();
 
   // 不同风格的示例组件
   const styleExamples: StylePreview[] = [
@@ -316,10 +319,10 @@ export function StylePreviewDemo() {
             </button>
           </div>
           <h3 className="text-2xl font-bold text-gray-900 mb-2">
-            同一个界面，五种风格
+            {t('demo.title')}
           </h3>
           <p className="text-gray-600">
-            看看Dashboard在不同设计语言下的惊艳表现
+            {t('demo.subtitle')}
           </p>
         </div>
 
@@ -348,7 +351,7 @@ export function StylePreviewDemo() {
               className="mt-4 text-center"
             >
               <h4 className="font-semibold text-gray-900">
-                {styleExamples[currentStyleIndex].name}
+                {getStyleNameInChinese(styleExamples[currentStyleIndex].name)}
               </h4>
               <p className="text-sm text-gray-600">
                 {styleExamples[currentStyleIndex].style}
@@ -369,7 +372,7 @@ export function StylePreviewDemo() {
                   : 'bg-white/60 backdrop-blur-sm text-gray-700 hover:bg-white/80'
               }`}
             >
-              {style.name}
+              {getStyleNameInChinese(style.name)}
             </button>
           ))}
         </div>
@@ -393,7 +396,7 @@ export function StylePreviewDemo() {
             animate={{ opacity: 1 }}
             className="text-center text-sm text-gray-500 mt-4"
           >
-            自动切换中... 点击暂停按钮停止
+            {t('demo.auto_play_hint')}
           </motion.p>
         )}
       </div>

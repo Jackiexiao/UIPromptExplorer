@@ -1,4 +1,7 @@
 {
+  "site": {
+    "name": "UI Style Showcase"
+  },
   "nav": {
     "home": "Home",
     "about": "About"
@@ -13,7 +16,26 @@
     "subtitle": "Explore different UI design styles and discover the perfect aesthetic for your next project. Compare how components look across various design philosophies.",
     "explore": "Explore Themes",
     "get_started": "Get Started",
-    "learn_more": "Learn More"
+    "learn_more": "Learn More",
+    "magic_title": "See the same <span class=\"gradient-text\">UI component</span><br />transform with different <span class=\"text-blue-600\">magical styles</span>",
+    "magic_subtitle": "From modern minimal to brutalism, from glassmorphism to Material Design —<br />explore infinite design possibilities and find the perfect visual language for your project",
+    "preview_badge": "Real-time preview of different design styles",
+    "continue_explore": "Continue exploring more design styles"
+  },
+  "demo": {
+    "title": "Same Interface, Five Styles",
+    "subtitle": "See how Dashboard looks amazing in different design languages",
+    "auto_play_hint": "Auto-switching... Click pause button to stop"
+  },
+  "search": {
+    "placeholder": "Search design styles, themes, tags...",
+    "no_results": "No results found",
+    "suggestions": "Try searching for"
+  },
+  "showcase": {
+    "title": "Design Styles",
+    "all_categories": "All Categories",
+    "select_style": "Select a design style to view preview"
   },
   "gallery": {
     "title": "UI Prompt Gallery",
@@ -50,7 +72,7 @@
     "minimalist": "Minimalist"
   },
   "footer": {
-    "description": "UI Prompt Explorer - A playful collection of UI themes prompts",
+    "description": "UI Style Showcase - Explore different UI design styles and find inspiration for your next project",
     "about": "About",
     "terms": "Terms of Service",
     "privacy": "Privacy Policy"

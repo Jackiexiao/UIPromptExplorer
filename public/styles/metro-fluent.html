@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Metro/Fluent Design - UI设计风格示例</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Segoe+UI:wght@400;600;700&display=swap');
+        
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: #f3f2f1;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+        
+        .fluent-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(30px);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            border-radius: 8px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .fluent-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 48px rgba(0, 0, 0, 0.15);
+        }
+        
+        .fluent-button {
+            background: #0078d4;
+            border: none;
+            color: white;
+            padding: 8px 20px;
+            border-radius: 4px;
+            font-family: inherit;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .fluent-button:hover {
+            background: #106ebe;
+            transform: translateY(-1px);
+        }
+        
+        .fluent-button:active {
+            transform: translateY(0);
+        }
+        
+        .fluent-button-secondary {
+            background: transparent;
+            border: 1px solid #8a8886;
+            color: #323130;
+        }
+        
+        .fluent-button-secondary:hover {
+            background: #f3f2f1;
+            border-color: #605e5c;
+        }
+        
+        .fluent-input {
+            background: white;
+            border: 1px solid #8a8886;
+            border-radius: 4px;
+            padding: 8px 12px;
+            font-family: inherit;
+            font-size: 14px;
+            color: #323130;
+            transition: all 0.2s ease;
+        }
+        
+        .fluent-input:focus {
+            outline: none;
+            border-color: #0078d4;
+            box-shadow: 0 0 0 1px #0078d4;
+        }
+        
+        .fluent-tile {
+            background: linear-gradient(135deg, #0078d4 0%, #00bcf2 100%);
+            color: white;
+            border-radius: 4px;
+            padding: 16px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .fluent-tile::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, transparent 0%, rgba(255, 255, 255, 0.1) 100%);
+            transition: opacity 0.2s ease;
+            opacity: 0;
+        }
+        
+        .fluent-tile:hover::before {
+            opacity: 1;
+        }
+        
+        .fluent-tile:hover {
+            transform: scale(1.02);
+        }
+        
+        .fluent-navigation {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+        
+        .fluent-sidebar {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(20px);
+            border-right: 1px solid rgba(0, 0, 0, 0.1);
+        }
+        
+        .fluent-progress {
+            background: #f3f2f1;
+            border-radius: 2px;
+            height: 4px;
+            overflow: hidden;
+        }
+        
+        .fluent-progress-bar {
+            background: linear-gradient(90deg, #0078d4 0%, #00bcf2 100%);
+            height: 100%;
+            transition: width 0.3s ease;
+            border-radius: 2px;
+        }
+        
+        .fluent-toggle {
+            width: 44px;
+            height: 20px;
+            background: #8a8886;
+            border-radius: 10px;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .fluent-toggle::after {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 16px;
+            height: 16px;
+            background: white;
+            border-radius: 50%;
+            transition: all 0.2s ease;
+        }
+        
+        .fluent-toggle.active {
+            background: #0078d4;
+        }
+        
+        .fluent-toggle.active::after {
+            left: 26px;
+        }
+        
+        .acrylic-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: -1;
+        }
+        
+        .tile-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 8px;
+        }
+        
+        .tile-small {
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .tile-wide {
+            grid-column: span 2;
+            aspect-ratio: 2/1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="acrylic-bg"></div>
+    
+    <div style="display: flex; height: 100vh;">
+        <!-- 侧边栏 -->
+        <div class="fluent-sidebar" style="width: 280px; padding: 20px; display: flex; flex-direction: column;">
+            <div style="margin-bottom: 24px;">
+                <h2 style="margin: 0 0 8px 0; font-size: 20px; font-weight: 600; color: #323130;">开始</h2>
+                <p style="margin: 0; color: #605e5c; font-size: 14px;">欢迎使用 Fluent Design</p>
+            </div>
+            
+            <!-- 磁贴网格 -->
+            <div class="tile-grid" style="margin-bottom: 24px;">
+                <div class="fluent-tile tile-small" style="background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);">
+                    邮件
+                </div>
+                <div class="fluent-tile tile-small" style="background: linear-gradient(135deg, #0078d4 0%, #00bcf2 100%);">
+                    日历
+                </div>
+                <div class="fluent-tile tile-wide" style="background: linear-gradient(135deg, #10ac84 0%, #1dd1a1 100%);">
+                    Office 365
+                </div>
+                <div class="fluent-tile tile-small" style="background: linear-gradient(135deg, #f368e0 0%, #ff9ff3 100%);">
+                    照片
+                </div>
+                <div class="fluent-tile tile-small" style="background: linear-gradient(135deg, #feca57 0%, #ff9f43 100%);">
+                    商店
+                </div>
+                <div class="fluent-tile tile-small" style="background: linear-gradient(135deg, #ff7979 0%, #fd79a8 100%);">
+                    Xbox
+                </div>
+                <div class="fluent-tile tile-small" style="background: linear-gradient(135deg, #636e72 0%, #2d3436 100%);">
+                    设置
+                </div>
+            </div>
+            
+            <!-- 最近使用 -->
+            <div style="flex: 1;">
+                <h3 style="margin: 0 0 12px 0; font-size: 16px; font-weight: 600; color: #323130;">最近使用</h3>
+                <div style="display: flex; flex-direction: column; gap: 8px;">
+                    <div style="display: flex; align-items: center; padding: 8px; border-radius: 4px; cursor: pointer; transition: background 0.2s ease;" onmouseover="this.style.background='rgba(0,0,0,0.05)'" onmouseout="this.style.background='transparent'">
+                        <div style="width: 24px; height: 24px; background: #0078d4; border-radius: 4px; margin-right: 12px;"></div>
+                        <div>
+                            <div style="font-size: 14px; font-weight: 600; color: #323130;">PowerPoint</div>
+                            <div style="font-size: 12px; color: #605e5c;">presentation.pptx</div>
+                        </div>
+                    </div>
+                    <div style="display: flex; align-items: center; padding: 8px; border-radius: 4px; cursor: pointer; transition: background 0.2s ease;" onmouseover="this.style.background='rgba(0,0,0,0.05)'" onmouseout="this.style.background='transparent'">
+                        <div style="width: 24px; height: 24px; background: #10ac84; border-radius: 4px; margin-right: 12px;"></div>
+                        <div>
+                            <div style="font-size: 14px; font-weight: 600; color: #323130;">Excel</div>
+                            <div style="font-size: 12px; color: #605e5c;">data.xlsx</div>
+                        </div>
+                    </div>
+                    <div style="display: flex; align-items: center; padding: 8px; border-radius: 4px; cursor: pointer; transition: background 0.2s ease;" onmouseover="this.style.background='rgba(0,0,0,0.05)'" onmouseout="this.style.background='transparent'">
+                        <div style="width: 24px; height: 24px; background: #ff6b6b; border-radius: 4px; margin-right: 12px;"></div>
+                        <div>
+                            <div style="font-size: 14px; font-weight: 600; color: #323130;">Word</div>
+                            <div style="font-size: 12px; color: #605e5c;">document.docx</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 主内容区域 -->
+        <div style="flex: 1; padding: 20px; display: flex; flex-direction: column;">
+            <!-- 导航栏 -->
+            <div class="fluent-navigation" style="margin: -20px -20px 20px -20px; padding: 16px 20px; display: flex; align-items: center; justify-content: space-between;">
+                <div style="display: flex; align-items: center; gap: 16px;">
+                    <h1 style="margin: 0; font-size: 24px; font-weight: 700; color: #323130;">工作区</h1>
+                    <div style="display: flex; gap: 8px;">
+                        <button class="fluent-button-secondary" style="padding: 6px 12px; font-size: 13px;">新建</button>
+                        <button class="fluent-button-secondary" style="padding: 6px 12px; font-size: 13px;">共享</button>
+                    </div>
+                </div>
+                <div style="display: flex; align-items: center; gap: 12px;">
+                    <input class="fluent-input" type="text" placeholder="搜索..." style="width: 200px;">
+                    <div style="width: 32px; height: 32px; background: #0078d4; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: 600; cursor: pointer;">
+                        U
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 主要内容 -->
+            <div style="flex: 1; display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                <!-- 左侧卡片 -->
+                <div class="fluent-card" style="padding: 24px; display: flex; flex-direction: column;">
+                    <h2 style="margin: 0 0 16px 0; font-size: 18px; font-weight: 600; color: #323130;">项目概览</h2>
+                    
+                    <div style="display: flex; gap: 16px; margin-bottom: 20px;">
+                        <div style="flex: 1; padding: 16px; background: rgba(0, 120, 212, 0.1); border-radius: 8px; text-align: center;">
+                            <div style="font-size: 24px; font-weight: 700; color: #0078d4; margin-bottom: 4px;">12</div>
+                            <div style="font-size: 14px; color: #605e5c;">活跃项目</div>
+                        </div>
+                        <div style="flex: 1; padding: 16px; background: rgba(16, 172, 132, 0.1); border-radius: 8px; text-align: center;">
+                            <div style="font-size: 24px; font-weight: 700; color: #10ac84; margin-bottom: 4px;">5</div>
+                            <div style="font-size: 14px; color: #605e5c;">已完成</div>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-bottom: 16px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                            <span style="font-size: 14px; color: #323130;">项目进度</span>
+                            <span style="font-size: 14px; color: #605e5c;">68%</span>
+                        </div>
+                        <div class="fluent-progress">
+                            <div class="fluent-progress-bar" style="width: 68%;"></div>
+                        </div>
+                    </div>
+                    
+                    <div style="display: flex; gap: 8px; margin-top: auto;">
+                        <button class="fluent-button" style="flex: 1;">查看详情</button>
+                        <button class="fluent-button-secondary" style="flex: 1;">分享</button>
+                    </div>
+                </div>
+                
+                <!-- 右侧卡片 -->
+                <div class="fluent-card" style="padding: 24px; display: flex; flex-direction: column;">
+                    <h2 style="margin: 0 0 16px 0; font-size: 18px; font-weight: 600; color: #323130;">团队协作</h2>
+                    
+                    <div style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px;">
+                        <div style="display: flex; align-items: center; justify-content: space-between; padding: 12px; background: rgba(0, 0, 0, 0.02); border-radius: 6px;">
+                            <div style="display: flex; align-items: center; gap: 8px;">
+                                <div style="width: 32px; height: 32px; background: #0078d4; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 14px; font-weight: 600;">
+                                    A
+                                </div>
+                                <div>
+                                    <div style="font-size: 14px; font-weight: 600; color: #323130;">Alice Wang</div>
+                                    <div style="font-size: 12px; color: #605e5c;">设计师</div>
+                                </div>
+                            </div>
+                            <div class="fluent-toggle active" onclick="this.classList.toggle('active')"></div>
+                        </div>
+                        
+                        <div style="display: flex; align-items: center; justify-content: space-between; padding: 12px; background: rgba(0, 0, 0, 0.02); border-radius: 6px;">
+                            <div style="display: flex; align-items: center; gap: 8px;">
+                                <div style="width: 32px; height: 32px; background: #10ac84; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 14px; font-weight: 600;">
+                                    B
+                                </div>
+                                <div>
+                                    <div style="font-size: 14px; font-weight: 600; color: #323130;">Bob Chen</div>
+                                    <div style="font-size: 12px; color: #605e5c;">开发者</div>
+                                </div>
+                            </div>
+                            <div class="fluent-toggle" onclick="this.classList.toggle('active')"></div>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-top: auto;">
+                        <input class="fluent-input" type="text" placeholder="邀请团队成员..." style="width: 100%; margin-bottom: 12px;">
+                        <button class="fluent-button" style="width: 100%;">发送邀请</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html> 

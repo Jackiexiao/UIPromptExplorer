@@ -1,4 +1,7 @@
 {
+  "site": {
+    "name": "UI设计灵感库"
+  },
   "nav": {
     "home": "首页",
     "about": "关于"
@@ -13,7 +16,26 @@
     "subtitle": "探索不同的UI设计风格，发现适合您下一个项目的完美美学。比较组件在各种设计理念下的表现。",
     "explore": "探索主题",
     "get_started": "开始使用",
-    "learn_more": "了解更多"
+    "learn_more": "了解更多",
+    "magic_title": "看看同一个 <span class=\"gradient-text\">UI组件</span><br />在不同风格下的 <span class=\"text-blue-600\">魔法变化</span>",
+    "magic_subtitle": "从现代简约到新粗野主义，从玻璃形态到Material Design —— <br />探索设计的无限可能，为你的项目找到完美的视觉语言",
+    "preview_badge": "实时预览不同设计风格",
+    "continue_explore": "继续探索更多设计风格"
+  },
+  "demo": {
+    "title": "同一个界面，五种风格",
+    "subtitle": "看看Dashboard在不同设计语言下的惊艳表现",
+    "auto_play_hint": "自动切换中... 点击暂停按钮停止"
+  },
+  "search": {
+    "placeholder": "搜索设计风格、主题、标签...",
+    "no_results": "未找到相关结果",
+    "suggestions": "建议尝试搜索"
+  },
+  "showcase": {
+    "title": "设计风格",
+    "all_categories": "所有分类",
+    "select_style": "选择一个设计风格来查看预览"
   },
   "gallery": {
     "title": "UI提示词画廊",
@@ -50,7 +72,7 @@
     "minimalist": "极简"
   },
   "footer": {
-    "description": "UI提示探索者 - UI主题提示集合",
+    "description": "UI设计灵感库 - 探索不同UI设计风格，为您的下一个项目寻找灵感",
     "about": "关于我们",
     "terms": "服务条款",
     "privacy": "隐私政策"

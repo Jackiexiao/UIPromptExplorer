@@ -3,6 +3,8 @@ import { Search, X, Hash, Palette, FileText } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { UiTheme, uiThemes } from '../data/themes';
 import { StyleConfig } from '../data/stylesLoader';
+import { useI18n } from '../hooks/useI18n';
+import { getStyleNameInChinese } from '../utils/styleTranslations';
 
 interface SearchResult {
   type: 'theme' | 'style';
@@ -25,6 +27,7 @@ export function GlobalSearch({ styles, onThemeSelect, onStyleSelect }: GlobalSea
   const [query, setQuery] = useState('');
   const [isOpen, setIsOpen] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(0);
+  const { t } = useI18n();
 
   // 搜索结果
   const searchResults = useMemo(() => {
@@ -92,7 +95,7 @@ export function GlobalSearch({ styles, onThemeSelect, onStyleSelect }: GlobalSea
         results.push({
           type: 'style',
           id: style.id,
-          title: style.name,
+          title: getStyleNameInChinese(style.name),
           description: style.description,
           category: style.category,
           tags: style.tags,
@@ -190,7 +193,7 @@ export function GlobalSearch({ styles, onThemeSelect, onStyleSelect }: GlobalSea
           onChange={handleInputChange}
           onFocus={() => query && setIsOpen(true)}
           className="w-full pl-10 pr-10 py-2 bg-white border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-          placeholder="搜索设计风格、主题、标签..."
+          placeholder={t('search.placeholder')}
         />
         {query && (
           <button
@@ -202,91 +205,65 @@ export function GlobalSearch({ styles, onThemeSelect, onStyleSelect }: GlobalSea
         )}
       </div>
 
-      {/* 搜索结果下拉 */}
+      {/* 搜索结果下拉框 */}
       <AnimatePresence>
-        {isOpen && searchResults.length > 0 && (
+        {isOpen && (
           <motion.div
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
-            className="absolute top-full left-0 right-0 mt-2 bg-white border border-gray-200 rounded-lg shadow-lg z-50 max-h-96 overflow-y-auto"
+            transition={{ duration: 0.2 }}
+            className="absolute top-full mt-2 w-full bg-white border border-gray-200 rounded-md shadow-lg z-50 max-h-96 overflow-y-auto"
           >
-            <div className="p-2">
-              <div className="text-xs text-gray-500 px-3 py-2 border-b border-gray-100">
-                找到 {searchResults.length} 个结果
-              </div>
-              {searchResults.map((result, index) => (
-                <button
-                  key={`${result.type}-${result.id}`}
-                  onClick={() => handleResultClick(result)}
-                  className={`w-full text-left px-3 py-3 rounded-md transition-colors ${
-                    index === selectedIndex
-                      ? 'bg-blue-50 border-blue-200'
-                      : 'hover:bg-gray-50'
-                  }`}
-                >
-                  <div className="flex items-start gap-3">
-                    {getResultIcon(result)}
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-2 mb-1">
-                        <h4 className="font-medium text-gray-900 truncate">
-                          {result.title}
-                        </h4>
-                        <span className={`px-2 py-0.5 text-xs rounded-full ${
-                          result.type === 'theme' 
-                            ? 'bg-blue-100 text-blue-700' 
-                            : 'bg-purple-100 text-purple-700'
-                        }`}>
-                          {result.type === 'theme' ? '主题' : '风格'}
-                        </span>
-                      </div>
-                      <p className="text-sm text-gray-600 line-clamp-2 mb-1">
-                        {result.description}
-                      </p>
-                      <div className="flex items-center gap-2 text-xs text-gray-500">
-                        <span>匹配: {result.match}</span>
-                        {result.category && (
-                          <>
-                            <span>•</span>
-                            <span>{result.category}</span>
-                          </>
-                        )}
+            {searchResults.length > 0 ? (
+              <div className="py-2">
+                {searchResults.map((result, index) => (
+                  <button
+                    key={`${result.type}-${result.id}`}
+                    onClick={() => handleResultClick(result)}
+                    className={`w-full px-4 py-3 text-left hover:bg-gray-50 transition-colors ${
+                      index === selectedIndex ? 'bg-blue-50' : ''
+                    }`}
+                  >
+                    <div className="flex items-start gap-3">
+                      {getResultIcon(result)}
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-2 mb-1">
+                          <h4 className="font-medium text-gray-900 truncate">
+                            {result.title}
+                          </h4>
+                          <span className="text-xs text-gray-500 bg-gray-100 px-2 py-0.5 rounded">
+                            {result.type === 'theme' ? '主题' : '风格'}
+                          </span>
+                        </div>
+                        <p className="text-sm text-gray-600 line-clamp-2">
+                          {result.description}
+                        </p>
+                        <div className="mt-2 flex items-center gap-2 text-xs text-gray-500">
+                          <span>匹配: {result.match}</span>
+                          {result.category && (
+                            <span className="bg-gray-100 px-2 py-0.5 rounded">
+                              {result.category}
+                            </span>
+                          )}
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </button>
-              ))}
-            </div>
+                  </button>
+                ))}
+              </div>
+            ) : query ? (
+              <div className="py-8 text-center text-gray-500">
+                <Search className="w-12 h-12 mx-auto mb-3 text-gray-300" />
+                <p className="text-sm">{t('search.no_results')}</p>
+                <p className="text-xs mt-1 text-gray-400">
+                  {t('search.suggestions')}: "现代", "卡片", "按钮", "仪表盘"
+                </p>
+              </div>
+            ) : null}
           </motion.div>
         )}
       </AnimatePresence>
-
-      {/* 无结果提示 */}
-      <AnimatePresence>
-        {isOpen && query && searchResults.length === 0 && (
-          <motion.div
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            className="absolute top-full left-0 right-0 mt-2 bg-white border border-gray-200 rounded-lg shadow-lg z-50"
-          >
-            <div className="p-6 text-center">
-              <Search className="w-8 h-8 text-gray-400 mx-auto mb-3" />
-              <p className="text-gray-500 mb-2">没有找到相关结果</p>
-              <p className="text-sm text-gray-400">
-                试试搜索 "minimal"、"brutalism" 或 "glassmorphism"
-              </p>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* 搜索快捷键提示 */}
-      {isOpen && (
-        <div className="absolute top-full left-0 right-0 mt-2 text-xs text-gray-400 text-center">
-          <p>↑↓ 选择 • Enter 确认 • Esc 取消</p>
-        </div>
-      )}
     </div>
   );
 } 

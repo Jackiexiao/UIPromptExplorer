@@ -18,7 +18,7 @@ export default function Header() {
               <Search className="w-5 h-5 text-white" />
             </div>
             <span className="text-xl font-semibold text-gray-900">
-              UIPromptExplorer
+              {t('site.name')}
             </span>
           </Link>
 
@@ -29,12 +29,6 @@ export default function Header() {
               className="text-gray-600 hover:text-gray-900 font-medium transition-colors"
             >
               {t('nav.home')}
-            </Link>
-            <Link 
-              to="/about" 
-              className="text-gray-600 hover:text-gray-900 font-medium transition-colors"
-            >
-              {t('nav.about')}
             </Link>
             <a 
               href="https://github.com/jackiexiao/UIPromptExplorer" 
@@ -66,13 +60,6 @@ export default function Header() {
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 {t('nav.home')}
-              </Link>
-              <Link 
-                to="/about" 
-                className="text-gray-600 hover:text-gray-900 font-medium py-2 transition-colors"
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                {t('nav.about')}
               </Link>
               <a 
                 href="https://github.com/jackiexiao/UIPromptExplorer" 

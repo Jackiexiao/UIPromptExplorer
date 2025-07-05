@@ -5,6 +5,7 @@ import Footer from '../components/Footer';
 import { StyleViewer } from '../components/StyleViewer';
 import { StylePreviewDemo } from '../components/StylePreviewDemo';
 import { GlobalSearch } from '../components/GlobalSearch';
+import { StyleShowcase } from '../components/StyleShowcase';
 import { UiTheme, uiThemes } from '../data/themes';
 import { DesignStyle, getDefaultDesignStyle, getDesignStyleById } from '../data/themes';
 import { StyleConfig, loadStylesConfig } from '../data/stylesLoader';
@@ -90,17 +91,22 @@ export default function Index() {
               <div className="flex items-center justify-center gap-2 mb-4">
                 <Sparkles className="w-6 h-6 text-blue-500" />
                 <span className="text-sm font-medium text-blue-600 bg-blue-50 px-3 py-1 rounded-full">
-                  实时预览不同设计风格
+                  {t('hero.preview_badge')}
                 </span>
               </div>
               <h1 className="text-4xl sm:text-6xl font-bold text-gray-900 mb-6 leading-tight">
-                看看同一个 <span className="gradient-text">UI组件</span><br />
-                在不同风格下的 <span className="text-blue-600">魔法变化</span>
+                <span 
+                  dangerouslySetInnerHTML={{ 
+                    __html: t('hero.magic_title') 
+                  }} 
+                />
               </h1>
               <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
-                从现代简约到新粗野主义，从玻璃形态到Material Design —— 
-                <br className="hidden sm:block" />
-                探索设计的无限可能，为你的项目找到完美的视觉语言
+                <span 
+                  dangerouslySetInnerHTML={{ 
+                    __html: t('hero.magic_subtitle') 
+                  }} 
+                />
               </p>
             </div>
 
@@ -130,7 +136,7 @@ export default function Index() {
               
               {/* 向下箭头引导 */}
               <div className="flex flex-col items-center gap-2 text-gray-500">
-                <p className="text-sm">继续探索更多设计风格</p>
+                <p className="text-sm">{t('hero.continue_explore')}</p>
                 <ArrowDown className="w-5 h-5 animate-bounce" />
               </div>
             </div>
@@ -138,55 +144,21 @@ export default function Index() {
         </section>
 
         {/* Style Showcase Section */}
-        {styles.length > 0 && (
-          <section id="styles-section" className="bg-gray-50 py-16">
-            <div className="vercel-container">
-              <div className="text-center mb-12">
-                <h2 className="text-3xl font-bold text-gray-900 mb-4">
-                  {t('styles.title')}
-                </h2>
-                <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-                  {t('styles.subtitle')}
-                </p>
-              </div>
-
-              {/* Style Selection */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-                {styles.map((style) => (
-                  <div
-                    key={style.id}
-                    className={`vercel-card p-6 cursor-pointer transition-all ${
-                      selectedStyleConfig?.id === style.id 
-                        ? 'border-gray-900 shadow-md' 
-                        : ''
-                    }`}
-                    onClick={() => handleStyleConfigSelect(style)}
-                  >
-                    <h3 className="font-semibold text-gray-900 mb-2">{style.name}</h3>
-                    <p className="text-sm text-gray-600 mb-3">{style.description}</p>
-                    <div className="flex flex-wrap gap-2">
-                      {style.characteristics.slice(0, 3).map((char, index) => (
-                        <span
-                          key={index}
-                          className="px-2 py-1 bg-gray-100 text-gray-700 text-xs rounded"
-                        >
-                          {char}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                ))}
-              </div>
-
-              {/* Selected Style Viewer */}
-              {selectedStyleConfig && (
-                <div className="mb-16">
-                  <StyleViewer style={selectedStyleConfig} />
-                </div>
-              )}
+        <section id="styles-section" className="bg-gray-50 py-16">
+          <div className="vercel-container">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl font-bold text-gray-900 mb-4">
+                {t('styles.title')}
+              </h2>
+              <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+                {t('styles.subtitle')}
+              </p>
             </div>
-          </section>
-        )}
+
+            {/* 新的左右布局设计风格展示 */}
+            <StyleShowcase />
+          </div>
+        </section>
 
         {/* Theme Gallery Section */}
         <section className="py-16">
@@ -260,6 +232,86 @@ export default function Index() {
       </main>
 
       <Footer />
+
+      {/* Theme Modal */}
+      {selectedTheme && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+          <div className="bg-white rounded-lg max-w-4xl w-full max-h-[90vh] overflow-auto">
+            <div className="p-6 border-b border-gray-200">
+              <div className="flex justify-between items-start">
+                <div>
+                  <h2 className="text-2xl font-bold text-gray-900 mb-2">
+                    {selectedTheme.title}
+                  </h2>
+                  <p className="text-gray-600">{selectedTheme.description}</p>
+                </div>
+                <button
+                  onClick={() => setSelectedTheme(null)}
+                  className="text-gray-500 hover:text-gray-700"
+                >
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+            <div className="p-6">
+              <div className="mb-6">
+                <img
+                  src={selectedTheme.imageUrl}
+                  alt={selectedTheme.title}
+                  className="w-full h-64 object-cover rounded-lg"
+                />
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <h3 className="text-lg font-semibold mb-3">提示词</h3>
+                  <p className="text-gray-700 text-sm leading-relaxed">
+                    {selectedTheme.prompt}
+                  </p>
+                </div>
+                <div>
+                  <h3 className="text-lg font-semibold mb-3">技术栈</h3>
+                  <div className="flex flex-wrap gap-2">
+                    {selectedTheme.techStack.map((tech, index) => (
+                      <span
+                        key={index}
+                        className="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded"
+                      >
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Style Config Modal */}
+      {selectedStyleConfig && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+          <div className="bg-white rounded-lg max-w-6xl w-full max-h-[90vh] overflow-auto">
+            <div className="p-4 border-b border-gray-200">
+              <div className="flex justify-between items-start">
+                <h2 className="text-xl font-semibold text-gray-900">{selectedStyleConfig.name}</h2>
+                <button
+                  onClick={() => setSelectedStyleConfig(null)}
+                  className="text-gray-500 hover:text-gray-700"
+                >
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+            <div className="p-0">
+              <StyleViewer style={selectedStyleConfig} />
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

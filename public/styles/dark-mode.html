@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>深色主题 - UI设计风格示例</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: #e2e8f0;
+        }
+        
+        .dark-card {
+            background: linear-gradient(145deg, #1e293b, #0f172a);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            box-shadow: 
+                0 10px 25px rgba(0, 0, 0, 0.5),
+                0 4px 6px rgba(0, 0, 0, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
+        
+        .dark-button {
+            background: linear-gradient(145deg, #334155, #1e293b);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            color: #e2e8f0;
+            transition: all 0.3s ease;
+            box-shadow: 
+                0 4px 8px rgba(0, 0, 0, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
+        
+        .dark-button:hover {
+            background: linear-gradient(145deg, #475569, #334155);
+            transform: translateY(-1px);
+            box-shadow: 
+                0 6px 12px rgba(0, 0, 0, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.15);
+        }
+        
+        .dark-button:active {
+            transform: translateY(0);
+            box-shadow: 
+                0 2px 4px rgba(0, 0, 0, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
+        
+        .dark-button-primary {
+            background: linear-gradient(145deg, #6366f1, #4f46e5);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+        }
+        
+        .dark-button-primary:hover {
+            background: linear-gradient(145deg, #7c3aed, #6366f1);
+            box-shadow: 
+                0 6px 12px rgba(99, 102, 241, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+        }
+        
+        .dark-input {
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            color: #e2e8f0;
+            transition: all 0.3s ease;
+        }
+        
+        .dark-input:focus {
+            background: rgba(15, 23, 42, 0.9);
+            border-color: #6366f1;
+            box-shadow: 
+                0 0 0 3px rgba(99, 102, 241, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            outline: none;
+        }
+        
+        .dark-input::placeholder {
+            color: #64748b;
+        }
+        
+        .dark-nav {
+            background: linear-gradient(145deg, #1e293b, #0f172a);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            box-shadow: 
+                0 10px 25px rgba(0, 0, 0, 0.5),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
+        
+        .dark-nav-item {
+            color: #94a3b8;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+        
+        .dark-nav-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: #e2e8f0;
+        }
+        
+        .dark-nav-item.active {
+            background: linear-gradient(145deg, #6366f1, #4f46e5);
+            color: white;
+            box-shadow: 
+                0 4px 8px rgba(99, 102, 241, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+        }
+        
+        .dark-stat {
+            background: linear-gradient(145deg, #1e293b, #0f172a);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            box-shadow: 
+                0 8px 20px rgba(0, 0, 0, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
+        
+        .dark-stat-icon {
+            background: linear-gradient(145deg, #334155, #1e293b);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            box-shadow: 
+                0 4px 8px rgba(0, 0, 0, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
+        
+        .dark-progress {
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 25px;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .dark-progress-bar {
+            background: linear-gradient(90deg, #6366f1, #8b5cf6);
+            border-radius: 25px;
+            box-shadow: 
+                0 2px 4px rgba(99, 102, 241, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+        }
+        
+        .dark-toggle {
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 25px;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .dark-toggle.active {
+            background: linear-gradient(145deg, #6366f1, #4f46e5);
+            border-color: rgba(255, 255, 255, 0.2);
+            box-shadow: 
+                0 4px 8px rgba(99, 102, 241, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+        }
+        
+        .dark-toggle-thumb {
+            background: linear-gradient(145deg, #f1f5f9, #e2e8f0);
+            border-radius: 50%;
+            box-shadow: 
+                0 2px 4px rgba(0, 0, 0, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.8);
+            transition: all 0.3s ease;
+        }
+        
+        .dark-chart {
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+        
+        .text-dark-primary {
+            color: #e2e8f0;
+        }
+        
+        .text-dark-secondary {
+            color: #94a3b8;
+        }
+        
+        .text-dark-accent {
+            color: #6366f1;
+        }
+        
+        .glow-effect {
+            box-shadow: 
+                0 0 20px rgba(99, 102, 241, 0.3),
+                0 0 40px rgba(99, 102, 241, 0.1);
+        }
+        
+        .dark-header {
+            background: linear-gradient(145deg, #1e293b, #0f172a);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            box-shadow: 
+                0 10px 25px rgba(0, 0, 0, 0.5),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
+        
+        .dark-avatar {
+            background: linear-gradient(145deg, #334155, #1e293b);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            box-shadow: 
+                0 4px 8px rgba(0, 0, 0, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
+        
+        .dark-notification {
+            background: linear-gradient(145deg, #dc2626, #b91c1c);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            box-shadow: 
+                0 2px 4px rgba(220, 38, 38, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+        }
+        
+        .dark-badge {
+            background: linear-gradient(145deg, #10b981, #059669);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            color: white;
+            font-size: 0.75rem;
+            font-weight: 600;
+            box-shadow: 
+                0 2px 4px rgba(16, 185, 129, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+        }
+    </style>
+</head>
+<body class="min-h-screen p-6">
+    <div class="max-w-7xl mx-auto">
+        <!-- Header -->
+        <header class="dark-header p-6 mb-8">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-4">
+                    <div class="dark-stat-icon w-12 h-12 flex items-center justify-center">
+                        <svg class="w-6 h-6 text-dark-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                        </svg>
+                    </div>
+                    <h1 class="text-2xl font-bold text-dark-primary">控制面板</h1>
+                </div>
+                
+                <div class="flex items-center space-x-4">
+                    <button class="dark-button px-4 py-2 font-medium">
+                        设置
+                    </button>
+                    <button class="dark-button-primary px-4 py-2 font-medium">
+                        导出数据
+                    </button>
+                    <div class="relative">
+                        <button class="dark-avatar w-10 h-10 flex items-center justify-center">
+                            <svg class="w-5 h-5 text-dark-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                            </svg>
+                        </button>
+                        <div class="dark-notification absolute -top-1 -right-1 w-3 h-3 flex items-center justify-center">
+                            <span class="text-xs text-white"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+        
+        <!-- Navigation -->
+        <nav class="dark-nav p-4 mb-8">
+            <div class="flex space-x-2">
+                <button class="dark-nav-item active px-6 py-3 text-sm font-medium">
+                    概览
+                </button>
+                <button class="dark-nav-item px-6 py-3 text-sm font-medium">
+                    分析
+                </button>
+                <button class="dark-nav-item px-6 py-3 text-sm font-medium">
+                    报告
+                </button>
+                <button class="dark-nav-item px-6 py-3 text-sm font-medium">
+                    设置
+                </button>
+            </div>
+        </nav>
+        
+        <!-- Stats Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+            <div class="dark-stat p-6">
+                <div class="flex items-center justify-between mb-4">
+                    <div>
+                        <p class="text-sm text-dark-secondary mb-1">总用户数</p>
+                        <p class="text-2xl font-bold text-dark-primary">12,489</p>
+                    </div>
+                    <div class="dark-stat-icon w-12 h-12 flex items-center justify-center">
+                        <svg class="w-6 h-6 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"></path>
+                        </svg>
+                    </div>
+                </div>
+                <div class="dark-progress h-2">
+                    <div class="dark-progress-bar h-full" style="width: 75%"></div>
+                </div>
+                <div class="flex items-center mt-2">
+                    <span class="dark-badge px-2 py-1 mr-2">+12%</span>
+                    <span class="text-xs text-dark-secondary">比上周</span>
+                </div>
+            </div>
+            
+            <div class="dark-stat p-6">
+                <div class="flex items-center justify-between mb-4">
+                    <div>
+                        <p class="text-sm text-dark-secondary mb-1">销售额</p>
+                        <p class="text-2xl font-bold text-dark-primary">¥89,420</p>
+                    </div>
+                    <div class="dark-stat-icon w-12 h-12 flex items-center justify-center">
+                        <svg class="w-6 h-6 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"></path>
+                        </svg>
+                    </div>
+                </div>
+                <div class="dark-progress h-2">
+                    <div class="dark-progress-bar h-full" style="width: 85%"></div>
+                </div>
+                <div class="flex items-center mt-2">
+                    <span class="dark-badge px-2 py-1 mr-2">+23%</span>
+                    <span class="text-xs text-dark-secondary">比上周</span>
+                </div>
+            </div>
+            
+            <div class="dark-stat p-6">
+                <div class="flex items-center justify-between mb-4">
+                    <div>
+                        <p class="text-sm text-dark-secondary mb-1">订单数</p>
+                        <p class="text-2xl font-bold text-dark-primary">1,824</p>
+                    </div>
+                    <div class="dark-stat-icon w-12 h-12 flex items-center justify-center">
+                        <svg class="w-6 h-6 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
+                        </svg>
+                    </div>
+                </div>
+                <div class="dark-progress h-2">
+                    <div class="dark-progress-bar h-full" style="width: 60%"></div>
+                </div>
+                <div class="flex items-center mt-2">
+                    <span class="dark-badge px-2 py-1 mr-2">+8%</span>
+                    <span class="text-xs text-dark-secondary">比上周</span>
+                </div>
+            </div>
+            
+            <div class="dark-stat p-6">
+                <div class="flex items-center justify-between mb-4">
+                    <div>
+                        <p class="text-sm text-dark-secondary mb-1">转化率</p>
+                        <p class="text-2xl font-bold text-dark-primary">3.24%</p>
+                    </div>
+                    <div class="dark-stat-icon w-12 h-12 flex items-center justify-center">
+                        <svg class="w-6 h-6 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                        </svg>
+                    </div>
+                </div>
+                <div class="dark-progress h-2">
+                    <div class="dark-progress-bar h-full" style="width: 45%"></div>
+                </div>
+                <div class="flex items-center mt-2">
+                    <span class="dark-badge px-2 py-1 mr-2">+5%</span>
+                    <span class="text-xs text-dark-secondary">比上周</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+            <!-- Chart -->
+            <div class="dark-card p-6">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-lg font-semibold text-dark-primary">销售趋势</h3>
+                    <button class="dark-button px-3 py-1 text-sm">
+                        详情
+                    </button>
+                </div>
+                <div class="dark-chart p-4 h-64 flex items-end space-x-2">
+                    <div class="bg-gradient-to-t from-blue-500 to-purple-500 rounded-t glow-effect" style="height: 60%; width: 12%;"></div>
+                    <div class="bg-gradient-to-t from-blue-500 to-purple-500 rounded-t glow-effect" style="height: 80%; width: 12%;"></div>
+                    <div class="bg-gradient-to-t from-blue-500 to-purple-500 rounded-t glow-effect" style="height: 45%; width: 12%;"></div>
+                    <div class="bg-gradient-to-t from-blue-500 to-purple-500 rounded-t glow-effect" style="height: 70%; width: 12%;"></div>
+                    <div class="bg-gradient-to-t from-blue-500 to-purple-500 rounded-t glow-effect" style="height: 90%; width: 12%;"></div>
+                    <div class="bg-gradient-to-t from-blue-500 to-purple-500 rounded-t glow-effect" style="height: 55%; width: 12%;"></div>
+                    <div class="bg-gradient-to-t from-blue-500 to-purple-500 rounded-t glow-effect" style="height: 75%; width: 12%;"></div>
+                </div>
+            </div>
+            
+            <!-- Quick Actions -->
+            <div class="dark-card p-6">
+                <h3 class="text-lg font-semibold text-dark-primary mb-4">快速操作</h3>
+                <div class="space-y-4">
+                    <button class="dark-button w-full p-4 text-left">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center space-x-3">
+                                <div class="dark-stat-icon w-8 h-8 flex items-center justify-center">
+                                    <svg class="w-4 h-4 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                                    </svg>
+                                </div>
+                                <span class="text-dark-primary">创建新订单</span>
+                            </div>
+                            <svg class="w-5 h-5 text-dark-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                            </svg>
+                        </div>
+                    </button>
+                    
+                    <button class="dark-button w-full p-4 text-left">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center space-x-3">
+                                <div class="dark-stat-icon w-8 h-8 flex items-center justify-center">
+                                    <svg class="w-4 h-4 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3M3 17V7a2 2 0 012-2h6l2 2h6a2 2 0 012 2v10a2 2 0 01-2 2H5a2 2 0 01-2-2z"></path>
+                                    </svg>
+                                </div>
+                                <span class="text-dark-primary">导出数据</span>
+                            </div>
+                            <svg class="w-5 h-5 text-dark-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                            </svg>
+                        </div>
+                    </button>
+                    
+                    <button class="dark-button w-full p-4 text-left">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center space-x-3">
+                                <div class="dark-stat-icon w-8 h-8 flex items-center justify-center">
+                                    <svg class="w-4 h-4 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                                    </svg>
+                                </div>
+                                <span class="text-dark-primary">查看报告</span>
+                            </div>
+                            <svg class="w-5 h-5 text-dark-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                            </svg>
+                        </div>
+                    </button>
+                    
+                    <button class="dark-button w-full p-4 text-left">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center space-x-3">
+                                <div class="dark-stat-icon w-8 h-8 flex items-center justify-center">
+                                    <svg class="w-4 h-4 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                    </svg>
+                                </div>
+                                <span class="text-dark-primary">系统设置</span>
+                            </div>
+                            <svg class="w-5 h-5 text-dark-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                            </svg>
+                        </div>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Settings Panel -->
+        <div class="dark-card p-6">
+            <h3 class="text-lg font-semibold text-dark-primary mb-6">系统设置</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="space-y-6">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <label class="text-sm font-medium text-dark-primary">启用通知</label>
+                            <p class="text-xs text-dark-secondary">接收重要系统通知</p>
+                        </div>
+                        <div class="dark-toggle active w-12 h-6 p-1 cursor-pointer">
+                            <div class="dark-toggle-thumb w-4 h-4 transform translate-x-6"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <label class="text-sm font-medium text-dark-primary">自动备份</label>
+                            <p class="text-xs text-dark-secondary">每日自动备份数据</p>
+                        </div>
+                        <div class="dark-toggle w-12 h-6 p-1 cursor-pointer">
+                            <div class="dark-toggle-thumb w-4 h-4"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <label class="text-sm font-medium text-dark-primary">数据分析</label>
+                            <p class="text-xs text-dark-secondary">启用高级分析功能</p>
+                        </div>
+                        <div class="dark-toggle active w-12 h-6 p-1 cursor-pointer">
+                            <div class="dark-toggle-thumb w-4 h-4 transform translate-x-6"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-dark-primary mb-2">用户名</label>
+                        <input type="text" class="dark-input w-full p-3" placeholder="请输入用户名">
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-dark-primary mb-2">邮箱地址</label>
+                        <input type="email" class="dark-input w-full p-3" placeholder="请输入邮箱地址">
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-dark-primary mb-2">密码</label>
+                        <input type="password" class="dark-input w-full p-3" placeholder="请输入密码">
+                    </div>
+                    
+                    <div class="flex space-x-4 mt-6">
+                        <button class="dark-button-primary px-6 py-2 flex-1">
+                            保存设置
+                        </button>
+                        <button class="dark-button px-6 py-2">
+                            重置
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html> 

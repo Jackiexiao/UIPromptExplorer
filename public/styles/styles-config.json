@@ -60,6 +60,106 @@
         "background": "rgba(255,255,255,0.1)"
       },
       "prompt": "Create a glassmorphism UI design with frosted glass effects, backdrop blur, subtle transparency, and soft borders. Use gradient backgrounds and glass-like elements."
+    },
+    {
+      "id": "windows98",
+      "name": "Windows 98",
+      "shortName": "Win98",
+      "category": "复古",
+      "description": "经典的Windows 98系统界面风格，带有立体边框和系统图标",
+      "characteristics": ["3D边框", "系统色彩", "像素字体", "立体按钮"],
+      "author": "Design Team",
+      "source": "Internal",
+      "htmlFile": "windows98.html",
+      "isDefault": false,
+      "tags": ["retro", "system", "3d", "vintage", "windows"],
+      "colors": {
+        "primary": "#c0c0c0",
+        "secondary": "#0080ff",
+        "accent": "#808080",
+        "background": "#c0c0c0"
+      },
+      "prompt": "Create a Windows 98 style UI with 3D inset/outset borders, system gray backgrounds, pixel fonts, and classic window elements like title bars and system buttons."
+    },
+    {
+      "id": "metro-fluent",
+      "name": "Metro/Fluent Design",
+      "shortName": "Fluent",
+      "category": "现代",
+      "description": "微软现代设计语言，结合磁贴布局和Fluent Design的透明效果",
+      "characteristics": ["磁贴布局", "Acrylic效果", "微软蓝", "模糊透明"],
+      "author": "Design Team",
+      "source": "Internal",
+      "htmlFile": "metro-fluent.html",
+      "isDefault": false,
+      "tags": ["microsoft", "tiles", "fluent", "modern", "enterprise"],
+      "colors": {
+        "primary": "#0078d4",
+        "secondary": "#00bcf2",
+        "accent": "#f3f2f1",
+        "background": "#f3f2f1"
+      },
+      "prompt": "Create a Microsoft Fluent Design UI with Live Tiles, Acrylic materials, depth effects, and the signature Microsoft blue color palette. Include blur and transparency effects."
+    },
+    {
+      "id": "flat-design",
+      "name": "Flat Design",
+      "shortName": "Flat",
+      "category": "经典",
+      "description": "纯扁平化设计风格，无阴影无渐变，强调简洁和功能性",
+      "characteristics": ["无阴影", "纯色背景", "简洁图标", "明确边界"],
+      "author": "Design Team",
+      "source": "Internal",
+      "htmlFile": "flat-design.html",
+      "isDefault": false,
+      "tags": ["flat", "simple", "clean", "functional", "classic"],
+      "colors": {
+        "primary": "#3498db",
+        "secondary": "#2c3e50",
+        "accent": "#27ae60",
+        "background": "#ecf0f1"
+      },
+      "prompt": "Create a pure flat design UI with no shadows, gradients, or 3D effects. Use solid colors, simple icons, clear typography, and clean geometric shapes."
+    },
+    {
+      "id": "neumorphism",
+      "name": "Neumorphism",
+      "shortName": "Neuro",
+      "category": "现代",
+      "description": "新拟物化设计风格，通过柔和阴影创造立体浮雕效果",
+      "characteristics": ["柔和阴影", "浮雕效果", "立体感", "渐变背景", "圆角设计"],
+      "author": "Design Team",
+      "source": "Internal",
+      "htmlFile": "neumorphism.html",
+      "isDefault": false,
+      "tags": ["neumorphism", "soft", "shadow", "3d", "modern"],
+      "colors": {
+        "primary": "#e0e0e0",
+        "secondary": "#6366f1",
+        "accent": "#667eea",
+        "background": "#e0e0e0"
+      },
+      "prompt": "Create a neumorphism UI with soft shadows and embossed effects. Use light gray backgrounds with subtle gradients and rounded corners. Elements should appear to emerge from or sink into the surface."
+    },
+    {
+      "id": "dark-mode",
+      "name": "Dark Mode",
+      "shortName": "Dark",
+      "category": "现代",
+      "description": "现代深色主题设计，提供舒适的夜间使用体验",
+      "characteristics": ["深色背景", "高对比度", "发光效果", "现代感", "护眼设计"],
+      "author": "Design Team",
+      "source": "Internal",
+      "htmlFile": "dark-mode.html",
+      "isDefault": false,
+      "tags": ["dark", "night", "modern", "high-contrast", "glow"],
+      "colors": {
+        "primary": "#1e293b",
+        "secondary": "#6366f1",
+        "accent": "#8b5cf6",
+        "background": "#0f172a"
+      },
+      "prompt": "Create a dark theme UI with dark backgrounds and light text. Use high contrast colors and subtle glow effects. The design should be modern and comfortable for extended use."
     }
   ]
 } 
