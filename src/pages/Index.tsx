@@ -3,11 +3,13 @@ import Header from '../components/Header';
 import ThemeCard from '../components/ThemeCard';
 import Footer from '../components/Footer';
 import { StyleViewer } from '../components/StyleViewer';
+import { StylePreviewDemo } from '../components/StylePreviewDemo';
+import { GlobalSearch } from '../components/GlobalSearch';
 import { UiTheme, uiThemes } from '../data/themes';
 import { DesignStyle, getDefaultDesignStyle, getDesignStyleById } from '../data/themes';
 import { StyleConfig, loadStylesConfig } from '../data/stylesLoader';
 import { useI18n } from '../hooks/useI18n';
-import { Filter } from 'lucide-react';
+import { Filter, Sparkles, ArrowDown } from 'lucide-react';
 
 export default function Index() {
   const [filteredThemes, setFilteredThemes] = useState<UiTheme[]>(uiThemes);
@@ -66,22 +68,70 @@ export default function Index() {
       
       <main>
         {/* Hero Section */}
-        <section className="relative bg-white">
-          <div className="vercel-container py-16 sm:py-24">
-            <div className="text-center">
-              <h1 className="text-4xl sm:text-6xl font-bold text-gray-900 mb-6">
-                <span className="gradient-text">UI Design</span> Prompts Explorer
+        <section className="relative bg-white overflow-hidden">
+          {/* 背景装饰 */}
+          <div className="absolute inset-0 bg-gradient-to-br from-blue-50/50 via-white to-purple-50/50" />
+          <div className="absolute -top-40 -right-40 w-80 h-80 bg-gradient-to-br from-blue-200/30 to-purple-200/30 rounded-full blur-3xl" />
+          <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-gradient-to-tr from-indigo-200/30 to-pink-200/30 rounded-full blur-3xl" />
+          
+          <div className="vercel-container relative py-16 sm:py-24">
+            {/* 搜索栏 */}
+            <div className="flex justify-center mb-12">
+              <div className="w-full max-w-lg">
+                <GlobalSearch
+                  styles={styles}
+                  onThemeSelect={handleThemeSelect}
+                  onStyleSelect={handleStyleConfigSelect}
+                />
+              </div>
+            </div>
+
+            <div className="text-center mb-16">
+              <div className="flex items-center justify-center gap-2 mb-4">
+                <Sparkles className="w-6 h-6 text-blue-500" />
+                <span className="text-sm font-medium text-blue-600 bg-blue-50 px-3 py-1 rounded-full">
+                  实时预览不同设计风格
+                </span>
+              </div>
+              <h1 className="text-4xl sm:text-6xl font-bold text-gray-900 mb-6 leading-tight">
+                看看同一个 <span className="gradient-text">UI组件</span><br />
+                在不同风格下的 <span className="text-blue-600">魔法变化</span>
               </h1>
               <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
-                {t('hero.subtitle')}
+                从现代简约到新粗野主义，从玻璃形态到Material Design —— 
+                <br className="hidden sm:block" />
+                探索设计的无限可能，为你的项目找到完美的视觉语言
               </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <button className="vercel-button">
+            </div>
+
+            {/* 交互式风格预览 */}
+            <div className="mb-16">
+              <StylePreviewDemo />
+            </div>
+
+            {/* CTA按钮 */}
+            <div className="text-center">
+              <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
+                <button 
+                  className="vercel-button flex items-center gap-2"
+                  onClick={() => {
+                    document.getElementById('styles-section')?.scrollIntoView({ 
+                      behavior: 'smooth' 
+                    });
+                  }}
+                >
+                  <Sparkles className="w-4 h-4" />
                   {t('hero.get_started')}
                 </button>
                 <button className="vercel-button-outline">
                   {t('hero.learn_more')}
                 </button>
+              </div>
+              
+              {/* 向下箭头引导 */}
+              <div className="flex flex-col items-center gap-2 text-gray-500">
+                <p className="text-sm">继续探索更多设计风格</p>
+                <ArrowDown className="w-5 h-5 animate-bounce" />
               </div>
             </div>
           </div>
@@ -89,7 +139,7 @@ export default function Index() {
 
         {/* Style Showcase Section */}
         {styles.length > 0 && (
-          <section className="bg-gray-50 py-16">
+          <section id="styles-section" className="bg-gray-50 py-16">
             <div className="vercel-container">
               <div className="text-center mb-12">
                 <h2 className="text-3xl font-bold text-gray-900 mb-4">
