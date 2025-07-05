@@ -1,4 +1,8 @@
 {
+  "nav": {
+    "home": "Home",
+    "about": "About"
+  },
   "header": {
     "home": "Home",
     "about": "About",
@@ -6,8 +10,10 @@
   },
   "hero": {
     "title": "UI Prompt Explorer",
-    "subtitle": "A playful collection of UI theme prompts for your next design",
-    "explore": "Explore Themes"
+    "subtitle": "Explore different UI design styles and discover the perfect aesthetic for your next project. Compare how components look across various design philosophies.",
+    "explore": "Explore Themes",
+    "get_started": "Get Started",
+    "learn_more": "Learn More"
   },
   "gallery": {
     "title": "UI Prompt Gallery",
@@ -29,7 +35,12 @@
     "blog": "Blog",
     "gallery": "Gallery",
     "ecommerce": "E-commerce",
-    "social": "Social"
+    "social": "Social",
+    "landing": "Landing",
+    "chat": "Chat",
+    "commerce": "Commerce",
+    "webapp": "Web App",
+    "category": "Category"
   },
   "style": {
     "all": "All Styles",
@@ -75,5 +86,19 @@
     "title": "404",
     "message": "Oops! Page not found",
     "returnHome": "Return to Home"
+  },
+  "styles": {
+    "title": "Design Styles",
+    "subtitle": "Explore different design philosophies and see how they influence UI components"
+  },
+  "themes": {
+    "title": "Theme Gallery",
+    "subtitle": "Browse our collection of UI themes and find inspiration for your next project"
+  },
+  "cta": {
+    "title": "Ready to Start Designing?",
+    "subtitle": "Choose the perfect design style for your project and create outstanding user experiences",
+    "primary": "Get Started",
+    "secondary": "Learn More"
   }
 } 

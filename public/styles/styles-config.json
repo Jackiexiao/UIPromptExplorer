@@ -1,0 +1,65 @@
+{
+  "version": "1.0.0",
+  "styles": [
+    {
+      "id": "modern-minimal",
+      "name": "Modern Minimal",
+      "shortName": "Modern",
+      "category": "现代简约",
+      "description": "简洁优雅的现代设计风格，注重空白space和细节",
+      "characteristics": ["极简主义", "大量留白", "清晰层次", "现代字体"],
+      "author": "Design Team",
+      "source": "Internal",
+      "htmlFile": "modern-minimal.html",
+      "isDefault": true,
+      "tags": ["minimalist", "clean", "modern", "professional"],
+      "colors": {
+        "primary": "#3b82f6",
+        "secondary": "#6b7280",
+        "accent": "#10b981",
+        "background": "#ffffff"
+      },
+      "prompt": "Create a modern, minimal UI design with clean lines, subtle shadows, and elegant typography. Use plenty of whitespace and a professional color palette with blue accents."
+    },
+    {
+      "id": "neobrutalism",
+      "name": "Neobrutalism",
+      "shortName": "Brutal",
+      "category": "实验性",
+      "description": "大胆的新残酷主义设计风格，强调对比和视觉冲击",
+      "characteristics": ["粗黑边框", "对比鲜明", "几何形状", "单色字体"],
+      "author": "Design Team",
+      "source": "Internal",
+      "htmlFile": "neobrutalism.html",
+      "isDefault": false,
+      "tags": ["bold", "contrast", "geometric", "experimental"],
+      "colors": {
+        "primary": "#000000",
+        "secondary": "#ffff00",
+        "accent": "#ff0000",
+        "background": "#ffffff"
+      },
+      "prompt": "Create a bold neobrutalist UI design with thick black borders, high contrast colors, geometric shapes, and monospace fonts. Use bright yellow and red accents."
+    },
+    {
+      "id": "glassmorphism",
+      "name": "Glassmorphism",
+      "shortName": "Glass",
+      "category": "现代",
+      "description": "玻璃质感的现代设计风格，使用模糊背景和透明效果",
+      "characteristics": ["玻璃效果", "模糊背景", "透明度", "柔和边框"],
+      "author": "Design Team",
+      "source": "Internal",
+      "htmlFile": "glassmorphism.html",
+      "isDefault": false,
+      "tags": ["glass", "blur", "transparency", "modern"],
+      "colors": {
+        "primary": "#6366f1",
+        "secondary": "#a855f7",
+        "accent": "#ec4899",
+        "background": "rgba(255,255,255,0.1)"
+      },
+      "prompt": "Create a glassmorphism UI design with frosted glass effects, backdrop blur, subtle transparency, and soft borders. Use gradient backgrounds and glass-like elements."
+    }
+  ]
+} 

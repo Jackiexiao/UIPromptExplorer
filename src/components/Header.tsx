@@ -1,52 +1,95 @@
-import React from 'react';
-import { Link, useLocation, NavLink } from 'react-router-dom';
-import { Pencil } from 'lucide-react';
-import { useTranslation } from 'react-i18next';
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { Search, Menu, X } from 'lucide-react';
 import LanguageSwitcher from './LanguageSwitcher';
+import { useI18n } from '../hooks/useI18n';
 
-const Header: React.FC = () => {
-  const location = useLocation();
-  const { t } = useTranslation();
-  
+export default function Header() {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { t } = useI18n();
+
   return (
-    <header className="border-b border-doodle-pencil border-opacity-30 py-4">
-      <div className="container mx-auto px-4 flex justify-between items-center">
-        <Link to="/" className="flex items-center gap-2">
-          <div className="relative">
-            <Pencil className="h-8 w-8 text-doodle-blue rotate-45" strokeWidth={2.5} />
-            <span className="absolute top-0 right-0 h-3 w-3 rounded-full bg-doodle-highlight" />
-          </div>
-          <h1 className="text-2xl font-handwritten text-doodle-pencil">UI Prompt Explorer</h1>
-        </Link>
-        <div className="flex items-center gap-6">
-          <nav>
-            <ul className="flex gap-8 font-sketch">
-              <li><Link to="/" className="hover:text-doodle-accent transition-colors">{t('header.home')}</Link></li>
-              <li>
-                {location.pathname === '/' ? (
-                  <a 
-                    href="#theme-gallery" 
-                    className="hover:text-doodle-accent transition-colors"
-                  >
-                    {t('header.themes')}
-                  </a>
-                ) : (
-                  <Link 
-                    to="/#theme-gallery" 
-                    className="hover:text-doodle-accent transition-colors"
-                  >
-                    {t('header.themes')}
-                  </Link>
-                )}
-              </li>
-              <li><Link to="/about" className="hover:text-doodle-accent transition-colors">{t('header.about')}</Link></li>
-            </ul>
-          </nav>
-          <LanguageSwitcher />
-        </div>
-      </div>
-    </header>
-  );
-};
+    <nav className="vercel-nav sticky top-0 z-50 backdrop-blur-md">
+      <div className="vercel-container">
+        <div className="flex items-center justify-between h-16">
+          {/* Logo */}
+          <Link to="/" className="flex items-center space-x-2">
+            <div className="w-8 h-8 bg-black rounded-md flex items-center justify-center">
+              <Search className="w-5 h-5 text-white" />
+            </div>
+            <span className="text-xl font-semibold text-gray-900">
+              UIPromptExplorer
+            </span>
+          </Link>
 
-export default Header;
+          {/* Desktop Navigation */}
+          <div className="hidden md:flex items-center space-x-8">
+            <Link 
+              to="/" 
+              className="text-gray-600 hover:text-gray-900 font-medium transition-colors"
+            >
+              {t('nav.home')}
+            </Link>
+            <Link 
+              to="/about" 
+              className="text-gray-600 hover:text-gray-900 font-medium transition-colors"
+            >
+              {t('nav.about')}
+            </Link>
+            <a 
+              href="https://github.com/jackiexiao/UIPromptExplorer" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="text-gray-600 hover:text-gray-900 font-medium transition-colors"
+            >
+              GitHub
+            </a>
+            <LanguageSwitcher />
+          </div>
+
+          {/* Mobile menu button */}
+          <button
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            className="md:hidden p-2 rounded-md text-gray-600 hover:text-gray-900 hover:bg-gray-100"
+          >
+            {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+          </button>
+        </div>
+
+        {/* Mobile Navigation */}
+        {isMobileMenuOpen && (
+          <div className="md:hidden py-4 border-t border-gray-200">
+            <div className="flex flex-col space-y-3">
+              <Link 
+                to="/" 
+                className="text-gray-600 hover:text-gray-900 font-medium py-2 transition-colors"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                {t('nav.home')}
+              </Link>
+              <Link 
+                to="/about" 
+                className="text-gray-600 hover:text-gray-900 font-medium py-2 transition-colors"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                {t('nav.about')}
+              </Link>
+              <a 
+                href="https://github.com/jackiexiao/UIPromptExplorer" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-gray-600 hover:text-gray-900 font-medium py-2 transition-colors"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                GitHub
+              </a>
+              <div className="pt-2">
+                <LanguageSwitcher />
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+    </nav>
+  );
+}

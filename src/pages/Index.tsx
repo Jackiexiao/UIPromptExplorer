@@ -1,123 +1,215 @@
-import React, { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Header from '../components/Header';
-import { uiThemes, categories, uiStyles } from '../data/themes';
 import ThemeCard from '../components/ThemeCard';
-import ThemeHero from '../components/ThemeHero';
-import ThemePreviewModal from '../components/ThemePreviewModal';
-import FilterTabs from '../components/FilterTabs';
-import StyleFilterTabs from '../components/StyleFilterTabs';
-import WavyDivider from '../components/WavyDivider';
-import { motion } from 'framer-motion';
-import { useTranslation } from 'react-i18next';
-import Footer from "@/components/Footer";
+import Footer from '../components/Footer';
+import { StyleViewer } from '../components/StyleViewer';
+import { UiTheme, uiThemes } from '../data/themes';
+import { DesignStyle, getDefaultDesignStyle, getDesignStyleById } from '../data/themes';
+import { StyleConfig, loadStylesConfig } from '../data/stylesLoader';
+import { useI18n } from '../hooks/useI18n';
+import { Filter } from 'lucide-react';
 
-const Index = () => {
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
-  const [selectedStyle, setSelectedStyle] = useState<string | null>(null);
-  const [selectedTheme, setSelectedTheme] = useState<typeof uiThemes[0] | null>(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [filterMode, setFilterMode] = useState<'category' | 'style'>('category');
-  const { t } = useTranslation();
+export default function Index() {
+  const [filteredThemes, setFilteredThemes] = useState<UiTheme[]>(uiThemes);
+  const [selectedTheme, setSelectedTheme] = useState<UiTheme | null>(null);
+  const [selectedStyle, setSelectedStyle] = useState<DesignStyle>(getDefaultDesignStyle());
+  const [selectedCategory, setSelectedCategory] = useState<string>('all');
+  const [styles, setStyles] = useState<StyleConfig[]>([]);
+  const [selectedStyleConfig, setSelectedStyleConfig] = useState<StyleConfig | null>(null);
+  const { t } = useI18n();
 
-  const filteredThemes = uiThemes.filter(theme => {
-    const matchesCategory = selectedCategory ? theme.category === selectedCategory : true;
-    const matchesStyle = selectedStyle ? theme.uiStyle === selectedStyle : true;
-    return matchesCategory && matchesStyle;
-  });
+  useEffect(() => {
+    loadStylesConfig().then((result) => {
+      setStyles(result.styles);
+    });
+  }, []);
 
-  const openThemePreview = (theme: typeof uiThemes[0]) => {
-    setSelectedTheme(theme);
-    setIsModalOpen(true);
+  const categories = [
+    { id: 'all', label: t('filter.all') },
+    { id: 'landing', label: t('filter.landing') },
+    { id: 'dashboard', label: t('filter.dashboard') },
+    { id: 'portfolio', label: t('filter.portfolio') },
+    { id: 'chat', label: t('filter.chat') },
+    { id: 'commerce', label: t('filter.commerce') },
+    { id: 'blog', label: t('filter.blog') },
+    { id: 'webapp', label: t('filter.webapp') },
+    { id: 'gallery', label: t('filter.gallery') },
+  ];
+
+  const handleCategoryChange = (category: string) => {
+    setSelectedCategory(category);
+    if (category === 'all') {
+      setFilteredThemes(uiThemes);
+    } else {
+      setFilteredThemes(uiThemes.filter(theme => theme.category === category));
+    }
   };
 
-  const closeThemePreview = () => {
-    setIsModalOpen(false);
+  const handleThemeSelect = (theme: UiTheme) => {
+    setSelectedTheme(theme);
+  };
+
+  const handleStyleSelect = (styleId: string) => {
+    const style = getDesignStyleById(styleId);
+    if (style) {
+      setSelectedStyle(style);
+    }
+  };
+
+  const handleStyleConfigSelect = (style: StyleConfig) => {
+    setSelectedStyleConfig(style);
   };
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-white">
       <Header />
       
-      <main className="container mx-auto px-4 py-6">
-        <ThemeHero />
-        
-        <WavyDivider />
-        
-        <section id="theme-gallery" className="py-8">
-          <h2 className="text-3xl font-handwritten mb-6 text-center">{t('gallery.title')}</h2>
-          
-          <div className="flex justify-center mb-8">
-            <div className="inline-flex border-2 border-doodle-pencil border-opacity-50 rounded-full overflow-hidden shadow-md bg-doodle-notebook p-1">
-              <button
-                onClick={() => {
-                  setFilterMode('category');
-                  setSelectedStyle(null);
-                }}
-                className={`px-6 py-3 font-handwritten text-base transition-all duration-300 rounded-full ${
-                  filterMode === 'category' 
-                    ? 'bg-doodle-paper shadow-inner text-doodle-pencil' 
-                    : 'hover:bg-white/50 text-doodle-pencil/60'
-                }`}
-              >
-                {t('gallery.byPurpose')}
+      <main>
+        {/* Hero Section */}
+        <section className="relative bg-white">
+          <div className="vercel-container py-16 sm:py-24">
+            <div className="text-center">
+              <h1 className="text-4xl sm:text-6xl font-bold text-gray-900 mb-6">
+                <span className="gradient-text">UI Design</span> Prompts Explorer
+              </h1>
+              <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
+                {t('hero.subtitle')}
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <button className="vercel-button">
+                  {t('hero.get_started')}
+                </button>
+                <button className="vercel-button-outline">
+                  {t('hero.learn_more')}
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Style Showcase Section */}
+        {styles.length > 0 && (
+          <section className="bg-gray-50 py-16">
+            <div className="vercel-container">
+              <div className="text-center mb-12">
+                <h2 className="text-3xl font-bold text-gray-900 mb-4">
+                  {t('styles.title')}
+                </h2>
+                <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+                  {t('styles.subtitle')}
+                </p>
+              </div>
+
+              {/* Style Selection */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+                {styles.map((style) => (
+                  <div
+                    key={style.id}
+                    className={`vercel-card p-6 cursor-pointer transition-all ${
+                      selectedStyleConfig?.id === style.id 
+                        ? 'border-gray-900 shadow-md' 
+                        : ''
+                    }`}
+                    onClick={() => handleStyleConfigSelect(style)}
+                  >
+                    <h3 className="font-semibold text-gray-900 mb-2">{style.name}</h3>
+                    <p className="text-sm text-gray-600 mb-3">{style.description}</p>
+                    <div className="flex flex-wrap gap-2">
+                      {style.characteristics.slice(0, 3).map((char, index) => (
+                        <span
+                          key={index}
+                          className="px-2 py-1 bg-gray-100 text-gray-700 text-xs rounded"
+                        >
+                          {char}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Selected Style Viewer */}
+              {selectedStyleConfig && (
+                <div className="mb-16">
+                  <StyleViewer style={selectedStyleConfig} />
+                </div>
+              )}
+            </div>
+          </section>
+        )}
+
+        {/* Theme Gallery Section */}
+        <section className="py-16">
+          <div className="vercel-container">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl font-bold text-gray-900 mb-4">
+                {t('themes.title')}
+              </h2>
+              <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+                {t('themes.subtitle')}
+              </p>
+            </div>
+
+            {/* Category Filter */}
+            <div className="mb-8">
+              <div className="flex items-center gap-4 mb-4">
+                <Filter className="w-5 h-5 text-gray-500" />
+                <span className="text-sm font-medium text-gray-700">
+                  {t('filter.category')}:
+                </span>
+              </div>
+              <div className="flex flex-wrap gap-2">
+                {categories.map((category) => (
+                  <button
+                    key={category.id}
+                    onClick={() => handleCategoryChange(category.id)}
+                    className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+                      selectedCategory === category.id
+                        ? 'bg-gray-900 text-white'
+                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                    }`}
+                  >
+                    {category.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Theme Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {filteredThemes.map((theme) => (
+                <ThemeCard
+                  key={theme.id}
+                  theme={theme}
+                  onClick={() => handleThemeSelect(theme)}
+                />
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Call to Action */}
+        <section className="bg-gray-900 text-white py-16">
+          <div className="vercel-container text-center">
+            <h2 className="text-3xl font-bold mb-4">
+              {t('cta.title')}
+            </h2>
+            <p className="text-lg text-gray-300 mb-8 max-w-2xl mx-auto">
+              {t('cta.subtitle')}
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <button className="bg-white text-gray-900 hover:bg-gray-100 inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors h-10 px-6">
+                {t('cta.primary')}
               </button>
-              <button
-                onClick={() => {
-                  setFilterMode('style');
-                  setSelectedCategory(null);
-                }}
-                className={`px-6 py-3 font-handwritten text-base transition-all duration-300 rounded-full ${
-                  filterMode === 'style' 
-                    ? 'bg-doodle-paper shadow-inner text-doodle-pencil' 
-                    : 'hover:bg-white/50 text-doodle-pencil/60'
-                }`}
-              >
-                {t('gallery.byStyle')}
+              <button className="border border-gray-600 text-white hover:bg-gray-800 inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors h-10 px-6">
+                {t('cta.secondary')}
               </button>
             </div>
           </div>
-          
-          {filterMode === 'category' ? (
-            <FilterTabs 
-              categories={categories}
-              selectedCategory={selectedCategory}
-              onChange={setSelectedCategory}
-            />
-          ) : (
-            <StyleFilterTabs 
-              styles={uiStyles}
-              selectedStyle={selectedStyle}
-              onChange={setSelectedStyle}
-            />
-          )}
-          
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            {filteredThemes.map((theme, index) => (
-              <motion.div 
-                key={theme.id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.1 }}
-              >
-                <ThemeCard 
-                  theme={theme} 
-                  onClick={() => openThemePreview(theme)} 
-                />
-              </motion.div>
-            ))}
-          </div>
         </section>
       </main>
-      
+
       <Footer />
-      
-      <ThemePreviewModal 
-        theme={selectedTheme} 
-        isOpen={isModalOpen} 
-        onClose={closeThemePreview} 
-      />
     </div>
   );
-};
-
-export default Index;
+}

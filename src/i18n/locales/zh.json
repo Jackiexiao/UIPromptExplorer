@@ -1,4 +1,8 @@
 {
+  "nav": {
+    "home": "首页",
+    "about": "关于"
+  },
   "header": {
     "home": "首页",
     "about": "关于",
@@ -6,8 +10,10 @@
   },
   "hero": {
     "title": "UI Prompt Explorer",
-    "subtitle": "为您的下一次设计找到合适的UI提示词",
-    "explore": "探索主题"
+    "subtitle": "探索不同的UI设计风格，发现适合您下一个项目的完美美学。比较组件在各种设计理念下的表现。",
+    "explore": "探索主题",
+    "get_started": "开始使用",
+    "learn_more": "了解更多"
   },
   "gallery": {
     "title": "UI提示词画廊",
@@ -29,7 +35,12 @@
     "blog": "博客",
     "gallery": "画廊",
     "ecommerce": "电子商务",
-    "social": "社交"
+    "social": "社交",
+    "landing": "落地页",
+    "chat": "聊天",
+    "commerce": "商务",
+    "webapp": "网页应用",
+    "category": "分类"
   },
   "style": {
     "all": "所有风格",
@@ -75,5 +86,19 @@
     "title": "404",
     "message": "哎呀！页面未找到",
     "returnHome": "返回首页"
+  },
+  "styles": {
+    "title": "设计风格",
+    "subtitle": "探索不同的设计理念，了解它们如何影响UI组件"
+  },
+  "themes": {
+    "title": "主题画廊",
+    "subtitle": "浏览我们的UI主题集合，为您的下一个项目寻找灵感"
+  },
+  "cta": {
+    "title": "准备开始设计了吗？",
+    "subtitle": "为您的项目选择完美的设计风格，创造出色的用户体验",
+    "primary": "开始使用",
+    "secondary": "了解更多"
   }
 } 

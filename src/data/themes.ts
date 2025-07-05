@@ -12,6 +12,34 @@ export interface UiTheme {
   previewUrl: string;
 }
 
+export interface DesignStyle {
+  id: string;
+  name: string;
+  shortName: string; // For easier identification
+  description: string;
+  characteristics: string[];
+  colorScheme: {
+    primary: string;
+    secondary: string;
+    accent: string;
+    background: string;
+    foreground: string;
+    muted: string;
+  };
+  fontFamily: string[];
+  category: 'modern' | 'experimental' | 'classic' | 'playful' | 'enterprise'; // For future categorization
+  examples: ComponentExample[];
+  isDefault?: boolean; // Mark default style
+}
+
+export interface ComponentExample {
+  id: string;
+  name: string;
+  description: string;
+  category: 'button' | 'card' | 'form' | 'navigation' | 'layout' | 'data-display';
+  complexity: 'basic' | 'intermediate' | 'advanced';
+}
+
 export const uiThemes: UiTheme[] = [
   {
     id: "sketchbook-gallery",
@@ -131,4 +159,212 @@ export function getRelatedThemes(theme: UiTheme): UiTheme[] {
   return theme.relatedThemes
     .map(id => uiThemes.find(t => t.id === id))
     .filter((t): t is UiTheme => t !== undefined);
+}
+
+export const designStyles: DesignStyle[] = [
+  {
+    id: "modern-minimal",
+    name: "Modern Minimal",
+    shortName: "Modern",
+    description: "现代简约设计风格，类似Vercel和shadcn/ui的设计语言，强调简洁、优雅和功能性。",
+    characteristics: [
+      "简洁的线条和间距",
+      "微妙的阴影和圆角",
+      "优雅的字体排版",
+      "清晰的视觉层次",
+      "现代化的配色方案"
+    ],
+    colorScheme: {
+      primary: "#18181B",
+      secondary: "#F4F4F5", 
+      accent: "#3B82F6",
+      background: "#FFFFFF",
+      foreground: "#09090B",
+      muted: "#F4F4F5"
+    },
+    fontFamily: ["Inter", "-apple-system", "BlinkMacSystemFont", "Segoe UI", "Roboto", "sans-serif"],
+    category: "modern",
+    isDefault: true,
+    examples: [
+      { id: "modern-button", name: "按钮组件", description: "现代简约的按钮设计", category: "button", complexity: "basic" },
+      { id: "modern-card", name: "卡片组件", description: "简洁优雅的卡片布局", category: "card", complexity: "intermediate" },
+      { id: "modern-form", name: "表单组件", description: "现代化的表单设计", category: "form", complexity: "advanced" },
+      { id: "modern-navigation", name: "导航组件", description: "简洁的导航栏设计", category: "navigation", complexity: "intermediate" },
+      { id: "modern-layout", name: "布局组件", description: "现代化的页面布局", category: "layout", complexity: "advanced" },
+      { id: "modern-display", name: "数据展示", description: "清晰的数据展示组件", category: "data-display", complexity: "intermediate" }
+    ]
+  },
+  {
+    id: "neobrutalism",
+    name: "Neobrutalism",
+    shortName: "Brutal",
+    description: "新野兽派设计风格，以粗糙的边框、强烈的阴影和大胆的色彩为特征，注重功能性和可访问性。",
+    characteristics: [
+      "粗糙的边框和强烈的阴影",
+      "大胆的色彩对比",
+      "简洁的几何形状",
+      "强调可用性而非装饰性",
+      "黑色边框和大胆的颜色"
+    ],
+    colorScheme: {
+      primary: "#000000",
+      secondary: "#FFFFFF", 
+      accent: "#FF6B6B",
+      background: "#FFFFFF",
+      foreground: "#000000",
+      muted: "#F5F5F5"
+    },
+    fontFamily: ["JetBrains Mono", "monospace"],
+    category: "experimental",
+    examples: [
+      { id: "neobrutalism-button", name: "按钮组件", description: "粗糙边框的按钮设计", category: "button", complexity: "basic" },
+      { id: "neobrutalism-card", name: "卡片组件", description: "强烈阴影的卡片布局", category: "card", complexity: "intermediate" },
+      { id: "neobrutalism-form", name: "表单组件", description: "简洁实用的表单设计", category: "form", complexity: "advanced" },
+      { id: "neobrutalism-navigation", name: "导航组件", description: "清晰的导航栏设计", category: "navigation", complexity: "intermediate" },
+      { id: "neobrutalism-layout", name: "布局组件", description: "网格化的页面布局", category: "layout", complexity: "advanced" },
+      { id: "neobrutalism-display", name: "数据展示", description: "直观的数据展示组件", category: "data-display", complexity: "intermediate" }
+    ]
+  },
+  {
+    id: "bento-grid",
+    name: "Bento Grid Design",
+    shortName: "Bento",
+    description: "便当盒设计风格，受日式便当盒启发的网格布局设计，强调有序的分割和均衡的空间分配。",
+    characteristics: [
+      "整齐的网格布局",
+      "清晰的分割线",
+      "均衡的空间分配",
+      "简洁的色彩搭配",
+      "强调内容的有序性"
+    ],
+    colorScheme: {
+      primary: "#2E3440",
+      secondary: "#D8DEE9",
+      accent: "#88C0D0",
+      background: "#ECEFF4",
+      foreground: "#2E3440",
+      muted: "#E5E9F0"
+    },
+    fontFamily: ["Inter", "-apple-system", "BlinkMacSystemFont", "Segoe UI", "Roboto", "sans-serif"],
+    category: "modern",
+    examples: [
+      { id: "bento-button", name: "按钮组件", description: "整齐排列的按钮设计", category: "button", complexity: "basic" },
+      { id: "bento-card", name: "卡片组件", description: "网格化的卡片布局", category: "card", complexity: "intermediate" },
+      { id: "bento-form", name: "表单组件", description: "有序的表单布局", category: "form", complexity: "advanced" },
+      { id: "bento-navigation", name: "导航组件", description: "网格化的导航设计", category: "navigation", complexity: "intermediate" },
+      { id: "bento-layout", name: "布局组件", description: "便当盒式的页面布局", category: "layout", complexity: "advanced" },
+      { id: "bento-display", name: "数据展示", description: "网格化的数据展示", category: "data-display", complexity: "intermediate" }
+    ]
+  },
+  {
+    id: "apple-design",
+    name: "Apple Design Language",
+    shortName: "Apple",
+    description: "苹果设计语言，简约、精致、注重细节的设计风格，强调内容优先和直观的用户体验。",
+    characteristics: [
+      "简约的设计语言",
+      "精致的细节处理",
+      "柔和的阴影和圆角",
+      "强调内容优先",
+      "高品质的视觉效果"
+    ],
+    colorScheme: {
+      primary: "#007AFF",
+      secondary: "#F2F2F7",
+      accent: "#30D158",
+      background: "#FFFFFF",
+      foreground: "#000000",
+      muted: "#F2F2F7"
+    },
+    fontFamily: ["-apple-system", "BlinkMacSystemFont", "SF Pro Display", "Helvetica Neue", "sans-serif"],
+    category: "classic",
+    examples: [
+      { id: "apple-button", name: "按钮组件", description: "精致的按钮设计", category: "button", complexity: "basic" },
+      { id: "apple-card", name: "卡片组件", description: "优雅的卡片布局", category: "card", complexity: "intermediate" },
+      { id: "apple-form", name: "表单组件", description: "简约的表单设计", category: "form", complexity: "advanced" },
+      { id: "apple-navigation", name: "导航组件", description: "清晰的导航栏", category: "navigation", complexity: "intermediate" },
+      { id: "apple-layout", name: "布局组件", description: "极简的页面布局", category: "layout", complexity: "advanced" },
+      { id: "apple-display", name: "数据展示", description: "精美的数据展示", category: "data-display", complexity: "intermediate" }
+    ]
+  },
+  {
+    id: "material-design",
+    name: "Material Design",
+    shortName: "Material",
+    description: "Google Material Design，基于纸张和墨水的隐喻，强调层次感和物理定律的设计系统。",
+    characteristics: [
+      "基于纸张和墨水的隐喻",
+      "明确的层次结构",
+      "响应式的交互",
+      "一致的设计系统",
+      "强调可访问性"
+    ],
+    colorScheme: {
+      primary: "#6200EA",
+      secondary: "#03DAC6",
+      accent: "#FF5722",
+      background: "#FFFFFF",
+      foreground: "#000000",
+      muted: "#F5F5F5"
+    },
+    fontFamily: ["Roboto", "Helvetica", "Arial", "sans-serif"],
+    category: "enterprise",
+    examples: [
+      { id: "material-button", name: "按钮组件", description: "Material风格的按钮", category: "button", complexity: "basic" },
+      { id: "material-card", name: "卡片组件", description: "Material卡片设计", category: "card", complexity: "intermediate" },
+      { id: "material-form", name: "表单组件", description: "Material表单组件", category: "form", complexity: "advanced" },
+      { id: "material-navigation", name: "导航组件", description: "Material导航设计", category: "navigation", complexity: "intermediate" },
+      { id: "material-layout", name: "布局组件", description: "Material布局系统", category: "layout", complexity: "advanced" },
+      { id: "material-display", name: "数据展示", description: "Material数据展示", category: "data-display", complexity: "intermediate" }
+    ]
+  }
+];
+
+export const componentCategories = [
+  { id: 'button', name: '按钮', description: '各种按钮样式和交互' },
+  { id: 'card', name: '卡片', description: '内容展示卡片组件' },
+  { id: 'form', name: '表单', description: '表单输入和验证组件' },
+  { id: 'navigation', name: '导航', description: '导航栏和菜单组件' },
+  { id: 'layout', name: '布局', description: '页面布局和容器组件' },
+  { id: 'data-display', name: '数据展示', description: '图表和数据可视化组件' }
+];
+
+export const styleCategories = [
+  { id: 'modern', name: '现代风格', description: '现代化的设计语言' },
+  { id: 'experimental', name: '实验性', description: '前卫和实验性的设计' },
+  { id: 'classic', name: '经典风格', description: '经过时间验证的设计风格' },
+  { id: 'playful', name: '趣味风格', description: '富有创意和趣味性的设计' },
+  { id: 'enterprise', name: '企业级', description: '适合企业和商业环境的设计' }
+];
+
+// Utility functions
+export function getDesignStyleById(id: string): DesignStyle | undefined {
+  return designStyles.find(style => style.id === id);
+}
+
+export function getDefaultDesignStyle(): DesignStyle {
+  return designStyles.find(style => style.isDefault) || designStyles[0];
+}
+
+export function getComponentsByCategory(category: string): ComponentExample[] {
+  return designStyles.flatMap(style => 
+    style.examples.filter(example => example.category === category)
+  );
+}
+
+export function getStylesByCategory(category: string): DesignStyle[] {
+  return designStyles.filter(style => 
+    style.examples.some(example => example.category === category)
+  );
+}
+
+export function getStylesByCategoryType(categoryType: string): DesignStyle[] {
+  return designStyles.filter(style => style.category === categoryType);
+}
+
+// For future expansion - placeholder for loading additional styles
+export async function loadAdditionalStyles(): Promise<DesignStyle[]> {
+  // This function will be used to load the remaining 200+ styles
+  // For now, return empty array
+  return [];
 }

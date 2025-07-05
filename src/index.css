@@ -1,89 +1,63 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Gochi+Hand&family=Pangolin&display=swap');
-
 @layer base {
   :root {
-    --background: 40 33% 98%;
-    --foreground: 220 5% 20%;
-
+    --background: 0 0% 100%;
+    --foreground: 0 0% 3.9%;
     --card: 0 0% 100%;
-    --card-foreground: 220 5% 20%;
-
+    --card-foreground: 0 0% 3.9%;
     --popover: 0 0% 100%;
-    --popover-foreground: 220 5% 20%;
-
-    --primary: 220 10% 36%;
-    --primary-foreground: 40 33% 98%;
-
-    --secondary: 220 20% 92%;
-    --secondary-foreground: 220 10% 36%;
-
-    --muted: 220 10% 94%;
-    --muted-foreground: 220 5% 45%;
-
-    --accent: 30 94% 67%;
-    --accent-foreground: 220 10% 30%;
-
+    --popover-foreground: 0 0% 3.9%;
+    --primary: 0 0% 9%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 0 0% 96.1%;
+    --secondary-foreground: 0 0% 9%;
+    --muted: 0 0% 96.1%;
+    --muted-foreground: 0 0% 45.1%;
+    --accent: 0 0% 96.1%;
+    --accent-foreground: 0 0% 9%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
-
-    --border: 220 10% 85%;
-    --input: 220 10% 85%;
-    --ring: 222.2 84% 4.9%;
-
-    --radius: 0.75rem;
-
-    --sidebar-background: 0 0% 98%;
-    --sidebar-foreground: 240 5.3% 26.1%;
-    --sidebar-primary: 240 5.9% 10%;
-    --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 240 4.8% 95.9%;
-    --sidebar-accent-foreground: 240 5.9% 10%;
-    --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --border: 0 0% 89.8%;
+    --input: 0 0% 89.8%;
+    --ring: 0 0% 3.9%;
+    --radius: 0.5rem;
+    --chart-1: 12 76% 61%;
+    --chart-2: 173 58% 39%;
+    --chart-3: 197 37% 24%;
+    --chart-4: 43 74% 66%;
+    --chart-5: 27 87% 67%;
   }
 
   .dark {
-    --background: 220 10% 12%;
-    --foreground: 40 33% 98%;
-
-    --card: 220 10% 16%;
-    --card-foreground: 40 33% 98%;
-
-    --popover: 220 10% 16%;
-    --popover-foreground: 40 33% 98%;
-
-    --primary: 220 10% 80%;
-    --primary-foreground: 220 10% 20%;
-
-    --secondary: 220 10% 24%;
-    --secondary-foreground: 40 33% 98%;
-
-    --muted: 220 10% 20%;
-    --muted-foreground: 220 10% 65%;
-
-    --accent: 30 94% 45%;
-    --accent-foreground: 40 33% 98%;
-
+    --background: 0 0% 3.9%;
+    --foreground: 0 0% 98%;
+    --card: 0 0% 3.9%;
+    --card-foreground: 0 0% 98%;
+    --popover: 0 0% 3.9%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 0 0% 98%;
+    --primary-foreground: 0 0% 9%;
+    --secondary: 0 0% 14.9%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 0 0% 14.9%;
+    --muted-foreground: 0 0% 63.9%;
+    --accent: 0 0% 14.9%;
+    --accent-foreground: 0 0% 98%;
     --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 40 33% 98%;
-
-    --border: 220 10% 30%;
-    --input: 220 10% 30%;
-    --ring: 220 10% 65%;
-    
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 14.9%;
+    --input: 0 0% 14.9%;
+    --ring: 0 0% 83.1%;
+    --chart-1: 220 70% 50%;
+    --chart-2: 160 60% 45%;
+    --chart-3: 30 80% 55%;
+    --chart-4: 280 65% 60%;
+    --chart-5: 340 75% 55%;
   }
 }
 
@@ -91,68 +65,62 @@
   * {
     @apply border-border;
   }
-
   body {
-    @apply bg-doodle-paper text-foreground antialiased;
+    @apply bg-white text-foreground font-sans;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background-color: #ffffff;
+    color: #0a0a0a;
   }
 }
 
 @layer components {
-  .doodle-container {
-    @apply relative;
+  /* Vercel风格的容器 */
+  .vercel-container {
+    @apply max-w-7xl mx-auto px-6;
   }
+  
+  /* Vercel风格的标题 */
+  .vercel-heading {
+    @apply text-gray-900 font-semibold tracking-tight;
+  }
+  
+  /* Vercel风格的按钮 */
+  .vercel-button {
+    @apply inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors;
+    @apply bg-gray-900 text-white hover:bg-gray-800;
+    @apply h-10 px-4 py-2;
+  }
+  
+  .vercel-button-outline {
+    @apply inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors;
+    @apply border border-gray-300 bg-white text-gray-900 hover:bg-gray-50;
+    @apply h-10 px-4 py-2;
+  }
+  
+  /* Vercel风格的卡片 */
+  .vercel-card {
+    @apply bg-white border border-gray-200 rounded-lg;
+    @apply hover:border-gray-300 hover:shadow-sm transition-all duration-200;
+  }
+  
+  /* Vercel风格的导航 */
+  .vercel-nav {
+    @apply bg-white border-b border-gray-200;
+  }
+  
+  /* 渐变文字效果 */
+  .gradient-text {
+    @apply bg-gradient-to-r from-gray-900 to-gray-600 bg-clip-text text-transparent;
+  }
+  
+  /* 移除旧的残酷主义样式 */
+  .gradient-brutal-text {
+    @apply text-gray-900;
+  }
+}
 
-  .doodle-container::before {
-    content: "";
-    @apply absolute inset-0 bg-doodle-paper border-[3px] border-doodle-pencil border-opacity-70 rounded-md -rotate-1 -z-10;
-  }
-  
-  .doodle-frame {
-    @apply relative border-[3px] border-doodle-pencil border-opacity-80 rounded-md p-4 bg-white overflow-hidden;
-    box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.1);
-  }
-
-  .doodle-frame::before {
-    content: "";
-    @apply absolute top-0 left-0 right-0 bottom-0 bg-paper-texture opacity-50 pointer-events-none;
-  }
-  
-  .notebook-paper {
-    @apply relative bg-doodle-notebook rounded-md p-6;
-    background-image: linear-gradient(#E8EBF4 1px, transparent 1px);
-    background-size: 100% 32px;
-  }
-  
-  .notebook-paper::before {
-    content: "";
-    @apply absolute top-0 bottom-0 left-[40px] w-[1px] bg-doodle-accent bg-opacity-30;
-  }
-  
-  .wavy-divider {
-    @apply relative h-[25px] my-8 overflow-hidden;
-  }
-  
-  .wavy-divider::before {
-    content: "";
-    @apply absolute w-full h-[25px] bg-transparent;
-    background-image: url("data:image/svg+xml,%3Csvg width='100' height='25' viewBox='0 0 100 25' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 25C20 10, 30 25, 50 15S70 0, 100 15V25z' fill='%236B6B6B' fill-opacity='0.2'/%3E%3C/svg%3E");
-    background-size: 100px 25px;
-    background-repeat: repeat-x;
-  }
-
-  .pencil-btn {
-    @apply relative px-6 py-2 font-handwritten text-lg transition-transform bg-white hover:scale-105;
-    box-shadow: 1px 1px 0 rgba(0, 0, 0, 0.2);
-  }
-
-  .pencil-btn::before {
-    content: "";
-    @apply absolute inset-0 border-2 border-doodle-pencil rounded-md -z-10;
-    box-shadow: 1px 1px 0 rgba(0, 0, 0, 0.05);
-  }
-  
-  .pencil-btn::after {
-    content: "";
-    @apply absolute -bottom-[2px] -right-[2px] -left-[2px] h-[6px] bg-doodle-highlight rounded-b-md -z-20;
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
   }
 }

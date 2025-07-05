@@ -2,11 +2,11 @@ import React from 'react';
 import Header from '../components/Header';
 import { motion } from 'framer-motion';
 import WavyDivider from '../components/WavyDivider';
-import { useTranslation } from 'react-i18next';
+import { useI18n } from '../hooks/useI18n';
 import Footer from "@/components/Footer";
 
 const About = () => {
-  const { t } = useTranslation();
+  const { t } = useI18n();
   
   return (
     <div className="min-h-screen">

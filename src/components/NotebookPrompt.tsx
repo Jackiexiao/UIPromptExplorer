@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Copy, Check } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { motion } from 'framer-motion';
-import { useTranslation } from 'react-i18next';
+import { useI18n } from '../hooks/useI18n';
 
 interface NotebookPromptProps {
   prompt: string;
@@ -11,7 +11,7 @@ interface NotebookPromptProps {
 
 const NotebookPrompt: React.FC<NotebookPromptProps> = ({ prompt, className }) => {
   const [copied, setCopied] = useState(false);
-  const { t } = useTranslation();
+  const { t } = useI18n();
 
   const copyToClipboard = () => {
     navigator.clipboard.writeText(prompt);
@@ -20,36 +20,30 @@ const NotebookPrompt: React.FC<NotebookPromptProps> = ({ prompt, className }) =>
   };
 
   return (
-    <div className={cn("notebook-paper relative", className)}>
-      <div className="absolute top-0 left-0 h-6 w-full bg-doodle-blue bg-opacity-20">
-        <div className="flex">
-          <div className="h-6 w-6 rounded-full bg-doodle-accent m-[3px]"></div>
-          <div className="h-6 w-6 rounded-full bg-doodle-green m-[3px]"></div>
-          <div className="h-6 w-6 rounded-full bg-doodle-highlight m-[3px]"></div>
-        </div>
+    <div className={cn("bg-white border border-gray-200 rounded-lg p-6 shadow-sm relative", className)}>
+      <div className="flex items-center justify-between mb-4">
+        <h3 className="text-lg font-semibold text-gray-900">{t('themeDetail.themePrompt')}</h3>
+        <button
+          onClick={copyToClipboard}
+          className="p-2 text-gray-600 hover:text-gray-900 transition-colors"
+          title={t('themeDetail.copyPrompt')}
+        >
+          {copied ? (
+            <Check className="h-5 w-5 text-green-600" />
+          ) : (
+            <Copy className="h-5 w-5" />
+          )}
+        </button>
       </div>
       
       <motion.div
-        className="mt-6 pl-6 font-sketch"
+        className="text-gray-700"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.2 }}
       >
-        <h3 className="text-lg font-handwritten mb-4">{t('themeDetail.themePrompt')}</h3>
         <p>{prompt}</p>
       </motion.div>
-      
-      <button
-        onClick={copyToClipboard}
-        className="absolute top-16 right-3 p-2 text-doodle-pencil hover:text-doodle-accent transition-colors"
-        title={t('themeDetail.copyPrompt')}
-      >
-        {copied ? (
-          <Check className="h-5 w-5 text-doodle-green" />
-        ) : (
-          <Copy className="h-5 w-5" />
-        )}
-      </button>
     </div>
   );
 };
