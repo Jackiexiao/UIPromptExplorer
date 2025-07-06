@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { loadStylesConfig } from '../data/stylesLoader';
-import { ChevronDown, ChevronUp, Eye, Code, Copy, Heart, Share2, ExternalLink, Palette, Sparkles, Star, Monitor, Smartphone, Tablet } from 'lucide-react';
+import { ChevronDown, ChevronUp, Eye, Code, Copy, Heart, Share2, ExternalLink, Palette, Sparkles, Star, Monitor, Smartphone, Tablet, ChevronLeft, ChevronRight } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useI18n } from '../hooks/useI18n';
 import { getStyleNameInChinese, getCharacteristicInChinese } from '../utils/styleTranslations';
@@ -38,6 +38,14 @@ export function StyleShowcase({ className = '' }: StyleShowcaseProps) {
   const [viewMode, setViewMode] = useState<'cards' | 'detailed'>('cards');
   const [previewMode, setPreviewMode] = useState<'desktop' | 'tablet' | 'mobile'>('desktop');
   const [favorites, setFavorites] = useState<Set<string>>(new Set());
+  
+  // 分页相关状态
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 9;
+  
+  // 添加ref用于滚动定位
+  const showcaseRef = useRef<HTMLDivElement>(null);
+  
   const { t } = useI18n();
 
   useEffect(() => {
@@ -59,6 +67,11 @@ export function StyleShowcase({ className = '' }: StyleShowcaseProps) {
     });
   }, []);
 
+  // 分类变化时重置到第一页
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [selectedCategory]);
+
   const handleStyleClick = (style: StyleConfig) => {
     setSelectedStyle(style);
     // 切换展开状态：如果点击的是当前展开的风格，则收起；否则展开新的风格
@@ -68,6 +81,25 @@ export function StyleShowcase({ className = '' }: StyleShowcaseProps) {
   const filteredStyles = selectedCategory === 'all' 
     ? styles 
     : styles.filter(style => style.category === selectedCategory);
+
+  // 分页计算
+  const totalPages = Math.ceil(filteredStyles.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const currentStyles = filteredStyles.slice(startIndex, endIndex);
+
+  const handlePageChange = (page: number) => {
+    if (page >= 1 && page <= totalPages) {
+      setCurrentPage(page);
+      // 滚动到设计风格栏目的顶部，而不是整个页面顶部
+      if (showcaseRef.current) {
+        showcaseRef.current.scrollIntoView({ 
+          behavior: 'smooth',
+          block: 'start'
+        });
+      }
+    }
+  };
 
   const copyPrompt = (prompt: string) => {
     navigator.clipboard.writeText(prompt);
@@ -101,6 +133,91 @@ export function StyleShowcase({ className = '' }: StyleShowcaseProps) {
     }
   };
 
+  // 分页导航组件
+  const PaginationControls = () => {
+    if (totalPages <= 1) return null;
+
+    const getPageNumbers = () => {
+      const pages = [];
+      const maxVisible = 5;
+      
+      if (totalPages <= maxVisible) {
+        // 如果总页数少于最大显示数，显示所有页码
+        for (let i = 1; i <= totalPages; i++) {
+          pages.push(i);
+        }
+      } else {
+        // 复杂的分页逻辑
+        if (currentPage <= 3) {
+          // 当前页在前3页
+          pages.push(1, 2, 3, 4, 5);
+        } else if (currentPage >= totalPages - 2) {
+          // 当前页在后3页
+          pages.push(totalPages - 4, totalPages - 3, totalPages - 2, totalPages - 1, totalPages);
+        } else {
+          // 当前页在中间
+          pages.push(currentPage - 2, currentPage - 1, currentPage, currentPage + 1, currentPage + 2);
+        }
+      }
+      
+      return pages;
+    };
+
+    return (
+      <div className="flex items-center justify-between p-6 bg-gray-50 border-t border-gray-200">
+        <div className="flex items-center gap-2 text-sm text-gray-600">
+          <span>
+            显示 {startIndex + 1}-{Math.min(endIndex, filteredStyles.length)} 
+            项，共 {filteredStyles.length} 项
+          </span>
+        </div>
+        
+        <div className="flex items-center gap-2">
+          {/* 上一页按钮 */}
+          <button
+            onClick={() => handlePageChange(currentPage - 1)}
+            disabled={currentPage === 1}
+            className={`p-2 rounded-lg border transition-colors ${
+              currentPage === 1
+                ? 'border-gray-200 text-gray-400 cursor-not-allowed'
+                : 'border-gray-300 text-gray-600 hover:bg-gray-100'
+            }`}
+          >
+            <ChevronLeft className="w-4 h-4" />
+          </button>
+          
+          {/* 页码按钮 */}
+          {getPageNumbers().map((page, index) => (
+            <button
+              key={index}
+              onClick={() => handlePageChange(page)}
+              className={`px-3 py-2 rounded-lg border transition-colors ${
+                currentPage === page
+                  ? 'border-blue-500 bg-blue-500 text-white'
+                  : 'border-gray-300 text-gray-600 hover:bg-gray-100'
+              }`}
+            >
+              {page}
+            </button>
+          ))}
+          
+          {/* 下一页按钮 */}
+          <button
+            onClick={() => handlePageChange(currentPage + 1)}
+            disabled={currentPage === totalPages}
+            className={`p-2 rounded-lg border transition-colors ${
+              currentPage === totalPages
+                ? 'border-gray-200 text-gray-400 cursor-not-allowed'
+                : 'border-gray-300 text-gray-600 hover:bg-gray-100'
+            }`}
+          >
+            <ChevronRight className="w-4 h-4" />
+          </button>
+        </div>
+      </div>
+    );
+  };
+
   if (loading) {
     return (
       <div className={`flex items-center justify-center min-h-96 ${className}`}>
@@ -117,7 +234,7 @@ export function StyleShowcase({ className = '' }: StyleShowcaseProps) {
   }
 
   return (
-    <div className={`bg-white rounded-2xl shadow-xl overflow-hidden ${className}`}>
+    <div ref={showcaseRef} className={`bg-white rounded-2xl shadow-xl overflow-hidden ${className}`}>
       {/* 顶部控制栏 */}
       <div className="p-6 bg-gradient-to-r from-blue-50 to-purple-50 border-b border-gray-100">
         <div className="flex items-center justify-between mb-4">
@@ -127,7 +244,9 @@ export function StyleShowcase({ className = '' }: StyleShowcaseProps) {
             </div>
             <div>
               <h3 className="font-bold text-xl text-gray-900">{t('showcase.title')}</h3>
-              <p className="text-sm text-gray-600">发现完美的设计语言</p>
+              <p className="text-sm text-gray-600">
+                发现完美的设计语言 • 共 {filteredStyles.length} 个风格
+              </p>
             </div>
           </div>
           
@@ -233,8 +352,8 @@ export function StyleShowcase({ className = '' }: StyleShowcaseProps) {
       ) : viewMode === 'cards' ? (
         // 卡片式纯展示视图
         <div className="p-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-            {filteredStyles.map((style) => (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {currentStyles.map((style) => (
               <motion.div
                 key={style.id}
                 initial={{ opacity: 0, y: 20 }}
@@ -356,7 +475,7 @@ export function StyleShowcase({ className = '' }: StyleShowcaseProps) {
           {/* 左侧样式选择器 */}
           <div className="w-80 border-r border-gray-200 flex flex-col">
             <div className="flex-1 overflow-y-auto custom-scrollbar">
-              {filteredStyles.map((style) => (
+              {currentStyles.map((style) => (
                 <div key={style.id} className="border-b border-gray-100">
                   <div
                     className={`p-4 cursor-pointer transition-colors ${
@@ -541,6 +660,9 @@ export function StyleShowcase({ className = '' }: StyleShowcaseProps) {
           </div>
         </div>
       )}
+      
+      {/* 分页导航 */}
+      <PaginationControls />
     </div>
   );
 } 
