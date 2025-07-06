@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Industrial Control Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&family=JetBrains+Mono:wght@400;700&display=swap');
+    
+    body {
+      background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+      color: #e0e0e0;
+      font-family: 'Roboto Condensed', sans-serif;
+      position: relative;
+    }
+    
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: 
+        radial-gradient(circle at 20% 50%, rgba(255, 140, 0, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(255, 140, 0, 0.05) 0%, transparent 50%),
+        linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.2) 100%);
+      pointer-events: none;
+      z-index: -1;
+    }
+    
+    .industrial-nav {
+      background: linear-gradient(135deg, #333333 0%, #1a1a1a 100%);
+      border-bottom: 3px solid #ff8c00;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    }
+    
+    .industrial-sidebar {
+      background: linear-gradient(180deg, #2d2d2d 0%, #1a1a1a 100%);
+      border-right: 2px solid #444444;
+      box-shadow: 4px 0 15px rgba(0, 0, 0, 0.3);
+    }
+    
+    .industrial-card {
+      background: linear-gradient(135deg, #333333 0%, #2d2d2d 100%);
+      border: 2px solid #444444;
+      border-radius: 8px;
+      box-shadow: 
+        inset 0 1px 0 rgba(255, 255, 255, 0.1),
+        0 4px 15px rgba(0, 0, 0, 0.3);
+      transition: all 0.3s ease;
+      position: relative;
+    }
+    
+    .industrial-card::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, #ff8c00, transparent);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    
+    .industrial-card:hover {
+      border-color: #ff8c00;
+      box-shadow: 
+        inset 0 1px 0 rgba(255, 255, 255, 0.2),
+        0 6px 25px rgba(255, 140, 0, 0.2);
+      transform: translateY(-2px);
+    }
+    
+    .industrial-card:hover::after {
+      opacity: 1;
+    }
+    
+    .industrial-button {
+      background: linear-gradient(135deg, #ff8c00 0%, #e67e00 100%);
+      color: #000;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 4px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      transition: all 0.3s ease;
+      box-shadow: 
+        inset 0 1px 0 rgba(255, 255, 255, 0.3),
+        0 3px 10px rgba(255, 140, 0, 0.3);
+    }
+    
+    .industrial-button:hover {
+      background: linear-gradient(135deg, #e67e00 0%, #cc7000 100%);
+      transform: translateY(-1px);
+      box-shadow: 
+        inset 0 1px 0 rgba(255, 255, 255, 0.4),
+        0 5px 15px rgba(255, 140, 0, 0.4);
+    }
+    
+    .metric-display {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: #ff8c00;
+      font-family: 'JetBrains Mono', monospace;
+      text-shadow: 0 0 10px rgba(255, 140, 0, 0.5);
+    }
+    
+    .status-indicator {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      display: inline-block;
+      margin-right: 8px;
+      box-shadow: 0 0 8px currentColor;
+    }
+    
+    .status-online { background: #00ff00; color: #00ff00; }
+    .status-warning { background: #ffff00; color: #ffff00; }
+    .status-offline { background: #ff0000; color: #ff0000; }
+    
+    .industrial-progress {
+      background: #1a1a1a;
+      height: 8px;
+      border-radius: 0;
+      border: 1px solid #444444;
+      overflow: hidden;
+    }
+    
+    .industrial-progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #ff8c00, #ffaa33);
+      transition: width 0.8s ease;
+      box-shadow: 0 0 10px rgba(255, 140, 0, 0.5);
+    }
+    
+    .sidebar-item {
+      padding: 1rem 1.5rem;
+      border-radius: 4px;
+      margin: 0.25rem 0;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      border: 1px solid transparent;
+    }
+    
+    .sidebar-item:hover {
+      background: rgba(255, 140, 0, 0.1);
+      border-color: #ff8c00;
+      color: #ff8c00;
+    }
+    
+    .sidebar-item.active {
+      background: linear-gradient(135deg, #ff8c00 0%, #e67e00 100%);
+      color: #000;
+      font-weight: 700;
+    }
+    
+    .equipment-card {
+      background: #2d2d2d;
+      border: 1px solid #444444;
+      border-radius: 4px;
+      padding: 1rem;
+      margin: 0.5rem 0;
+      transition: all 0.3s ease;
+    }
+    
+    .equipment-card:hover {
+      border-color: #ff8c00;
+      background: #333333;
+    }
+    
+    .chart-bar-industrial {
+      background: linear-gradient(135deg, #ff8c00 0%, #ffaa33 100%);
+      border-radius: 0;
+      transition: all 0.3s ease;
+      border: 1px solid #444444;
+    }
+    
+    .chart-bar-industrial:hover {
+      background: linear-gradient(135deg, #ffaa33 0%, #ff8c00 100%);
+      box-shadow: 0 0 15px rgba(255, 140, 0, 0.6);
+    }
+    
+    .warning-light {
+      animation: blink 2s infinite;
+    }
+    
+    @keyframes blink {
+      0%, 50% { opacity: 1; }
+      51%, 100% { opacity: 0.3; }
+    }
+    
+    .industrial-badge {
+      background: #333333;
+      color: #ff8c00;
+      padding: 0.25rem 0.75rem;
+      border-radius: 0;
+      border: 1px solid #ff8c00;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+    
+    .temperature-gauge {
+      position: relative;
+      width: 100px;
+      height: 100px;
+      border: 3px solid #444444;
+      border-radius: 50%;
+      background: radial-gradient(circle, #2d2d2d 0%, #1a1a1a 100%);
+    }
+    
+    .temperature-gauge::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 4px;
+      height: 35px;
+      background: #ff8c00;
+      transform-origin: bottom;
+      transform: translate(-50%, -100%) rotate(45deg);
+      border-radius: 2px;
+      box-shadow: 0 0 8px rgba(255, 140, 0, 0.8);
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="industrial-nav text-white p-4">
+    <div class="container mx-auto flex justify-between items-center">
+      <div class="flex items-center space-x-4">
+        <i class="fas fa-industry text-2xl text-orange-500"></i>
+        <div>
+          <h1 class="text-xl font-bold">FACTORY CONTROL</h1>
+          <p class="text-sm opacity-80">Industrial Management System</p>
+        </div>
+      </div>
+      <div class="flex items-center space-x-6">
+        <div class="text-center">
+          <p class="text-xs opacity-60">SHIFT</p>
+          <p class="text-lg font-bold text-orange-500">A</p>
+        </div>
+        <div class="text-center">
+          <p class="text-xs opacity-60">TEMP</p>
+          <p class="text-lg font-bold text-orange-500">24°C</p>
+        </div>
+        <button class="hover:text-orange-400 transition">
+          <i class="fas fa-bell warning-light"></i>
+        </button>
+        <div class="flex items-center space-x-3">
+          <div class="w-8 h-8 bg-gradient-to-r from-orange-500 to-yellow-600 rounded-full"></div>
+          <div>
+            <p class="text-sm font-medium">SUPERVISOR</p>
+            <span class="industrial-badge">LEVEL 5</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="flex">
+    <!-- Sidebar -->
+    <aside class="industrial-sidebar w-64 min-h-screen p-6">
+      <div class="space-y-2">
+        <div class="sidebar-item active">
+          <div class="flex items-center space-x-3">
+            <i class="fas fa-tachometer-alt"></i>
+            <span>OVERVIEW</span>
+          </div>
+        </div>
+        <div class="sidebar-item">
+          <div class="flex items-center space-x-3">
+            <i class="fas fa-cogs"></i>
+            <span>EQUIPMENT</span>
+          </div>
+        </div>
+        <div class="sidebar-item">
+          <div class="flex items-center space-x-3">
+            <i class="fas fa-chart-line"></i>
+            <span>PRODUCTION</span>
+          </div>
+        </div>
+        <div class="sidebar-item">
+          <div class="flex items-center space-x-3">
+            <i class="fas fa-exclamation-triangle"></i>
+            <span>ALERTS</span>
+          </div>
+        </div>
+        <div class="sidebar-item">
+          <div class="flex items-center space-x-3">
+            <i class="fas fa-wrench"></i>
+            <span>MAINTENANCE</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="mt-8 industrial-card p-4">
+        <h3 class="font-semibold mb-3 text-orange-500">SYSTEM STATUS</h3>
+        <div class="space-y-3">
+          <div class="flex items-center justify-between">
+            <span class="text-sm">POWER LOAD</span>
+            <span class="text-xs text-orange-500">87%</span>
+          </div>
+          <div class="industrial-progress">
+            <div class="industrial-progress-fill" style="width: 87%"></div>
+          </div>
+          <div class="flex items-center justify-between">
+            <span class="text-sm">EFFICIENCY</span>
+            <span class="text-xs text-orange-500">94%</span>
+          </div>
+          <div class="industrial-progress">
+            <div class="industrial-progress-fill" style="width: 94%"></div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 p-8">
+      <div class="container mx-auto">
+        <!-- Header -->
+        <div class="mb-8">
+          <h2 class="text-3xl font-bold mb-2">PRODUCTION CONTROL CENTER</h2>
+          <p class="text-gray-400">Real-time monitoring and control of industrial operations</p>
+        </div>
+
+        <!-- Key Metrics -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+          <div class="industrial-card p-6 text-center">
+            <div class="flex items-center justify-center mb-4">
+              <i class="fas fa-microchip text-3xl text-orange-500"></i>
+            </div>
+            <div class="metric-display">1,247</div>
+            <h3 class="font-semibold text-gray-300">Units/Hour</h3>
+            <div class="industrial-progress mt-3">
+              <div class="industrial-progress-fill" style="width: 82%"></div>
+            </div>
+          </div>
+          
+          <div class="industrial-card p-6 text-center">
+            <div class="flex items-center justify-center mb-4">
+              <div class="temperature-gauge"></div>
+            </div>
+            <div class="metric-display">78°C</div>
+            <h3 class="font-semibold text-gray-300">Core Temp</h3>
+            <div class="industrial-progress mt-3">
+              <div class="industrial-progress-fill" style="width: 65%"></div>
+            </div>
+          </div>
+          
+          <div class="industrial-card p-6 text-center">
+            <div class="flex items-center justify-center mb-4">
+              <i class="fas fa-bolt text-3xl text-yellow-500"></i>
+            </div>
+            <div class="metric-display">2.4MW</div>
+            <h3 class="font-semibold text-gray-300">Power Draw</h3>
+            <div class="industrial-progress mt-3">
+              <div class="industrial-progress-fill" style="width: 75%"></div>
+            </div>
+          </div>
+          
+          <div class="industrial-card p-6 text-center">
+            <div class="flex items-center justify-center mb-4">
+              <i class="fas fa-exclamation-triangle text-3xl text-red-500 warning-light"></i>
+            </div>
+            <div class="metric-display">2</div>
+            <h3 class="font-semibold text-gray-300">Active Alerts</h3>
+            <div class="industrial-progress mt-3">
+              <div class="industrial-progress-fill" style="width: 20%"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Charts and Equipment -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+          <div class="industrial-card p-6">
+            <h3 class="text-xl font-semibold mb-6 text-orange-500">PRODUCTION OUTPUT</h3>
+            <div class="h-64 flex items-end justify-between px-4">
+              <div class="chart-bar-industrial w-16 h-48"></div>
+              <div class="chart-bar-industrial w-16 h-32"></div>
+              <div class="chart-bar-industrial w-16 h-56"></div>
+              <div class="chart-bar-industrial w-16 h-40"></div>
+              <div class="chart-bar-industrial w-16 h-44"></div>
+              <div class="chart-bar-industrial w-16 h-36"></div>
+              <div class="chart-bar-industrial w-16 h-52"></div>
+            </div>
+          </div>
+          
+          <div class="industrial-card p-6">
+            <h3 class="text-xl font-semibold mb-6 text-orange-500">EQUIPMENT STATUS</h3>
+            <div class="space-y-4">
+              <div class="equipment-card">
+                <div class="flex items-center justify-between">
+                  <div class="flex items-center space-x-3">
+                    <span class="status-indicator status-online"></span>
+                    <div>
+                      <p class="font-medium">CONVEYOR LINE A</p>
+                      <p class="text-sm text-gray-400">Running at 95% capacity</p>
+                    </div>
+                  </div>
+                  <span class="industrial-badge">ONLINE</span>
+                </div>
+              </div>
+              
+              <div class="equipment-card">
+                <div class="flex items-center justify-between">
+                  <div class="flex items-center space-x-3">
+                    <span class="status-indicator status-warning"></span>
+                    <div>
+                      <p class="font-medium">ASSEMBLY UNIT B</p>
+                      <p class="text-sm text-gray-400">Maintenance required</p>
+                    </div>
+                  </div>
+                  <span class="industrial-badge">WARNING</span>
+                </div>
+              </div>
+              
+              <div class="equipment-card">
+                <div class="flex items-center justify-between">
+                  <div class="flex items-center space-x-3">
+                    <span class="status-indicator status-offline"></span>
+                    <div>
+                      <p class="font-medium">QUALITY CONTROL</p>
+                      <p class="text-sm text-gray-400">Scheduled maintenance</p>
+                    </div>
+                  </div>
+                  <span class="industrial-badge">OFFLINE</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="flex justify-center space-x-4">
+          <button class="industrial-button">
+            <i class="fas fa-play mr-2"></i>
+            START PRODUCTION
+          </button>
+          <button class="industrial-button">
+            <i class="fas fa-pause mr-2"></i>
+            PAUSE LINE
+          </button>
+          <button class="industrial-button">
+            <i class="fas fa-stop mr-2"></i>
+            EMERGENCY STOP
+          </button>
+        </div>
+      </div>
+    </main>
+  </div>
+</body>
+</html> 

@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Medical Clinical Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+    
+    body {
+      background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+      color: #0c4a6e;
+      font-family: 'Inter', sans-serif;
+      line-height: 1.6;
+    }
+    
+    .medical-nav {
+      background: linear-gradient(135deg, #0891b2 0%, #0e7490 100%);
+      box-shadow: 0 4px 12px rgba(8, 145, 178, 0.2);
+    }
+    
+    .medical-sidebar {
+      background: #ffffff;
+      border-right: 1px solid #e0f2fe;
+      box-shadow: 2px 0 8px rgba(0, 0, 0, 0.05);
+    }
+    
+    .medical-card {
+      background: #ffffff;
+      border: 1px solid #e0f2fe;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+      transition: all 0.3s ease;
+    }
+    
+    .medical-card:hover {
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+      transform: translateY(-2px);
+    }
+    
+    .medical-button {
+      background: linear-gradient(135deg, #0891b2 0%, #0e7490 100%);
+      color: white;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 8px;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+    
+    .medical-button:hover {
+      background: linear-gradient(135deg, #0e7490 0%, #155e75 100%);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(8, 145, 178, 0.3);
+    }
+    
+    .vital-display {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: #0891b2;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    
+    .status-indicator {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      display: inline-block;
+      margin-right: 8px;
+    }
+    
+    .status-normal { background: #10b981; }
+    .status-warning { background: #f59e0b; }
+    .status-critical { background: #ef4444; }
+    
+    .progress-medical {
+      background: #e0f2fe;
+      height: 6px;
+      border-radius: 3px;
+      overflow: hidden;
+    }
+    
+    .progress-medical-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #0891b2, #06b6d4);
+      transition: width 0.8s ease;
+    }
+    
+    .sidebar-item {
+      padding: 1rem 1.5rem;
+      border-radius: 8px;
+      margin: 0.25rem 0;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+    
+    .sidebar-item:hover {
+      background: #f0f9ff;
+      color: #0891b2;
+    }
+    
+    .sidebar-item.active {
+      background: linear-gradient(135deg, #0891b2 0%, #0e7490 100%);
+      color: white;
+    }
+    
+    .patient-card {
+      background: #ffffff;
+      border: 1px solid #e0f2fe;
+      border-radius: 8px;
+      padding: 1rem;
+      margin: 0.5rem 0;
+      transition: all 0.3s ease;
+    }
+    
+    .patient-card:hover {
+      border-color: #0891b2;
+      box-shadow: 0 2px 8px rgba(8, 145, 178, 0.1);
+    }
+    
+    .chart-bar-medical {
+      background: linear-gradient(135deg, #0891b2 0%, #06b6d4 100%);
+      border-radius: 4px 4px 0 0;
+      transition: all 0.3s ease;
+    }
+    
+    .heartbeat {
+      animation: heartbeat 1.5s ease-in-out infinite;
+    }
+    
+    @keyframes heartbeat {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+    
+    .medical-badge {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      color: white;
+      padding: 0.25rem 0.75rem;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 500;
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="medical-nav text-white p-4">
+    <div class="container mx-auto flex justify-between items-center">
+      <div class="flex items-center space-x-4">
+        <i class="fas fa-heartbeat text-2xl"></i>
+        <div>
+          <h1 class="text-xl font-bold">MedCore System</h1>
+          <p class="text-sm opacity-80">Clinical Management Platform</p>
+        </div>
+      </div>
+      <div class="flex items-center space-x-6">
+        <button class="hover:text-cyan-200 transition">
+          <i class="fas fa-bell"></i>
+        </button>
+        <div class="flex items-center space-x-3">
+          <div class="w-8 h-8 bg-gradient-to-r from-cyan-400 to-blue-500 rounded-full"></div>
+          <div>
+            <p class="text-sm font-medium">Dr. Sarah Johnson</p>
+            <span class="medical-badge">Cardiologist</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="flex">
+    <!-- Sidebar -->
+    <aside class="medical-sidebar w-64 min-h-screen p-6">
+      <div class="space-y-2">
+        <div class="sidebar-item active">
+          <div class="flex items-center space-x-3">
+            <i class="fas fa-tachometer-alt"></i>
+            <span>Dashboard</span>
+          </div>
+        </div>
+        <div class="sidebar-item">
+          <div class="flex items-center space-x-3">
+            <i class="fas fa-user-injured"></i>
+            <span>Patients</span>
+          </div>
+        </div>
+        <div class="sidebar-item">
+          <div class="flex items-center space-x-3">
+            <i class="fas fa-calendar-check"></i>
+            <span>Appointments</span>
+          </div>
+        </div>
+        <div class="sidebar-item">
+          <div class="flex items-center space-x-3">
+            <i class="fas fa-prescription-bottle"></i>
+            <span>Prescriptions</span>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 p-8">
+      <div class="container mx-auto">
+        <!-- Header -->
+        <div class="mb-8">
+          <h2 class="text-3xl font-bold mb-2">Clinical Dashboard</h2>
+          <p class="text-gray-600">Real-time patient monitoring and care management</p>
+        </div>
+
+        <!-- Key Metrics -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+          <div class="medical-card p-6 text-center">
+            <div class="flex items-center justify-center mb-4">
+              <i class="fas fa-heartbeat text-3xl text-red-500 heartbeat"></i>
+            </div>
+            <div class="vital-display">247</div>
+            <h3 class="font-semibold text-gray-700">Active Patients</h3>
+            <div class="progress-medical mt-3">
+              <div class="progress-medical-fill" style="width: 82%"></div>
+            </div>
+          </div>
+          
+          <div class="medical-card p-6 text-center">
+            <div class="flex items-center justify-center mb-4">
+              <i class="fas fa-user-md text-3xl text-blue-500"></i>
+            </div>
+            <div class="vital-display">34</div>
+            <h3 class="font-semibold text-gray-700">On-Duty Staff</h3>
+            <div class="progress-medical mt-3">
+              <div class="progress-medical-fill" style="width: 95%"></div>
+            </div>
+          </div>
+          
+          <div class="medical-card p-6 text-center">
+            <div class="flex items-center justify-center mb-4">
+              <i class="fas fa-clock text-3xl text-orange-500"></i>
+            </div>
+            <div class="vital-display">12</div>
+            <h3 class="font-semibold text-gray-700">Pending Surgeries</h3>
+            <div class="progress-medical mt-3">
+              <div class="progress-medical-fill" style="width: 60%"></div>
+            </div>
+          </div>
+          
+          <div class="medical-card p-6 text-center">
+            <div class="flex items-center justify-center mb-4">
+              <i class="fas fa-exclamation-triangle text-3xl text-red-500"></i>
+            </div>
+            <div class="vital-display">3</div>
+            <h3 class="font-semibold text-gray-700">Critical Alerts</h3>
+            <div class="progress-medical mt-3">
+              <div class="progress-medical-fill" style="width: 25%"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Charts -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+          <div class="medical-card p-6">
+            <h3 class="text-xl font-semibold mb-6">Department Status</h3>
+            <div class="h-64 flex items-end justify-between px-4">
+              <div class="chart-bar-medical w-16 h-48"></div>
+              <div class="chart-bar-medical w-16 h-32"></div>
+              <div class="chart-bar-medical w-16 h-40"></div>
+              <div class="chart-bar-medical w-16 h-24"></div>
+              <div class="chart-bar-medical w-16 h-36"></div>
+            </div>
+          </div>
+          
+          <div class="medical-card p-6">
+            <h3 class="text-xl font-semibold mb-6">Recent Patients</h3>
+            <div class="space-y-4">
+              <div class="patient-card">
+                <div class="flex items-center justify-between">
+                  <div class="flex items-center space-x-3">
+                    <span class="status-indicator status-critical"></span>
+                    <div>
+                      <p class="font-medium">John Smith</p>
+                      <p class="text-sm text-gray-500">Room 302 - Critical</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="patient-card">
+                <div class="flex items-center justify-between">
+                  <div class="flex items-center space-x-3">
+                    <span class="status-indicator status-normal"></span>
+                    <div>
+                      <p class="font-medium">Maria Garcia</p>
+                      <p class="text-sm text-gray-500">Room 205 - Stable</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="flex justify-center space-x-4">
+          <button class="medical-button">
+            <i class="fas fa-user-plus mr-2"></i>
+            Add Patient
+          </button>
+          <button class="medical-button">
+            <i class="fas fa-calendar-plus mr-2"></i>
+            Schedule Appointment
+          </button>
+        </div>
+      </div>
+    </main>
+  </div>
+</body>
+</html> 

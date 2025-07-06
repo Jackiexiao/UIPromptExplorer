@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>E-Commerce Pro Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+    
+    body {
+      background: #fafafa;
+      color: #1a1a1a;
+      font-family: 'Inter', sans-serif;
+      line-height: 1.6;
+    }
+    
+    .ecommerce-nav {
+      background: #000000;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+    
+    .ecommerce-sidebar {
+      background: #ffffff;
+      border-right: 1px solid #e5e5e5;
+      box-shadow: 1px 0 4px rgba(0, 0, 0, 0.05);
+    }
+    
+    .ecommerce-card {
+      background: #ffffff;
+      border: 1px solid #e5e5e5;
+      border-radius: 8px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
+    }
+    
+    .ecommerce-card:hover {
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      transform: translateY(-2px);
+    }
+    
+    .ecommerce-button {
+      background: #dc2626;
+      color: white;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 6px;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+    
+    .ecommerce-button:hover {
+      background: #b91c1c;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
+    }
+    
+    .ecommerce-button.secondary {
+      background: #000000;
+      color: white;
+    }
+    
+    .ecommerce-button.secondary:hover {
+      background: #1a1a1a;
+    }
+    
+    .revenue-display {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: #1a1a1a;
+      font-variant-numeric: tabular-nums;
+    }
+    
+    .metric-change {
+      font-size: 0.875rem;
+      font-weight: 500;
+    }
+    
+    .metric-change.positive {
+      color: #059669;
+    }
+    
+    .metric-change.negative {
+      color: #dc2626;
+    }
+    
+    .progress-ecommerce {
+      background: #f5f5f5;
+      height: 6px;
+      border-radius: 3px;
+      overflow: hidden;
+    }
+    
+    .progress-ecommerce-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #dc2626, #ef4444);
+      transition: width 0.8s ease;
+    }
+    
+    .sidebar-item {
+      padding: 1rem 1.5rem;
+      border-radius: 6px;
+      margin: 0.25rem 0;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+    
+    .sidebar-item:hover {
+      background: #f5f5f5;
+      color: #1a1a1a;
+    }
+    
+    .sidebar-item.active {
+      background: #1a1a1a;
+      color: white;
+    }
+    
+    .product-item {
+      background: #ffffff;
+      border: 1px solid #e5e5e5;
+      border-radius: 6px;
+      padding: 1rem;
+      margin: 0.5rem 0;
+      transition: all 0.3s ease;
+    }
+    
+    .product-item:hover {
+      border-color: #dc2626;
+      box-shadow: 0 2px 8px rgba(220, 38, 38, 0.1);
+    }
+    
+    .chart-bar-ecommerce {
+      background: linear-gradient(135deg, #1a1a1a 0%, #404040 100%);
+      border-radius: 4px 4px 0 0;
+      transition: all 0.3s ease;
+    }
+    
+    .chart-bar-ecommerce:hover {
+      background: linear-gradient(135deg, #dc2626 0%, #ef4444 100%);
+    }
+    
+    .status-badge {
+      padding: 0.25rem 0.75rem;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.025em;
+    }
+    
+    .status-badge.active {
+      background: #d1fae5;
+      color: #059669;
+    }
+    
+    .status-badge.pending {
+      background: #fef3c7;
+      color: #d97706;
+    }
+    
+    .status-badge.inactive {
+      background: #fee2e2;
+      color: #dc2626;
+    }
+    
+    .order-card {
+      background: #ffffff;
+      border: 1px solid #e5e5e5;
+      border-radius: 6px;
+      padding: 1rem;
+      margin: 0.5rem 0;
+      transition: all 0.3s ease;
+    }
+    
+    .order-card:hover {
+      border-color: #1a1a1a;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+    
+    .metric-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+    }
+    
+    .metric-icon.sales {
+      background: #fef2f2;
+      color: #dc2626;
+    }
+    
+    .metric-icon.orders {
+      background: #f3f4f6;
+      color: #1a1a1a;
+    }
+    
+    .metric-icon.customers {
+      background: #ecfdf5;
+      color: #059669;
+    }
+    
+    .metric-icon.products {
+      background: #eff6ff;
+      color: #2563eb;
+    }
+    
+    .notification-dot {
+      width: 8px;
+      height: 8px;
+      background: #dc2626;
+      border-radius: 50%;
+      position: absolute;
+      top: -2px;
+      right: -2px;
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="ecommerce-nav text-white p-4">
+    <div class="container mx-auto flex justify-between items-center">
+      <div class="flex items-center space-x-4">
+        <i class="fas fa-shopping-bag text-2xl"></i>
+        <div>
+          <h1 class="text-xl font-bold">ShopPro</h1>
+          <p class="text-sm opacity-80">E-Commerce Analytics</p>
+        </div>
+      </div>
+      <div class="flex items-center space-x-6">
+        <div class="relative">
+          <button class="hover:text-gray-300 transition">
+            <i class="fas fa-bell text-lg"></i>
+          </button>
+          <div class="notification-dot"></div>
+        </div>
+        <button class="hover:text-gray-300 transition">
+          <i class="fas fa-search"></i>
+        </button>
+        <div class="flex items-center space-x-3">
+          <div class="w-8 h-8 bg-gradient-to-r from-red-500 to-red-600 rounded-full"></div>
+          <div>
+            <p class="text-sm font-medium">Alex Chen</p>
+            <p class="text-xs opacity-70">Store Manager</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="flex">
+    <!-- Sidebar -->
+    <aside class="ecommerce-sidebar w-64 min-h-screen p-6">
+      <div class="space-y-2">
+        <div class="sidebar-item active">
+          <div class="flex items-center space-x-3">
+            <i class="fas fa-tachometer-alt"></i>
+            <span>Dashboard</span>
+          </div>
+        </div>
+        <div class="sidebar-item">
+          <div class="flex items-center space-x-3">
+            <i class="fas fa-shopping-cart"></i>
+            <span>Orders</span>
+          </div>
+        </div>
+        <div class="sidebar-item">
+          <div class="flex items-center space-x-3">
+            <i class="fas fa-box"></i>
+            <span>Products</span>
+          </div>
+        </div>
+        <div class="sidebar-item">
+          <div class="flex items-center space-x-3">
+            <i class="fas fa-users"></i>
+            <span>Customers</span>
+          </div>
+        </div>
+        <div class="sidebar-item">
+          <div class="flex items-center space-x-3">
+            <i class="fas fa-chart-line"></i>
+            <span>Analytics</span>
+          </div>
+        </div>
+        <div class="sidebar-item">
+          <div class="flex items-center space-x-3">
+            <i class="fas fa-warehouse"></i>
+            <span>Inventory</span>
+          </div>
+        </div>
+        <div class="sidebar-item">
+          <div class="flex items-center space-x-3">
+            <i class="fas fa-cog"></i>
+            <span>Settings</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="mt-8 ecommerce-card p-4">
+        <h3 class="font-semibold mb-3">Quick Actions</h3>
+        <div class="space-y-2">
+          <button class="w-full text-left p-2 hover:bg-gray-50 rounded text-sm">
+            <i class="fas fa-plus mr-2 text-red-600"></i>
+            Add Product
+          </button>
+          <button class="w-full text-left p-2 hover:bg-gray-50 rounded text-sm">
+            <i class="fas fa-edit mr-2 text-blue-600"></i>
+            Manage Orders
+          </button>
+          <button class="w-full text-left p-2 hover:bg-gray-50 rounded text-sm">
+            <i class="fas fa-download mr-2 text-green-600"></i>
+            Export Data
+          </button>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 p-8">
+      <div class="container mx-auto">
+        <!-- Header -->
+        <div class="mb-8">
+          <h2 class="text-3xl font-bold mb-2">Store Dashboard</h2>
+          <p class="text-gray-600">Monitor your e-commerce performance and growth</p>
+        </div>
+
+        <!-- Key Metrics -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+          <div class="ecommerce-card p-6">
+            <div class="metric-icon sales">
+              <i class="fas fa-dollar-sign"></i>
+            </div>
+            <div class="revenue-display">$47,592</div>
+            <h3 class="font-semibold text-gray-700 mb-2">Total Revenue</h3>
+            <div class="progress-ecommerce">
+              <div class="progress-ecommerce-fill" style="width: 78%"></div>
+            </div>
+            <p class="metric-change positive mt-2">
+              <i class="fas fa-arrow-up mr-1"></i>
+              +12.5% from last month
+            </p>
+          </div>
+          
+          <div class="ecommerce-card p-6">
+            <div class="metric-icon orders">
+              <i class="fas fa-shopping-cart"></i>
+            </div>
+            <div class="revenue-display">1,247</div>
+            <h3 class="font-semibold text-gray-700 mb-2">Total Orders</h3>
+            <div class="progress-ecommerce">
+              <div class="progress-ecommerce-fill" style="width: 85%"></div>
+            </div>
+            <p class="metric-change positive mt-2">
+              <i class="fas fa-arrow-up mr-1"></i>
+              +8.2% from last week
+            </p>
+          </div>
+          
+          <div class="ecommerce-card p-6">
+            <div class="metric-icon customers">
+              <i class="fas fa-users"></i>
+            </div>
+            <div class="revenue-display">3,892</div>
+            <h3 class="font-semibold text-gray-700 mb-2">Active Customers</h3>
+            <div class="progress-ecommerce">
+              <div class="progress-ecommerce-fill" style="width: 92%"></div>
+            </div>
+            <p class="metric-change positive mt-2">
+              <i class="fas fa-arrow-up mr-1"></i>
+              +15.7% new customers
+            </p>
+          </div>
+          
+          <div class="ecommerce-card p-6">
+            <div class="metric-icon products">
+              <i class="fas fa-box"></i>
+            </div>
+            <div class="revenue-display">456</div>
+            <h3 class="font-semibold text-gray-700 mb-2">Products</h3>
+            <div class="progress-ecommerce">
+              <div class="progress-ecommerce-fill" style="width: 65%"></div>
+            </div>
+            <p class="metric-change negative mt-2">
+              <i class="fas fa-arrow-down mr-1"></i>
+              23 out of stock
+            </p>
+          </div>
+        </div>
+
+        <!-- Charts and Tables -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+          <!-- Sales Chart -->
+          <div class="ecommerce-card p-6">
+            <h3 class="text-xl font-semibold mb-6">Weekly Sales</h3>
+            <div class="h-64 flex items-end justify-between px-4">
+              <div class="chart-bar-ecommerce w-16 h-32"></div>
+              <div class="chart-bar-ecommerce w-16 h-48"></div>
+              <div class="chart-bar-ecommerce w-16 h-36"></div>
+              <div class="chart-bar-ecommerce w-16 h-56"></div>
+              <div class="chart-bar-ecommerce w-16 h-24"></div>
+              <div class="chart-bar-ecommerce w-16 h-44"></div>
+              <div class="chart-bar-ecommerce w-16 h-52"></div>
+            </div>
+            <div class="flex justify-between text-sm text-gray-500 mt-4">
+              <span>Mon</span>
+              <span>Tue</span>
+              <span>Wed</span>
+              <span>Thu</span>
+              <span>Fri</span>
+              <span>Sat</span>
+              <span>Sun</span>
+            </div>
+          </div>
+          
+          <!-- Recent Orders -->
+          <div class="ecommerce-card p-6">
+            <h3 class="text-xl font-semibold mb-6">Recent Orders</h3>
+            <div class="space-y-4">
+              <div class="order-card">
+                <div class="flex items-center justify-between mb-2">
+                  <div>
+                    <p class="font-medium">#ORD-12847</p>
+                    <p class="text-sm text-gray-500">John Smith</p>
+                  </div>
+                  <div class="text-right">
+                    <p class="font-semibold">$249.99</p>
+                    <span class="status-badge pending">Pending</span>
+                  </div>
+                </div>
+                <p class="text-sm text-gray-600">2 items • 15 minutes ago</p>
+              </div>
+              
+              <div class="order-card">
+                <div class="flex items-center justify-between mb-2">
+                  <div>
+                    <p class="font-medium">#ORD-12846</p>
+                    <p class="text-sm text-gray-500">Sarah Johnson</p>
+                  </div>
+                  <div class="text-right">
+                    <p class="font-semibold">$89.50</p>
+                    <span class="status-badge active">Shipped</span>
+                  </div>
+                </div>
+                <p class="text-sm text-gray-600">1 item • 1 hour ago</p>
+              </div>
+              
+              <div class="order-card">
+                <div class="flex items-center justify-between mb-2">
+                  <div>
+                    <p class="font-medium">#ORD-12845</p>
+                    <p class="text-sm text-gray-500">Mike Davis</p>
+                  </div>
+                  <div class="text-right">
+                    <p class="font-semibold">$156.75</p>
+                    <span class="status-badge active">Delivered</span>
+                  </div>
+                </div>
+                <p class="text-sm text-gray-600">3 items • 2 hours ago</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Top Products -->
+        <div class="ecommerce-card p-6 mb-8">
+          <h3 class="text-xl font-semibold mb-6">Top Selling Products</h3>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="product-item">
+              <div class="flex items-center space-x-4">
+                <div class="w-16 h-16 bg-gray-200 rounded-lg flex items-center justify-center">
+                  <i class="fas fa-laptop text-gray-400 text-xl"></i>
+                </div>
+                <div class="flex-1">
+                  <h4 class="font-medium">MacBook Pro 14"</h4>
+                  <p class="text-sm text-gray-500">Electronics</p>
+                  <div class="flex items-center justify-between mt-2">
+                    <span class="font-semibold">$1,999</span>
+                    <span class="text-sm text-green-600">127 sold</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="product-item">
+              <div class="flex items-center space-x-4">
+                <div class="w-16 h-16 bg-gray-200 rounded-lg flex items-center justify-center">
+                  <i class="fas fa-headphones text-gray-400 text-xl"></i>
+                </div>
+                <div class="flex-1">
+                  <h4 class="font-medium">AirPods Pro</h4>
+                  <p class="text-sm text-gray-500">Audio</p>
+                  <div class="flex items-center justify-between mt-2">
+                    <span class="font-semibold">$249</span>
+                    <span class="text-sm text-green-600">89 sold</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="product-item">
+              <div class="flex items-center space-x-4">
+                <div class="w-16 h-16 bg-gray-200 rounded-lg flex items-center justify-center">
+                  <i class="fas fa-mobile-alt text-gray-400 text-xl"></i>
+                </div>
+                <div class="flex-1">
+                  <h4 class="font-medium">iPhone 15 Pro</h4>
+                  <p class="text-sm text-gray-500">Mobile</p>
+                  <div class="flex items-center justify-between mt-2">
+                    <span class="font-semibold">$999</span>
+                    <span class="text-sm text-green-600">156 sold</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="flex justify-center space-x-4">
+          <button class="ecommerce-button">
+            <i class="fas fa-plus mr-2"></i>
+            Add Product
+          </button>
+          <button class="ecommerce-button secondary">
+            <i class="fas fa-shopping-cart mr-2"></i>
+            Manage Orders
+          </button>
+          <button class="ecommerce-button secondary">
+            <i class="fas fa-download mr-2"></i>
+            Export Report
+          </button>
+        </div>
+      </div>
+    </main>
+  </div>
+</body>
+</html> 

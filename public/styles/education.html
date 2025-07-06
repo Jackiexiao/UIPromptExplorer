@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Education Platform Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+    
+    body {
+      background: linear-gradient(135deg, #f0f8ff 0%, #e6f3ff 100%);
+      color: #1e3a8a;
+      font-family: 'Inter', sans-serif;
+      line-height: 1.6;
+    }
+    
+    .edu-nav {
+      background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+      box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2);
+    }
+    
+    .edu-sidebar {
+      background: #ffffff;
+      border-right: 1px solid #dbeafe;
+      box-shadow: 2px 0 8px rgba(0, 0, 0, 0.05);
+    }
+    
+    .edu-card {
+      background: #ffffff;
+      border: 1px solid #dbeafe;
+      border-radius: 16px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      transition: all 0.3s ease;
+    }
+    
+    .edu-card:hover {
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+      transform: translateY(-2px);
+    }
+    
+    .edu-button {
+      background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+      color: white;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 12px;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+    
+    .edu-button:hover {
+      background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+    }
+    
+    .progress-display {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: #3b82f6;
+    }
+    
+    .progress-edu {
+      background: #dbeafe;
+      height: 8px;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    
+    .progress-edu-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #3b82f6, #60a5fa);
+      transition: width 0.8s ease;
+      border-radius: 4px;
+    }
+    
+    .sidebar-item {
+      padding: 1rem 1.5rem;
+      border-radius: 12px;
+      margin: 0.25rem 0;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+    
+    .sidebar-item:hover {
+      background: #f0f8ff;
+      color: #3b82f6;
+    }
+    
+    .sidebar-item.active {
+      background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+      color: white;
+    }
+    
+    .course-card {
+      background: #ffffff;
+      border: 1px solid #dbeafe;
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin: 1rem 0;
+      transition: all 0.3s ease;
+    }
+    
+    .course-card:hover {
+      border-color: #3b82f6;
+      box-shadow: 0 4px 16px rgba(59, 130, 246, 0.1);
+    }
+    
+    .grade-badge {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      font-size: 0.875rem;
+      font-weight: 600;
+    }
+    
+    .grade-badge.excellent {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    }
+    
+    .grade-badge.good {
+      background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+    }
+    
+    .grade-badge.needs-improvement {
+      background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+    }
+    
+    .assignment-item {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 1rem;
+      margin: 0.5rem 0;
+      transition: all 0.3s ease;
+    }
+    
+    .assignment-item:hover {
+      background: #ffffff;
+      border-color: #3b82f6;
+    }
+    
+    .chart-bar-edu {
+      background: linear-gradient(135deg, #3b82f6 0%, #60a5fa 100%);
+      border-radius: 6px 6px 0 0;
+      transition: all 0.3s ease;
+    }
+    
+    .chart-bar-edu:hover {
+      background: linear-gradient(135deg, #2563eb 0%, #3b82f6 100%);
+    }
+    
+    .student-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #3b82f6, #60a5fa);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 600;
+    }
+    
+    .notification-card {
+      background: #fef3c7;
+      border: 1px solid #f59e0b;
+      border-radius: 12px;
+      padding: 1rem;
+      margin: 1rem 0;
+    }
+    
+    .notification-card.info {
+      background: #dbeafe;
+      border-color: #3b82f6;
+    }
+    
+    .notification-card.success {
+      background: #d1fae5;
+      border-color: #10b981;
+    }
+    
+    .subject-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+    }
+    
+    .subject-icon.math {
+      background: #fef3c7;
+      color: #d97706;
+    }
+    
+    .subject-icon.science {
+      background: #dbeafe;
+      color: #3b82f6;
+    }
+    
+    .subject-icon.english {
+      background: #fce7f3;
+      color: #ec4899;
+    }
+    
+    .subject-icon.history {
+      background: #f3e8ff;
+      color: #8b5cf6;
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="edu-nav text-white p-4">
+    <div class="container mx-auto flex justify-between items-center">
+      <div class="flex items-center space-x-4">
+        <i class="fas fa-graduation-cap text-2xl"></i>
+        <div>
+          <h1 class="text-xl font-bold">EduHub</h1>
+          <p class="text-sm opacity-80">Learning Management System</p>
+        </div>
+      </div>
+      <div class="flex items-center space-x-6">
+        <button class="hover:text-blue-200 transition">
+          <i class="fas fa-search"></i>
+        </button>
+        <button class="hover:text-blue-200 transition relative">
+          <i class="fas fa-bell"></i>
+          <span class="absolute -top-2 -right-2 bg-red-500 text-xs rounded-full w-5 h-5 flex items-center justify-center">3</span>
+        </button>
+        <div class="flex items-center space-x-3">
+          <div class="w-8 h-8 bg-gradient-to-r from-blue-400 to-purple-500 rounded-full"></div>
+          <div>
+            <p class="text-sm font-medium">Emily Chen</p>
+            <p class="text-xs opacity-70">Grade 10 Student</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="flex">
+    <!-- Sidebar -->
+    <aside class="edu-sidebar w-64 min-h-screen p-6">
+      <div class="space-y-2">
+        <div class="sidebar-item active">
+          <div class="flex items-center space-x-3">
+            <i class="fas fa-home"></i>
+            <span>Dashboard</span>
+          </div>
+        </div>
+        <div class="sidebar-item">
+          <div class="flex items-center space-x-3">
+            <i class="fas fa-book"></i>
+            <span>Courses</span>
+          </div>
+        </div>
+        <div class="sidebar-item">
+          <div class="flex items-center space-x-3">
+            <i class="fas fa-tasks"></i>
+            <span>Assignments</span>
+          </div>
+        </div>
+        <div class="sidebar-item">
+          <div class="flex items-center space-x-3">
+            <i class="fas fa-chart-line"></i>
+            <span>Grades</span>
+          </div>
+        </div>
+        <div class="sidebar-item">
+          <div class="flex items-center space-x-3">
+            <i class="fas fa-calendar"></i>
+            <span>Schedule</span>
+          </div>
+        </div>
+        <div class="sidebar-item">
+          <div class="flex items-center space-x-3">
+            <i class="fas fa-users"></i>
+            <span>Classmates</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="mt-8 edu-card p-4">
+        <h3 class="font-semibold mb-3">Upcoming Events</h3>
+        <div class="space-y-3">
+          <div class="flex items-center space-x-3">
+            <div class="w-3 h-3 bg-red-500 rounded-full"></div>
+            <div>
+              <p class="text-sm font-medium">Math Quiz</p>
+              <p class="text-xs text-gray-500">Tomorrow, 2:00 PM</p>
+            </div>
+          </div>
+          <div class="flex items-center space-x-3">
+            <div class="w-3 h-3 bg-blue-500 rounded-full"></div>
+            <div>
+              <p class="text-sm font-medium">Science Project</p>
+              <p class="text-xs text-gray-500">Due in 3 days</p>
+            </div>
+          </div>
+          <div class="flex items-center space-x-3">
+            <div class="w-3 h-3 bg-green-500 rounded-full"></div>
+            <div>
+              <p class="text-sm font-medium">Parent Conference</p>
+              <p class="text-xs text-gray-500">Friday, 4:00 PM</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 p-8">
+      <div class="container mx-auto">
+        <!-- Header -->
+        <div class="mb-8">
+          <h2 class="text-3xl font-bold mb-2">Welcome Back, Emily!</h2>
+          <p class="text-gray-600">Ready to continue your learning journey?</p>
+        </div>
+
+        <!-- Academic Progress -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+          <div class="edu-card p-6 text-center">
+            <div class="subject-icon math mx-auto">
+              <i class="fas fa-calculator"></i>
+            </div>
+            <div class="progress-display">87%</div>
+            <h3 class="font-semibold mb-2">Mathematics</h3>
+            <div class="progress-edu">
+              <div class="progress-edu-fill" style="width: 87%"></div>
+            </div>
+            <p class="text-sm text-gray-500 mt-2">Excellent Progress</p>
+          </div>
+          
+          <div class="edu-card p-6 text-center">
+            <div class="subject-icon science mx-auto">
+              <i class="fas fa-flask"></i>
+            </div>
+            <div class="progress-display">92%</div>
+            <h3 class="font-semibold mb-2">Science</h3>
+            <div class="progress-edu">
+              <div class="progress-edu-fill" style="width: 92%"></div>
+            </div>
+            <p class="text-sm text-gray-500 mt-2">Outstanding</p>
+          </div>
+          
+          <div class="edu-card p-6 text-center">
+            <div class="subject-icon english mx-auto">
+              <i class="fas fa-book-open"></i>
+            </div>
+            <div class="progress-display">78%</div>
+            <h3 class="font-semibold mb-2">English</h3>
+            <div class="progress-edu">
+              <div class="progress-edu-fill" style="width: 78%"></div>
+            </div>
+            <p class="text-sm text-gray-500 mt-2">Good Progress</p>
+          </div>
+          
+          <div class="edu-card p-6 text-center">
+            <div class="subject-icon history mx-auto">
+              <i class="fas fa-landmark"></i>
+            </div>
+            <div class="progress-display">85%</div>
+            <h3 class="font-semibold mb-2">History</h3>
+            <div class="progress-edu">
+              <div class="progress-edu-fill" style="width: 85%"></div>
+            </div>
+            <p class="text-sm text-gray-500 mt-2">Very Good</p>
+          </div>
+        </div>
+
+        <!-- Charts and Activities -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+          <!-- Study Progress -->
+          <div class="edu-card p-6">
+            <h3 class="text-xl font-semibold mb-6">Weekly Study Hours</h3>
+            <div class="h-64 flex items-end justify-between px-4">
+              <div class="chart-bar-edu w-16 h-32"></div>
+              <div class="chart-bar-edu w-16 h-48"></div>
+              <div class="chart-bar-edu w-16 h-24"></div>
+              <div class="chart-bar-edu w-16 h-56"></div>
+              <div class="chart-bar-edu w-16 h-40"></div>
+              <div class="chart-bar-edu w-16 h-44"></div>
+              <div class="chart-bar-edu w-16 h-52"></div>
+            </div>
+            <div class="flex justify-between text-sm text-gray-500 mt-4">
+              <span>Mon</span>
+              <span>Tue</span>
+              <span>Wed</span>
+              <span>Thu</span>
+              <span>Fri</span>
+              <span>Sat</span>
+              <span>Sun</span>
+            </div>
+          </div>
+          
+          <!-- Recent Activities -->
+          <div class="edu-card p-6">
+            <h3 class="text-xl font-semibold mb-6">Recent Activities</h3>
+            <div class="space-y-4">
+              <div class="assignment-item">
+                <div class="flex items-center justify-between">
+                  <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
+                      <i class="fas fa-check text-green-600"></i>
+                    </div>
+                    <div>
+                      <p class="font-medium">Algebra Quiz Completed</p>
+                      <p class="text-sm text-gray-500">Mathematics • 2 hours ago</p>
+                    </div>
+                  </div>
+                  <span class="grade-badge excellent">A+</span>
+                </div>
+              </div>
+              
+              <div class="assignment-item">
+                <div class="flex items-center justify-between">
+                  <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
+                      <i class="fas fa-book text-blue-600"></i>
+                    </div>
+                    <div>
+                      <p class="font-medium">Essay Submitted</p>
+                      <p class="text-sm text-gray-500">English • 1 day ago</p>
+                    </div>
+                  </div>
+                  <span class="grade-badge good">B+</span>
+                </div>
+              </div>
+              
+              <div class="assignment-item">
+                <div class="flex items-center justify-between">
+                  <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 bg-purple-100 rounded-full flex items-center justify-center">
+                      <i class="fas fa-flask text-purple-600"></i>
+                    </div>
+                    <div>
+                      <p class="font-medium">Lab Report Due</p>
+                      <p class="text-sm text-gray-500">Science • Tomorrow</p>
+                    </div>
+                  </div>
+                  <span class="text-sm text-orange-600 font-medium">Pending</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Current Courses -->
+        <div class="edu-card p-6 mb-8">
+          <h3 class="text-xl font-semibold mb-6">Current Courses</h3>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="course-card">
+              <div class="flex items-center justify-between mb-4">
+                <h4 class="font-semibold text-lg">Advanced Mathematics</h4>
+                <span class="text-sm text-gray-500">Mr. Johnson</span>
+              </div>
+              <div class="mb-4">
+                <div class="flex justify-between text-sm mb-1">
+                  <span>Progress</span>
+                  <span>87%</span>
+                </div>
+                <div class="progress-edu">
+                  <div class="progress-edu-fill" style="width: 87%"></div>
+                </div>
+              </div>
+              <div class="flex items-center justify-between">
+                <span class="text-sm text-gray-600">Next: Calculus Basics</span>
+                <span class="grade-badge excellent">A</span>
+              </div>
+            </div>
+            
+            <div class="course-card">
+              <div class="flex items-center justify-between mb-4">
+                <h4 class="font-semibold text-lg">Physics</h4>
+                <span class="text-sm text-gray-500">Dr. Smith</span>
+              </div>
+              <div class="mb-4">
+                <div class="flex justify-between text-sm mb-1">
+                  <span>Progress</span>
+                  <span>92%</span>
+                </div>
+                <div class="progress-edu">
+                  <div class="progress-edu-fill" style="width: 92%"></div>
+                </div>
+              </div>
+              <div class="flex items-center justify-between">
+                <span class="text-sm text-gray-600">Next: Quantum Mechanics</span>
+                <span class="grade-badge excellent">A+</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Notifications -->
+        <div class="notification-card info mb-8">
+          <div class="flex items-center space-x-3">
+            <i class="fas fa-info-circle text-blue-600"></i>
+            <div>
+              <p class="font-medium">New Assignment Available</p>
+              <p class="text-sm">Your Science teacher has posted a new lab assignment. Due date: Friday, Nov 10th.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="flex justify-center space-x-4">
+          <button class="edu-button">
+            <i class="fas fa-book mr-2"></i>
+            Continue Learning
+          </button>
+          <button class="edu-button">
+            <i class="fas fa-calendar-plus mr-2"></i>
+            Schedule Study Time
+          </button>
+          <button class="edu-button">
+            <i class="fas fa-users mr-2"></i>
+            Join Study Group
+          </button>
+        </div>
+      </div>
+    </main>
+  </div>
+</body>
+</html> 

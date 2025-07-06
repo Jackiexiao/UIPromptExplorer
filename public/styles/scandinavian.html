@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nordic Hygge Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Merriweather:wght@300;400;700&display=swap');
+    
+    body {
+      background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 50%, #f1f3f4 100%);
+      color: #2d3748;
+      font-family: 'Inter', sans-serif;
+      line-height: 1.6;
+    }
+    
+    .nordic-nav {
+      background: linear-gradient(135deg, #ffffff 0%, #f7fafc 100%);
+      border-bottom: 1px solid #e2e8f0;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+    
+    .nordic-sidebar {
+      background: linear-gradient(180deg, #ffffff 0%, #f7fafc 100%);
+      border-right: 1px solid #e2e8f0;
+    }
+    
+    .nordic-card {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 16px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      transition: all 0.3s ease;
+      position: relative;
+    }
+    
+    .nordic-card:hover {
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+      transform: translateY(-2px);
+      border-color: #cbd5e0;
+    }
+    
+    .nordic-button {
+      background: linear-gradient(135deg, #4299e1 0%, #3182ce 100%);
+      color: #ffffff;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 12px;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 8px rgba(66, 153, 225, 0.3);
+    }
+    
+    .nordic-button:hover {
+      background: linear-gradient(135deg, #3182ce 0%, #2c5282 100%);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(66, 153, 225, 0.4);
+    }
+    
+    .cozy-number {
+      font-size: 2.5rem;
+      font-weight: 300;
+      color: #4299e1;
+      font-family: 'Merriweather', serif;
+    }
+    
+    .nordic-progress {
+      background: #f7fafc;
+      height: 8px;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid #e2e8f0;
+    }
+    
+    .nordic-progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #4299e1, #63b3ed);
+      border-radius: 12px;
+      transition: width 0.8s ease;
+    }
+    
+    .sidebar-item {
+      padding: 1rem 1.5rem;
+      border-radius: 12px;
+      margin: 0.25rem 0;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      color: #4a5568;
+    }
+    
+    .sidebar-item:hover {
+      background: #f7fafc;
+      color: #4299e1;
+    }
+    
+    .sidebar-item.active {
+      background: linear-gradient(135deg, #4299e1 0%, #3182ce 100%);
+      color: #ffffff;
+      box-shadow: 0 2px 8px rgba(66, 153, 225, 0.3);
+    }
+    
+    .hygge-card {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 1rem;
+      margin: 0.5rem 0;
+      transition: all 0.3s ease;
+    }
+    
+    .hygge-card:hover {
+      border-color: #cbd5e0;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    }
+    
+    .chart-bar-nordic {
+      background: linear-gradient(135deg, #4299e1 0%, #63b3ed 100%);
+      border-radius: 8px 8px 0 0;
+      transition: all 0.3s ease;
+    }
+    
+    .chart-bar-nordic:hover {
+      background: linear-gradient(135deg, #3182ce 0%, #4299e1 100%);
+      transform: scale(1.05);
+    }
+    
+    .nordic-title {
+      font-family: 'Merriweather', serif;
+      font-size: 2.5rem;
+      font-weight: 300;
+      color: #2d3748;
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+    
+    .nordic-badge {
+      background: linear-gradient(135deg, #e2e8f0 0%, #cbd5e0 100%);
+      color: #4a5568;
+      padding: 0.25rem 0.75rem;
+      border-radius: 12px;
+      font-size: 0.75rem;
+      font-weight: 500;
+      border: 1px solid #e2e8f0;
+    }
+    
+    .comfort-indicator {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      display: inline-block;
+      margin-right: 8px;
+      border: 1px solid #e2e8f0;
+    }
+    
+    .comfort-high { background: #48bb78; }
+    .comfort-medium { background: #ed8936; }
+    .comfort-low { background: #f56565; }
+    
+    .gentle-shadow {
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    }
+    
+    .warm-accent {
+      color: #ed8936;
+    }
+    
+    .nature-green {
+      color: #48bb78;
+    }
+    
+    .sky-blue {
+      color: #4299e1;
+    }
+    
+    .soft-gray {
+      color: #718096;
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="nordic-nav p-4">
+    <div class="container mx-auto flex justify-between items-center">
+      <div class="flex items-center space-x-4">
+        <i class="fas fa-home text-2xl sky-blue"></i>
+        <div>
+          <h1 class="text-xl font-semibold text-gray-800">Hygge Home</h1>
+          <p class="text-sm soft-gray">Cozy Living Dashboard</p>
+        </div>
+      </div>
+      <div class="flex items-center space-x-6">
+        <div class="text-center">
+          <p class="text-xs soft-gray">SEASON</p>
+          <p class="text-lg font-medium sky-blue">Winter</p>
+        </div>
+        <div class="text-center">
+          <p class="text-xs soft-gray">MOOD</p>
+          <p class="text-lg font-medium nature-green">Peaceful</p>
+        </div>
+        <button class="hover:text-blue-500 transition">
+          <i class="fas fa-heart"></i>
+        </button>
+        <div class="flex items-center space-x-3">
+          <div class="w-8 h-8 bg-gradient-to-r from-blue-400 to-blue-500 rounded-full"></div>
+          <div>
+            <p class="text-sm font-medium text-gray-700">Astrid</p>
+            <span class="nordic-badge">Homeowner</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="flex">
+    <!-- Sidebar -->
+    <aside class="nordic-sidebar w-64 min-h-screen p-6">
+      <div class="space-y-2">
+        <div class="sidebar-item active">
+          <div class="flex items-center space-x-3">
+            <i class="fas fa-home"></i>
+            <span>Living Room</span>
+          </div>
+        </div>
+        <div class="sidebar-item">
+          <div class="flex items-center space-x-3">
+            <i class="fas fa-bed"></i>
+            <span>Bedroom</span>
+          </div>
+        </div>
+        <div class="sidebar-item">
+          <div class="flex items-center space-x-3">
+            <i class="fas fa-utensils"></i>
+            <span>Kitchen</span>
+          </div>
+        </div>
+        <div class="sidebar-item">
+          <div class="flex items-center space-x-3">
+            <i class="fas fa-seedling"></i>
+            <span>Garden</span>
+          </div>
+        </div>
+        <div class="sidebar-item">
+          <div class="flex items-center space-x-3">
+            <i class="fas fa-book"></i>
+            <span>Study</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="mt-8 nordic-card p-4">
+        <h3 class="font-semibold mb-3 sky-blue">Home Comfort</h3>
+        <div class="space-y-3">
+          <div class="flex items-center justify-between">
+            <span class="text-sm soft-gray">Temperature</span>
+            <span class="text-xs sky-blue">22°C</span>
+          </div>
+          <div class="nordic-progress">
+            <div class="nordic-progress-fill" style="width: 75%"></div>
+          </div>
+          <div class="flex items-center justify-between">
+            <span class="text-sm soft-gray">Lighting</span>
+            <span class="text-xs sky-blue">Warm</span>
+          </div>
+          <div class="nordic-progress">
+            <div class="nordic-progress-fill" style="width: 60%"></div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="mt-4 nordic-card p-4">
+        <h3 class="font-semibold mb-3 nature-green">Plants</h3>
+        <div class="space-y-2">
+          <div class="flex items-center justify-between">
+            <span class="text-sm">Fiddle Leaf Fig</span>
+            <span class="comfort-indicator comfort-high"></span>
+          </div>
+          <div class="flex items-center justify-between">
+            <span class="text-sm">Snake Plant</span>
+            <span class="comfort-indicator comfort-high"></span>
+          </div>
+          <div class="flex items-center justify-between">
+            <span class="text-sm">Monstera</span>
+            <span class="comfort-indicator comfort-medium"></span>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 p-8">
+      <div class="container mx-auto">
+        <!-- Header -->
+        <div class="mb-8 text-center">
+          <h2 class="nordic-title">Welcome Home</h2>
+          <p class="soft-gray">Creating moments of comfort and joy in everyday life</p>
+        </div>
+
+        <!-- Home Metrics -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+          <div class="nordic-card p-6 text-center">
+            <div class="flex items-center justify-center mb-4">
+              <i class="fas fa-thermometer-half text-3xl warm-accent"></i>
+            </div>
+            <div class="cozy-number">22°C</div>
+            <h3 class="font-semibold text-gray-600">Temperature</h3>
+            <div class="nordic-progress mt-3">
+              <div class="nordic-progress-fill" style="width: 75%"></div>
+            </div>
+          </div>
+          
+          <div class="nordic-card p-6 text-center">
+            <div class="flex items-center justify-center mb-4">
+              <i class="fas fa-lightbulb text-3xl text-yellow-500"></i>
+            </div>
+            <div class="cozy-number">8</div>
+            <h3 class="font-semibold text-gray-600">Lights On</h3>
+            <div class="nordic-progress mt-3">
+              <div class="nordic-progress-fill" style="width: 60%"></div>
+            </div>
+          </div>
+          
+          <div class="nordic-card p-6 text-center">
+            <div class="flex items-center justify-center mb-4">
+              <i class="fas fa-leaf text-3xl nature-green"></i>
+            </div>
+            <div class="cozy-number">12</div>
+            <h3 class="font-semibold text-gray-600">Plants</h3>
+            <div class="nordic-progress mt-3">
+              <div class="nordic-progress-fill" style="width: 90%"></div>
+            </div>
+          </div>
+          
+          <div class="nordic-card p-6 text-center">
+            <div class="flex items-center justify-center mb-4">
+              <i class="fas fa-music text-3xl sky-blue"></i>
+            </div>
+            <div class="cozy-number">3</div>
+            <h3 class="font-semibold text-gray-600">Playing</h3>
+            <div class="nordic-progress mt-3">
+              <div class="nordic-progress-fill" style="width: 45%"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Content Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+          <!-- Daily Comfort -->
+          <div class="nordic-card p-6">
+            <h3 class="text-xl font-semibold mb-6 sky-blue">Daily Comfort Levels</h3>
+            <div class="h-64 flex items-end justify-between px-4">
+              <div class="chart-bar-nordic w-12 h-32"></div>
+              <div class="chart-bar-nordic w-12 h-48"></div>
+              <div class="chart-bar-nordic w-12 h-36"></div>
+              <div class="chart-bar-nordic w-12 h-52"></div>
+              <div class="chart-bar-nordic w-12 h-28"></div>
+              <div class="chart-bar-nordic w-12 h-44"></div>
+              <div class="chart-bar-nordic w-12 h-56"></div>
+            </div>
+            <div class="flex justify-between text-sm soft-gray mt-4">
+              <span>Mon</span>
+              <span>Tue</span>
+              <span>Wed</span>
+              <span>Thu</span>
+              <span>Fri</span>
+              <span>Sat</span>
+              <span>Sun</span>
+            </div>
+          </div>
+          
+          <!-- Room Status -->
+          <div class="nordic-card p-6">
+            <h3 class="text-xl font-semibold mb-6 nature-green">Room Status</h3>
+            <div class="space-y-4">
+              <div class="hygge-card">
+                <div class="flex items-center justify-between">
+                  <div class="flex items-center space-x-3">
+                    <span class="comfort-indicator comfort-high"></span>
+                    <div>
+                      <p class="font-medium text-gray-700">Living Room</p>
+                      <p class="text-sm soft-gray">Cozy and warm • 22°C</p>
+                    </div>
+                  </div>
+                  <span class="nordic-badge">Perfect</span>
+                </div>
+              </div>
+              
+              <div class="hygge-card">
+                <div class="flex items-center justify-between">
+                  <div class="flex items-center space-x-3">
+                    <span class="comfort-indicator comfort-high"></span>
+                    <div>
+                      <p class="font-medium text-gray-700">Bedroom</p>
+                      <p class="text-sm soft-gray">Peaceful • 20°C</p>
+                    </div>
+                  </div>
+                  <span class="nordic-badge">Optimal</span>
+                </div>
+              </div>
+              
+              <div class="hygge-card">
+                <div class="flex items-center justify-between">
+                  <div class="flex items-center space-x-3">
+                    <span class="comfort-indicator comfort-medium"></span>
+                    <div>
+                      <p class="font-medium text-gray-700">Kitchen</p>
+                      <p class="text-sm soft-gray">Bright • 24°C</p>
+                    </div>
+                  </div>
+                  <span class="nordic-badge">Good</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="flex justify-center space-x-4">
+          <button class="nordic-button">
+            <i class="fas fa-plus mr-2"></i>
+            Add Device
+          </button>
+          <button class="nordic-button">
+            <i class="fas fa-cog mr-2"></i>
+            Settings
+          </button>
+          <button class="nordic-button">
+            <i class="fas fa-moon mr-2"></i>
+            Night Mode
+          </button>
+        </div>
+      </div>
+    </main>
+  </div>
+</body>
+</html> 

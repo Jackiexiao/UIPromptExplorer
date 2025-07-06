@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Grunge Underground Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Creepster&family=Permanent+Marker&family=Kalam:wght@400;700&display=swap');
+    
+    body {
+      background: linear-gradient(135deg, #2c2c2c 0%, #1a1a1a 50%, #0d0d0d 100%);
+      color: #e0e0e0;
+      font-family: 'Kalam', cursive;
+      position: relative;
+      overflow-x: hidden;
+    }
+    
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: 
+        radial-gradient(circle at 20% 20%, rgba(255, 69, 0, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(128, 0, 128, 0.1) 0%, transparent 50%),
+        url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><filter id="noise"><feTurbulence baseFrequency="0.9" numOctaves="4" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/></filter></defs><rect width="100" height="100" filter="url(%23noise)" opacity="0.1"/></svg>');
+      pointer-events: none;
+      z-index: -1;
+    }
+    
+    .grunge-nav {
+      background: linear-gradient(135deg, #333333 0%, #1a1a1a 100%);
+      border-bottom: 4px solid #ff4500;
+      box-shadow: 
+        0 4px 20px rgba(0, 0, 0, 0.8),
+        inset 0 -2px 0 rgba(255, 69, 0, 0.3);
+      position: relative;
+    }
+    
+    .grunge-nav::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: repeating-linear-gradient(
+        90deg,
+        #ff4500 0px,
+        #ff4500 10px,
+        #8b0000 10px,
+        #8b0000 20px
+      );
+    }
+    
+    .grunge-sidebar {
+      background: linear-gradient(180deg, #2d2d2d 0%, #1a1a1a 100%);
+      border-right: 3px solid #8b0000;
+      box-shadow: 
+        3px 0 15px rgba(0, 0, 0, 0.6),
+        inset -2px 0 0 rgba(255, 69, 0, 0.2);
+    }
+    
+    .grunge-card {
+      background: linear-gradient(135deg, #404040 0%, #2d2d2d 100%);
+      border: 3px solid #666666;
+      border-radius: 0;
+      box-shadow: 
+        0 8px 25px rgba(0, 0, 0, 0.6),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .grunge-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: 
+        linear-gradient(45deg, transparent 30%, rgba(255, 69, 0, 0.1) 50%, transparent 70%),
+        repeating-linear-gradient(
+          90deg,
+          transparent,
+          transparent 2px,
+          rgba(0, 0, 0, 0.1) 2px,
+          rgba(0, 0, 0, 0.1) 4px
+        );
+      pointer-events: none;
+    }
+    
+    .grunge-card:hover {
+      border-color: #ff4500;
+      box-shadow: 
+        0 12px 35px rgba(255, 69, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+      transform: translateY(-2px) rotate(0.5deg);
+    }
+    
+    .grunge-button {
+      background: linear-gradient(135deg, #8b0000 0%, #ff4500 100%);
+      color: #ffffff;
+      border: 2px solid #333333;
+      padding: 0.75rem 1.5rem;
+      border-radius: 0;
+      font-weight: 700;
+      font-family: 'Permanent Marker', cursive;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      transition: all 0.3s ease;
+      box-shadow: 
+        0 4px 15px rgba(139, 0, 0, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .grunge-button::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transition: left 0.5s ease;
+    }
+    
+    .grunge-button:hover::before {
+      left: 100%;
+    }
+    
+    .grunge-button:hover {
+      background: linear-gradient(135deg, #ff4500 0%, #8b0000 100%);
+      transform: translateY(-1px) rotate(-0.5deg);
+      box-shadow: 
+        0 6px 20px rgba(255, 69, 0, 0.5),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    }
+    
+    .distorted-number {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: #ff4500;
+      font-family: 'Creepster', cursive;
+      text-shadow: 
+        2px 2px 0 #8b0000,
+        4px 4px 8px rgba(0, 0, 0, 0.8);
+      transform: skew(-5deg);
+    }
+    
+    .grunge-progress {
+      background: #1a1a1a;
+      height: 10px;
+      border-radius: 0;
+      border: 2px solid #666666;
+      overflow: hidden;
+      position: relative;
+    }
+    
+    .grunge-progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #8b0000, #ff4500, #8b0000);
+      transition: width 0.8s ease;
+      position: relative;
+      box-shadow: inset 0 1px 0 rgba(255, 69, 0, 0.5);
+    }
+    
+    .grunge-progress-fill::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: repeating-linear-gradient(
+        90deg,
+        transparent 0px,
+        rgba(255, 255, 255, 0.1) 2px,
+        transparent 4px
+      );
+    }
+    
+    .sidebar-item {
+      padding: 1rem 1.5rem;
+      margin: 0.5rem 0;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      border: 2px solid transparent;
+      font-family: 'Permanent Marker', cursive;
+      font-weight: 400;
+      position: relative;
+    }
+    
+    .sidebar-item::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 50%;
+      width: 0;
+      height: 2px;
+      background: #ff4500;
+      transition: width 0.3s ease;
+      transform: translateY(-50%);
+    }
+    
+    .sidebar-item:hover::before {
+      width: 100%;
+    }
+    
+    .sidebar-item:hover {
+      background: rgba(255, 69, 0, 0.1);
+      border-color: #ff4500;
+      color: #ff4500;
+      transform: translateX(5px) skew(-2deg);
+    }
+    
+    .sidebar-item.active {
+      background: linear-gradient(135deg, #8b0000 0%, #ff4500 100%);
+      color: #ffffff;
+      border-color: #333333;
+      box-shadow: 0 4px 15px rgba(139, 0, 0, 0.4);
+      transform: skew(-2deg);
+    }
+    
+    .street-card {
+      background: #333333;
+      border: 2px solid #666666;
+      padding: 1rem;
+      margin: 0.5rem 0;
+      transition: all 0.3s ease;
+      position: relative;
+      transform: rotate(0.5deg);
+    }
+    
+    .street-card:hover {
+      background: #404040;
+      border-color: #ff4500;
+      transform: rotate(-0.5deg) scale(1.02);
+      box-shadow: 0 4px 15px rgba(255, 69, 0, 0.3);
+    }
+    
+    .chart-bar-grunge {
+      background: linear-gradient(135deg, #8b0000 0%, #ff4500 100%);
+      border-radius: 0;
+      border: 1px solid #333333;
+      transition: all 0.3s ease;
+      position: relative;
+      transform: skew(-2deg);
+    }
+    
+    .chart-bar-grunge:hover {
+      background: linear-gradient(135deg, #ff4500 0%, #8b0000 100%);
+      transform: skew(2deg) scale(1.05);
+      box-shadow: 0 0 15px rgba(255, 69, 0, 0.6);
+    }
+    
+    .grunge-title {
+      font-family: 'Creepster', cursive;
+      font-size: 3rem;
+      color: #ff4500;
+      text-align: center;
+      margin-bottom: 1rem;
+      text-shadow: 
+        3px 3px 0 #8b0000,
+        6px 6px 12px rgba(0, 0, 0, 0.8);
+      transform: skew(-3deg);
+      position: relative;
+    }
+    
+    .grunge-title::after {
+      content: '★ ★ ★';
+      display: block;
+      font-size: 1rem;
+      color: #8b0000;
+      margin-top: 0.5rem;
+      transform: skew(3deg);
+    }
+    
+    .grunge-badge {
+      background: linear-gradient(135deg, #333333 0%, #1a1a1a 100%);
+      color: #ff4500;
+      padding: 0.25rem 0.75rem;
+      border: 2px solid #666666;
+      font-size: 0.75rem;
+      font-weight: 700;
+      font-family: 'Permanent Marker', cursive;
+      text-transform: uppercase;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+      transform: skew(-5deg);
+    }
+    
+    .status-light {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      display: inline-block;
+      margin-right: 8px;
+      border: 2px solid #333333;
+      box-shadow: 0 0 8px currentColor;
+    }
+    
+    .status-active { background: #ff4500; color: #ff4500; }
+    .status-warning { background: #ffff00; color: #ffff00; }
+    .status-down { background: #8b0000; color: #8b0000; }
+    
+    .spray-paint {
+      position: absolute;
+      color: #ff4500;
+      opacity: 0.3;
+      font-size: 2rem;
+      transform: rotate(-15deg);
+      pointer-events: none;
+    }
+    
+    .glitch {
+      animation: glitch 2s infinite;
+    }
+    
+    @keyframes glitch {
+      0%, 100% { transform: translateX(0); }
+      20% { transform: translateX(-2px); }
+      40% { transform: translateX(2px); }
+      60% { transform: translateX(-1px); }
+      80% { transform: translateX(1px); }
+    }
+  </style>
+</head>
+<body>
+  <!-- Spray Paint Effects -->
+  <div class="spray-paint" style="top: 10%; left: 5%;">★</div>
+  <div class="spray-paint" style="top: 30%; right: 10%;">✗</div>
+  <div class="spray-paint" style="bottom: 20%; left: 15%;">●</div>
+  <div class="spray-paint" style="bottom: 40%; right: 5%;">▲</div>
+
+  <!-- Navigation -->
+  <nav class="grunge-nav text-white p-4">
+    <div class="container mx-auto flex justify-between items-center">
+      <div class="flex items-center space-x-4">
+        <i class="fas fa-skull text-2xl text-red-500"></i>
+        <div>
+          <h1 class="text-xl font-bold font-mono">UNDERGROUND</h1>
+          <p class="text-sm opacity-80">REBEL CONTROL CENTER</p>
+        </div>
+      </div>
+      <div class="flex items-center space-x-6">
+        <div class="text-center">
+          <p class="text-xs opacity-60">LEVEL</p>
+          <p class="text-lg font-bold text-orange-500">666</p>
+        </div>
+        <div class="text-center">
+          <p class="text-xs opacity-60">CHAOS</p>
+          <p class="text-lg font-bold text-red-500">MAX</p>
+        </div>
+        <button class="hover:text-orange-500 transition glitch">
+          <i class="fas fa-exclamation-triangle"></i>
+        </button>
+        <div class="flex items-center space-x-3">
+          <div class="w-8 h-8 bg-gradient-to-r from-red-600 to-orange-600 border-2 border-gray-600 transform rotate-12"></div>
+          <div>
+            <p class="text-sm font-medium">REBEL_X</p>
+            <span class="grunge-badge">OUTLAW</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="flex">
+    <!-- Sidebar -->
+    <aside class="grunge-sidebar w-64 min-h-screen p-6">
+      <div class="space-y-2">
+        <div class="sidebar-item active">
+          <div class="flex items-center space-x-3">
+            <i class="fas fa-home"></i>
+            <span>HIDEOUT</span>
+          </div>
+        </div>
+        <div class="sidebar-item">
+          <div class="flex items-center space-x-3">
+            <i class="fas fa-fire"></i>
+            <span>MAYHEM</span>
+          </div>
+        </div>
+        <div class="sidebar-item">
+          <div class="flex items-center space-x-3">
+            <i class="fas fa-bolt"></i>
+            <span>CHAOS</span>
+          </div>
+        </div>
+        <div class="sidebar-item">
+          <div class="flex items-center space-x-3">
+            <i class="fas fa-skull-crossbones"></i>
+            <span>DANGER</span>
+          </div>
+        </div>
+        <div class="sidebar-item">
+          <div class="flex items-center space-x-3">
+            <i class="fas fa-bomb"></i>
+            <span>DESTROY</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="mt-8 grunge-card p-4">
+        <h3 class="font-semibold mb-3 text-orange-500">SYSTEM CORRUPTION</h3>
+        <div class="space-y-3">
+          <div class="flex items-center justify-between">
+            <span class="text-sm">VIRUS LOAD</span>
+            <span class="text-xs text-red-500">89%</span>
+          </div>
+          <div class="grunge-progress">
+            <div class="grunge-progress-fill" style="width: 89%"></div>
+          </div>
+          <div class="flex items-center justify-between">
+            <span class="text-sm">ANARCHY</span>
+            <span class="text-xs text-orange-500">76%</span>
+          </div>
+          <div class="grunge-progress">
+            <div class="grunge-progress-fill" style="width: 76%"></div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 p-8">
+      <div class="container mx-auto">
+        <!-- Header -->
+        <div class="mb-8 text-center">
+          <h2 class="grunge-title">UNDERGROUND COMMAND</h2>
+          <p class="text-gray-400 font-mono">WELCOME TO THE DARK SIDE OF THE NET</p>
+        </div>
+
+        <!-- Chaos Metrics -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+          <div class="grunge-card p-6 text-center">
+            <div class="flex items-center justify-center mb-4">
+              <i class="fas fa-virus text-3xl text-red-500 glitch"></i>
+            </div>
+            <div class="distorted-number">1,337</div>
+            <h3 class="font-semibold text-gray-300 font-mono">INFECTED SYSTEMS</h3>
+            <div class="grunge-progress mt-3">
+              <div class="grunge-progress-fill" style="width: 82%"></div>
+            </div>
+          </div>
+          
+          <div class="grunge-card p-6 text-center">
+            <div class="flex items-center justify-center mb-4">
+              <i class="fas fa-skull text-3xl text-orange-500"></i>
+            </div>
+            <div class="distorted-number">666</div>
+            <h3 class="font-semibold text-gray-300 font-mono">DEMONS UNLEASHED</h3>
+            <div class="grunge-progress mt-3">
+              <div class="grunge-progress-fill" style="width: 95%"></div>
+            </div>
+          </div>
+          
+          <div class="grunge-card p-6 text-center">
+            <div class="flex items-center justify-center mb-4">
+              <i class="fas fa-fire text-3xl text-red-600"></i>
+            </div>
+            <div class="distorted-number">420</div>
+            <h3 class="font-semibold text-gray-300 font-mono">SERVERS BURNED</h3>
+            <div class="grunge-progress mt-3">
+              <div class="grunge-progress-fill" style="width: 67%"></div>
+            </div>
+          </div>
+          
+          <div class="grunge-card p-6 text-center">
+            <div class="flex items-center justify-center mb-4">
+              <i class="fas fa-bomb text-3xl text-yellow-500 glitch"></i>
+            </div>
+            <div class="distorted-number">99</div>
+            <h3 class="font-semibold text-gray-300 font-mono">CHAOS BOMBS</h3>
+            <div class="grunge-progress mt-3">
+              <div class="grunge-progress-fill" style="width: 88%"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Content Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+          <!-- Destruction Chart -->
+          <div class="grunge-card p-6">
+            <h3 class="text-xl font-semibold mb-6 text-orange-500 font-mono">WEEKLY DESTRUCTION</h3>
+            <div class="h-64 flex items-end justify-between px-4">
+              <div class="chart-bar-grunge w-16 h-32"></div>
+              <div class="chart-bar-grunge w-16 h-48"></div>
+              <div class="chart-bar-grunge w-16 h-24"></div>
+              <div class="chart-bar-grunge w-16 h-56"></div>
+              <div class="chart-bar-grunge w-16 h-36"></div>
+              <div class="chart-bar-grunge w-16 h-44"></div>
+              <div class="chart-bar-grunge w-16 h-52"></div>
+            </div>
+            <div class="flex justify-between text-sm text-gray-400 mt-4 font-mono">
+              <span>MON</span>
+              <span>TUE</span>
+              <span>WED</span>
+              <span>THU</span>
+              <span>FRI</span>
+              <span>SAT</span>
+              <span>SUN</span>
+            </div>
+          </div>
+          
+          <!-- Target List -->
+          <div class="grunge-card p-6">
+            <h3 class="text-xl font-semibold mb-6 text-red-500 font-mono">TARGET STATUS</h3>
+            <div class="space-y-4">
+              <div class="street-card">
+                <div class="flex items-center justify-between">
+                  <div class="flex items-center space-x-3">
+                    <span class="status-light status-down"></span>
+                    <div>
+                      <p class="font-medium font-mono">CORP_SERVER_01</p>
+                      <p class="text-sm text-gray-400">COMPLETELY DESTROYED</p>
+                    </div>
+                  </div>
+                  <span class="grunge-badge">PWNED</span>
+                </div>
+              </div>
+              
+              <div class="street-card">
+                <div class="flex items-center justify-between">
+                  <div class="flex items-center space-x-3">
+                    <span class="status-light status-warning"></span>
+                    <div>
+                      <p class="font-medium font-mono">BANK_MAINFRAME</p>
+                      <p class="text-sm text-gray-400">UNDER ATTACK</p>
+                    </div>
+                  </div>
+                  <span class="grunge-badge">HACKING</span>
+                </div>
+              </div>
+              
+              <div class="street-card">
+                <div class="flex items-center justify-between">
+                  <div class="flex items-center space-x-3">
+                    <span class="status-light status-active"></span>
+                    <div>
+                      <p class="font-medium font-mono">GOV_DATABASE</p>
+                      <p class="text-sm text-gray-400">INFILTRATING</p>
+                    </div>
+                  </div>
+                  <span class="grunge-badge">ACTIVE</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="flex justify-center space-x-4">
+          <button class="grunge-button">
+            <i class="fas fa-bomb mr-2"></i>
+            DETONATE
+          </button>
+          <button class="grunge-button">
+            <i class="fas fa-skull mr-2"></i>
+            ANNIHILATE
+          </button>
+          <button class="grunge-button">
+            <i class="fas fa-fire mr-2"></i>
+            BURN IT ALL
+          </button>
+        </div>
+      </div>
+    </main>
+  </div>
+</body>
+</html> 

@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cyberpunk Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap');
+    
+    body {
+      background: #0a0a0a;
+      color: #e0e0e0;
+      font-family: 'Orbitron', monospace;
+      overflow-x: hidden;
+    }
+    
+    .cyber-gradient {
+      background: linear-gradient(45deg, #ff00ff, #00eaff, #ff00ff);
+      background-size: 400% 400%;
+      animation: gradientShift 3s ease infinite;
+    }
+    
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    
+    .neon-text {
+      color: #00eaff;
+      text-shadow: 0 0 5px #00eaff, 0 0 10px #00eaff, 0 0 20px #00eaff;
+      font-weight: 700;
+    }
+    
+    .neon-pink {
+      color: #ff00ff;
+      text-shadow: 0 0 5px #ff00ff, 0 0 10px #ff00ff;
+    }
+    
+    .cyber-card {
+      background: linear-gradient(135deg, #1a1a1a, #2a2a2a);
+      border: 1px solid #333;
+      box-shadow: 0 0 20px rgba(0, 234, 255, 0.3);
+      transition: all 0.3s ease;
+    }
+    
+    .cyber-card:hover {
+      box-shadow: 0 0 30px rgba(255, 0, 255, 0.5);
+      transform: translateY(-2px);
+    }
+    
+    .cyber-button {
+      background: linear-gradient(45deg, #ff00ff, #00eaff);
+      border: none;
+      color: #000;
+      font-weight: 700;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .cyber-button::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      transition: left 0.5s ease;
+    }
+    
+    .cyber-button:hover::before {
+      left: 100%;
+    }
+    
+    .cyber-nav {
+      background: linear-gradient(135deg, #0a0a0a, #1a1a1a);
+      border-bottom: 2px solid #333;
+      box-shadow: 0 0 20px rgba(0, 234, 255, 0.2);
+    }
+    
+    .cyber-sidebar {
+      background: linear-gradient(180deg, #0a0a0a, #1a1a1a);
+      border-right: 2px solid #333;
+      box-shadow: 0 0 20px rgba(255, 0, 255, 0.1);
+    }
+    
+    .stat-number {
+      font-size: 2.5rem;
+      font-weight: 900;
+      background: linear-gradient(45deg, #ff00ff, #00eaff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    
+    .grid-pattern {
+      background-image: 
+        linear-gradient(rgba(0, 234, 255, 0.1) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 234, 255, 0.1) 1px, transparent 1px);
+      background-size: 20px 20px;
+    }
+    
+    .progress-bar {
+      background: linear-gradient(90deg, #ff00ff, #00eaff);
+      height: 6px;
+      border-radius: 3px;
+      animation: pulse 2s ease-in-out infinite;
+    }
+    
+    @keyframes pulse {
+      0% { opacity: 1; }
+      50% { opacity: 0.7; }
+      100% { opacity: 1; }
+    }
+    
+    .notification {
+      background: rgba(255, 0, 255, 0.1);
+      border: 1px solid #ff00ff;
+      color: #ff00ff;
+    }
+  </style>
+</head>
+<body class="grid-pattern">
+  <!-- Navigation -->
+  <nav class="cyber-nav px-6 py-4 flex justify-between items-center">
+    <div class="flex items-center space-x-4">
+      <i class="fas fa-microchip text-2xl neon-text"></i>
+      <h1 class="text-2xl font-bold neon-text">NEURO_LINK</h1>
+    </div>
+    <div class="flex items-center space-x-6">
+      <button class="text-gray-400 hover:text-white transition">
+        <i class="fas fa-search"></i>
+      </button>
+      <button class="text-gray-400 hover:text-white transition">
+        <i class="fas fa-bell"></i>
+      </button>
+      <div class="flex items-center space-x-2">
+        <div class="w-8 h-8 bg-gradient-to-r from-purple-500 to-cyan-500 rounded-full"></div>
+        <span class="text-sm">Agent_007</span>
+      </div>
+    </div>
+  </nav>
+
+  <div class="flex">
+    <!-- Sidebar -->
+    <aside class="cyber-sidebar w-64 min-h-screen p-6">
+      <div class="space-y-4">
+        <div class="flex items-center space-x-3 p-3 rounded-lg bg-gray-800 bg-opacity-50">
+          <i class="fas fa-home neon-text"></i>
+          <span>Dashboard</span>
+        </div>
+        <div class="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-800 hover:bg-opacity-50 transition cursor-pointer">
+          <i class="fas fa-chart-line text-gray-400"></i>
+          <span>Analytics</span>
+        </div>
+        <div class="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-800 hover:bg-opacity-50 transition cursor-pointer">
+          <i class="fas fa-users text-gray-400"></i>
+          <span>Users</span>
+        </div>
+        <div class="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-800 hover:bg-opacity-50 transition cursor-pointer">
+          <i class="fas fa-cog text-gray-400"></i>
+          <span>Settings</span>
+        </div>
+      </div>
+      
+      <div class="mt-8 p-4 notification rounded-lg">
+        <h3 class="font-semibold mb-2">SYSTEM ALERT</h3>
+        <p class="text-sm">Neural network update available</p>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 p-8">
+      <!-- Header Stats -->
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+        <div class="cyber-card p-6 rounded-lg">
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="text-gray-400 text-sm">ACTIVE USERS</p>
+              <p class="stat-number">2,847</p>
+            </div>
+            <i class="fas fa-users text-3xl neon-text"></i>
+          </div>
+          <div class="mt-4">
+            <div class="progress-bar" style="width: 75%"></div>
+          </div>
+        </div>
+        
+        <div class="cyber-card p-6 rounded-lg">
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="text-gray-400 text-sm">SYSTEM LOAD</p>
+              <p class="stat-number">68%</p>
+            </div>
+            <i class="fas fa-server text-3xl neon-pink"></i>
+          </div>
+          <div class="mt-4">
+            <div class="progress-bar" style="width: 68%"></div>
+          </div>
+        </div>
+        
+        <div class="cyber-card p-6 rounded-lg">
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="text-gray-400 text-sm">REVENUE</p>
+              <p class="stat-number">$94K</p>
+            </div>
+            <i class="fas fa-dollar-sign text-3xl neon-text"></i>
+          </div>
+          <div class="mt-4">
+            <div class="progress-bar" style="width: 85%"></div>
+          </div>
+        </div>
+        
+        <div class="cyber-card p-6 rounded-lg">
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="text-gray-400 text-sm">THREATS</p>
+              <p class="stat-number">12</p>
+            </div>
+            <i class="fas fa-shield-alt text-3xl neon-pink"></i>
+          </div>
+          <div class="mt-4">
+            <div class="progress-bar" style="width: 30%"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Chart and Activity -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+        <div class="cyber-card p-6 rounded-lg">
+          <h3 class="text-xl font-semibold mb-4 neon-text">NEURAL ACTIVITY</h3>
+          <div class="h-64 bg-gray-900 rounded-lg p-4 flex items-end space-x-2">
+            <div class="bg-gradient-to-t from-purple-500 to-cyan-500 w-8 h-32 rounded-t"></div>
+            <div class="bg-gradient-to-t from-purple-500 to-cyan-500 w-8 h-40 rounded-t"></div>
+            <div class="bg-gradient-to-t from-purple-500 to-cyan-500 w-8 h-24 rounded-t"></div>
+            <div class="bg-gradient-to-t from-purple-500 to-cyan-500 w-8 h-48 rounded-t"></div>
+            <div class="bg-gradient-to-t from-purple-500 to-cyan-500 w-8 h-36 rounded-t"></div>
+            <div class="bg-gradient-to-t from-purple-500 to-cyan-500 w-8 h-52 rounded-t"></div>
+            <div class="bg-gradient-to-t from-purple-500 to-cyan-500 w-8 h-28 rounded-t"></div>
+          </div>
+        </div>
+        
+        <div class="cyber-card p-6 rounded-lg">
+          <h3 class="text-xl font-semibold mb-4 neon-text">SYSTEM LOG</h3>
+          <div class="space-y-3 h-64 overflow-y-auto">
+            <div class="flex items-center space-x-3 p-3 bg-gray-800 bg-opacity-50 rounded">
+              <div class="w-2 h-2 bg-green-500 rounded-full"></div>
+              <span class="text-sm">Neural link established</span>
+              <span class="text-xs text-gray-400 ml-auto">12:34</span>
+            </div>
+            <div class="flex items-center space-x-3 p-3 bg-gray-800 bg-opacity-50 rounded">
+              <div class="w-2 h-2 bg-yellow-500 rounded-full"></div>
+              <span class="text-sm">Memory sync in progress</span>
+              <span class="text-xs text-gray-400 ml-auto">12:33</span>
+            </div>
+            <div class="flex items-center space-x-3 p-3 bg-gray-800 bg-opacity-50 rounded">
+              <div class="w-2 h-2 bg-red-500 rounded-full"></div>
+              <span class="text-sm">Security breach detected</span>
+              <span class="text-xs text-gray-400 ml-auto">12:30</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="flex space-x-4">
+        <button class="cyber-button px-6 py-3 rounded-lg font-semibold">
+          INITIALIZE SEQUENCE
+        </button>
+        <button class="cyber-button px-6 py-3 rounded-lg font-semibold">
+          RUN DIAGNOSTICS
+        </button>
+        <button class="cyber-button px-6 py-3 rounded-lg font-semibold">
+          SYNC DATA
+        </button>
+      </div>
+    </main>
+  </div>
+</body>
+</html> 

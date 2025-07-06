@@ -160,6 +160,306 @@
         "background": "#0f172a"
       },
       "prompt": "Create a dark theme UI with dark backgrounds and light text. Use high contrast colors and subtle glow effects. The design should be modern and comfortable for extended use."
+    },
+    {
+      "id": "cyberpunk",
+      "name": "Cyberpunk",
+      "shortName": "Cyber",
+      "category": "现代潮流",
+      "description": "霓虹灯、科技感的赛博朋克风格，采用明亮的霓虹配色和深色背景。",
+      "characteristics": ["霓虹色", "高对比", "未来科技", "夜景感"],
+      "author": "Design Team",
+      "source": "Internal",
+      "htmlFile": "cyberpunk.html",
+      "isDefault": false,
+      "tags": ["cyberpunk", "neon", "futuristic", "dark"],
+      "colors": {
+        "primary": "#ff00ff",
+        "secondary": "#00eaff",
+        "accent": "#ff9900",
+        "background": "#0d0d0d"
+      },
+      "prompt": "Create a cyberpunk UI with neon glow effects, dark backgrounds, and futuristic typography. Use vibrant magenta and cyan accents against deep black surfaces."
+    },
+    {
+      "id": "retro-wave",
+      "name": "Retro Wave",
+      "shortName": "Retro",
+      "category": "现代潮流",
+      "description": "怀旧80年代复古波浪风格，使用渐变网格和网格日落元素。",
+      "characteristics": ["渐变", "网格", "霓虹灯", "日落"],
+      "author": "Design Team",
+      "source": "Internal",
+      "htmlFile": "retro-wave.html",
+      "isDefault": false,
+      "tags": ["retro", "80s", "vaporwave", "gradient"],
+      "colors": {
+        "primary": "#ff6ec7",
+        "secondary": "#ffa600",
+        "accent": "#20d0ff",
+        "background": "#2b0033"
+      },
+      "prompt": "Create a retro wave UI with vibrant gradients, grid backgrounds, and vaporwave aesthetics. Combine neon pink, orange, and cyan on deep purple backgrounds."
+    },
+    {
+      "id": "minimalist-japanese",
+      "name": "Minimalist Japanese",
+      "shortName": "JP Minimal",
+      "category": "现代潮流",
+      "description": "日式极简风格，以自然配色、留白和简约排版为特色。",
+      "characteristics": ["留白", "自然色", "简约排版", "柔和阴影"],
+      "author": "Design Team",
+      "source": "Internal",
+      "htmlFile": "minimalist-japanese.html",
+      "isDefault": false,
+      "tags": ["minimal", "japanese", "zen", "clean"],
+      "colors": {
+        "primary": "#1f2937",
+        "secondary": "#f3f4f6",
+        "accent": "#d97706",
+        "background": "#ffffff"
+      },
+      "prompt": "Create a minimalist Japanese UI with generous whitespace, neutral colors, and subtle accents. Use clean typography and soft shadows to emulate zen aesthetics."
+    },
+    {
+      "id": "scandinavian",
+      "name": "Scandinavian",
+      "shortName": "Scandi",
+      "category": "现代潮流",
+      "description": "北欧风格，使用柔和色调、自然材料质感和简洁线条。",
+      "characteristics": ["柔和色", "自然材质", "简洁线条", "功能主义"],
+      "author": "Design Team",
+      "source": "Internal",
+      "htmlFile": "scandinavian.html",
+      "isDefault": false,
+      "tags": ["scandinavian", "soft", "minimal", "cozy"],
+      "colors": {
+        "primary": "#2d3748",
+        "secondary": "#edf2f7",
+        "accent": "#38b2ac",
+        "background": "#ffffff"
+      },
+      "prompt": "Create a Scandinavian UI with soft neutral colors, clean lines, and cozy accents. Emphasize functionality and natural materials."
+    },
+    {
+      "id": "industrial",
+      "name": "Industrial",
+      "shortName": "Industry",
+      "category": "现代潮流",
+      "description": "工业设计风格，使用粗犷材质、深色调和醒目的橙色点缀。",
+      "characteristics": ["金属感", "深色", "粗糙纹理", "橙色点缀"],
+      "author": "Design Team",
+      "source": "Internal",
+      "htmlFile": "industrial.html",
+      "isDefault": false,
+      "tags": ["industrial", "metal", "dark", "orange"],
+      "colors": {
+        "primary": "#ff6600",
+        "secondary": "#6b7280",
+        "accent": "#ffa500",
+        "background": "#1a1a1a"
+      },
+      "prompt": "Create an industrial UI with dark metallic textures, bold orange accents, and rugged typography. Combine steel grays with bright orange highlights."
+    },
+    {
+      "id": "watercolor",
+      "name": "Watercolor",
+      "shortName": "Watercolor",
+      "category": "艺术风格",
+      "description": "柔和水彩画效果，渐变色块与纸张肌理。",
+      "characteristics": ["水彩渐变", "纸张纹理", "柔和色彩", "自然笔刷"],
+      "author": "Design Team",
+      "source": "Internal",
+      "htmlFile": "watercolor.html",
+      "isDefault": false,
+      "tags": ["watercolor", "art", "soft", "texture"],
+      "colors": {
+        "primary": "#89b4f8",
+        "secondary": "#f7d3e0",
+        "accent": "#ffd580",
+        "background": "#fafafa"
+      },
+      "prompt": "Create a watercolor UI with soft gradient washes, paper textures, and gentle brush strokes. Use pastel blues, pinks, and yellows on light backgrounds."
+    },
+    {
+      "id": "sketch-handdrawn",
+      "name": "Sketch / Hand-drawn",
+      "shortName": "Sketch",
+      "category": "艺术风格",
+      "description": "手绘素描风格，模拟铅笔线条与涂鸦效果。",
+      "characteristics": ["手绘线条", "涂鸦", "纸质背景", "不规则排版"],
+      "author": "Design Team",
+      "source": "Internal",
+      "htmlFile": "sketch-handdrawn.html",
+      "isDefault": false,
+      "tags": ["sketch", "handdrawn", "doodle", "casual"],
+      "colors": {
+        "primary": "#000000",
+        "secondary": "#ffffff",
+        "accent": "#ff9f1c",
+        "background": "#fefefe"
+      },
+      "prompt": "Create a hand-drawn sketch UI with pencil lines, doodle icons, and notebook textures. Keep a playful aesthetic with casual typography."
+    },
+    {
+      "id": "pixel-art",
+      "name": "Pixel Art",
+      "shortName": "Pixel",
+      "category": "艺术风格",
+      "description": "像素艺术风格，使用8-bit像素图形和块状配色。",
+      "characteristics": ["8-bit", "像素图形", "马赛克", "明亮配色"],
+      "author": "Design Team",
+      "source": "Internal",
+      "htmlFile": "pixel-art.html",
+      "isDefault": false,
+      "tags": ["pixel", "8bit", "retro", "game"],
+      "colors": {
+        "primary": "#e63946",
+        "secondary": "#457b9d",
+        "accent": "#f1fa8c",
+        "background": "#1d3557"
+      },
+      "prompt": "Create a pixel art UI with 8-bit graphics, blocky fonts, and vibrant contrasting colors. Use chunky borders and limited palettes."
+    },
+    {
+      "id": "grunge",
+      "name": "Grunge",
+      "shortName": "Grunge",
+      "category": "艺术风格",
+      "description": "粗糙纹理和破旧效果的垃圾摇滚风格。",
+      "characteristics": ["破旧纸张", "泼墨", "粗糙纹理", "暗色调"],
+      "author": "Design Team",
+      "source": "Internal",
+      "htmlFile": "grunge.html",
+      "isDefault": false,
+      "tags": ["grunge", "texture", "dark", "rock"],
+      "colors": {
+        "primary": "#2b2b2b",
+        "secondary": "#f5f5f5",
+        "accent": "#c71f37",
+        "background": "#1a1a1a"
+      },
+      "prompt": "Create a grunge UI with ripped paper textures, splatter overlays, and distressed typography. Combine dark greys with blood-red accents."
+    },
+    {
+      "id": "vintage",
+      "name": "Vintage",
+      "shortName": "Vintage",
+      "category": "艺术风格",
+      "description": "复古旧报纸与柔和棕色调的经典风格。",
+      "characteristics": ["棕色调", "旧报纸", "怀旧字体", "装饰边框"],
+      "author": "Design Team",
+      "source": "Internal",
+      "htmlFile": "vintage.html",
+      "isDefault": false,
+      "tags": ["vintage", "retro", "classic", "sepia"],
+      "colors": {
+        "primary": "#704214",
+        "secondary": "#f3e5ab",
+        "accent": "#c89f74",
+        "background": "#faf2e4"
+      },
+      "prompt": "Create a vintage UI with sepia tones, serif typography, and decorative borders. Emulate old newspaper aesthetics with subtle paper textures."
+    },
+    {
+      "id": "medical-clinical",
+      "name": "Medical / Clinical",
+      "shortName": "Medical",
+      "category": "专业领域",
+      "description": "医疗临床风格，清爽蓝绿配色与模块化信息卡片。",
+      "characteristics": ["蓝绿色", "清晰图标", "卡片布局", "可访问性"],
+      "author": "Design Team",
+      "source": "Internal",
+      "htmlFile": "medical-clinical.html",
+      "isDefault": false,
+      "tags": ["medical", "health", "clean", "accessible"],
+      "colors": {
+        "primary": "#0fa9d7",
+        "secondary": "#e2f0f6",
+        "accent": "#10b981",
+        "background": "#ffffff"
+      },
+      "prompt": "Create a medical UI with teal primary colors, clear iconography, and card layouts. Ensure high accessibility and a sense of trust."
+    },
+    {
+      "id": "financial-banking",
+      "name": "Financial / Banking",
+      "shortName": "Finance",
+      "category": "专业领域",
+      "description": "金融银行风格，深蓝与金色配色，强调数据可视化。",
+      "characteristics": ["深蓝", "金色", "数据可视化", "正式排版"],
+      "author": "Design Team",
+      "source": "Internal",
+      "htmlFile": "financial-banking.html",
+      "isDefault": false,
+      "tags": ["finance", "banking", "professional", "charts"],
+      "colors": {
+        "primary": "#1e3a8a",
+        "secondary": "#f5f5f5",
+        "accent": "#d4af37",
+        "background": "#ffffff"
+      },
+      "prompt": "Create a financial dashboard UI with navy blue tones, gold accents, and sophisticated typography. Include clear charts and data widgets."
+    },
+    {
+      "id": "gaming",
+      "name": "Gaming",
+      "shortName": "Gaming",
+      "category": "专业领域",
+      "description": "游戏界面风格，炫酷紫色渐变与动态元素。",
+      "characteristics": ["紫色渐变", "动态按钮", "像素字体", "高对比"],
+      "author": "Design Team",
+      "source": "Internal",
+      "htmlFile": "gaming.html",
+      "isDefault": false,
+      "tags": ["gaming", "purple", "dynamic", "fun"],
+      "colors": {
+        "primary": "#8b5cf6",
+        "secondary": "#312e81",
+        "accent": "#f97316",
+        "background": "#0f172a"
+      },
+      "prompt": "Create a gaming UI with vibrant purple gradients, glowing buttons, and pixel-inspired fonts. Add dynamic hover interactions."
+    },
+    {
+      "id": "ecommerce-pro",
+      "name": "E-commerce Pro",
+      "shortName": "E-commerce",
+      "category": "专业领域",
+      "description": "高级电商风格，简洁白色基底与黑色文字，强调产品展示。",
+      "characteristics": ["极简", "大图片", "清晰CTA", "网格布局"],
+      "author": "Design Team",
+      "source": "Internal",
+      "htmlFile": "ecommerce-pro.html",
+      "isDefault": false,
+      "tags": ["ecommerce", "shop", "minimal", "product"],
+      "colors": {
+        "primary": "#000000",
+        "secondary": "#ffffff",
+        "accent": "#ff4d4f",
+        "background": "#ffffff"
+      },
+      "prompt": "Create a premium e-commerce UI with bold product imagery, minimal text, and clear purchase calls-to-action. Use a black and white palette with red accents."
+    },
+    {
+      "id": "education",
+      "name": "Education Platform",
+      "shortName": "Education",
+      "category": "专业领域",
+      "description": "教育平台风格，明亮蓝色与友好卡片设计。",
+      "characteristics": ["浅蓝", "卡片", "友好插图", "层次清晰"],
+      "author": "Design Team",
+      "source": "Internal",
+      "htmlFile": "education.html",
+      "isDefault": false,
+      "tags": ["education", "learning", "bright", "friendly"],
+      "colors": {
+        "primary": "#3b82f6",
+        "secondary": "#dbeafe",
+        "accent": "#f59e0b",
+        "background": "#ffffff"
+      },
+      "prompt": "Create an education platform UI with light blue tones, friendly icons, and card-based course listings. Encourage exploration and learning."
     }
   ]
 } 

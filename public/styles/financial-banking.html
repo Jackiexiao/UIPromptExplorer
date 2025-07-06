@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Financial Banking Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+    
+    body {
+      background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+      color: #1e3a8a;
+      font-family: 'Inter', sans-serif;
+    }
+    
+    .bank-nav {
+      background: linear-gradient(135deg, #1e3a8a 0%, #3730a3 100%);
+      box-shadow: 0 4px 12px rgba(30, 58, 138, 0.3);
+    }
+    
+    .bank-sidebar {
+      background: #ffffff;
+      border-right: 1px solid #e2e8f0;
+      box-shadow: 2px 0 8px rgba(0, 0, 0, 0.05);
+    }
+    
+    .bank-card {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      transition: all 0.3s ease;
+    }
+    
+    .bank-card:hover {
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+      transform: translateY(-2px);
+    }
+    
+    .gold-accent {
+      color: #d4af37;
+      background: linear-gradient(135deg, #d4af37 0%, #f4e4aa 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    
+    .bank-button {
+      background: linear-gradient(135deg, #1e3a8a 0%, #3730a3 100%);
+      color: white;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 8px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .bank-button::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transition: left 0.5s ease;
+    }
+    
+    .bank-button:hover::before {
+      left: 100%;
+    }
+    
+    .bank-button:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(30, 58, 138, 0.4);
+    }
+    
+    .currency-display {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: #1e3a8a;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    
+    .progress-banking {
+      background: #e2e8f0;
+      height: 6px;
+      border-radius: 3px;
+      overflow: hidden;
+    }
+    
+    .progress-banking-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #d4af37, #f4e4aa);
+      transition: width 0.8s ease;
+    }
+    
+    .chart-bar {
+      background: linear-gradient(135deg, #1e3a8a 0%, #3730a3 100%);
+      border-radius: 4px 4px 0 0;
+      transition: all 0.3s ease;
+    }
+    
+    .chart-bar:hover {
+      background: linear-gradient(135deg, #3730a3 0%, #4338ca 100%);
+    }
+    
+    .trend-up {
+      color: #10b981;
+    }
+    
+    .trend-down {
+      color: #ef4444;
+    }
+    
+    .sidebar-item {
+      padding: 1rem 1.5rem;
+      border-radius: 8px;
+      margin: 0.25rem 0;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+    
+    .sidebar-item:hover {
+      background: #f1f5f9;
+    }
+    
+    .sidebar-item.active {
+      background: linear-gradient(135deg, #1e3a8a 0%, #3730a3 100%);
+      color: white;
+    }
+    
+    .premium-badge {
+      background: linear-gradient(135deg, #d4af37 0%, #f4e4aa 100%);
+      color: #1e3a8a;
+      padding: 0.25rem 0.75rem;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="bank-nav text-white p-4">
+    <div class="container mx-auto flex justify-between items-center">
+      <div class="flex items-center space-x-4">
+        <i class="fas fa-university text-2xl"></i>
+        <div>
+          <h1 class="text-xl font-bold">Premier Banking</h1>
+          <p class="text-sm opacity-80">Wealth Management Platform</p>
+        </div>
+      </div>
+      <div class="flex items-center space-x-6">
+        <button class="hover:text-gray-200 transition">
+          <i class="fas fa-search"></i>
+        </button>
+        <button class="hover:text-gray-200 transition relative">
+          <i class="fas fa-bell"></i>
+          <span class="absolute -top-2 -right-2 bg-red-500 text-xs rounded-full w-5 h-5 flex items-center justify-center">3</span>
+        </button>
+        <div class="flex items-center space-x-3">
+          <div class="w-8 h-8 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full"></div>
+          <span class="text-sm font-medium">John Smith</span>
+          <span class="premium-badge">Premium</span>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="flex">
+    <!-- Sidebar -->
+    <aside class="bank-sidebar w-64 min-h-screen p-6">
+      <div class="space-y-2">
+        <div class="sidebar-item active">
+          <div class="flex items-center space-x-3">
+            <i class="fas fa-home"></i>
+            <span>Dashboard</span>
+          </div>
+        </div>
+        <div class="sidebar-item">
+          <div class="flex items-center space-x-3">
+            <i class="fas fa-credit-card"></i>
+            <span>Accounts</span>
+          </div>
+        </div>
+        <div class="sidebar-item">
+          <div class="flex items-center space-x-3">
+            <i class="fas fa-chart-line"></i>
+            <span>Investments</span>
+          </div>
+        </div>
+        <div class="sidebar-item">
+          <div class="flex items-center space-x-3">
+            <i class="fas fa-exchange-alt"></i>
+            <span>Transactions</span>
+          </div>
+        </div>
+        <div class="sidebar-item">
+          <div class="flex items-center space-x-3">
+            <i class="fas fa-piggy-bank"></i>
+            <span>Savings</span>
+          </div>
+        </div>
+        <div class="sidebar-item">
+          <div class="flex items-center space-x-3">
+            <i class="fas fa-calculator"></i>
+            <span>Loans</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="mt-8 bank-card p-4">
+        <h3 class="font-semibold mb-3">Quick Actions</h3>
+        <div class="space-y-2">
+          <button class="w-full text-left p-2 hover:bg-gray-50 rounded">
+            <i class="fas fa-paper-plane mr-2 text-blue-600"></i>
+            Transfer Money
+          </button>
+          <button class="w-full text-left p-2 hover:bg-gray-50 rounded">
+            <i class="fas fa-download mr-2 text-green-600"></i>
+            Download Statement
+          </button>
+          <button class="w-full text-left p-2 hover:bg-gray-50 rounded">
+            <i class="fas fa-phone mr-2 text-purple-600"></i>
+            Contact Support
+          </button>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 p-8">
+      <div class="container mx-auto">
+        <!-- Header -->
+        <div class="mb-8">
+          <h2 class="text-3xl font-bold mb-2">Financial Overview</h2>
+          <p class="text-gray-600">Manage your wealth with confidence</p>
+        </div>
+
+        <!-- Account Summary -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+          <div class="bank-card p-6">
+            <div class="flex items-center justify-between mb-4">
+              <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                <i class="fas fa-wallet text-blue-600 text-xl"></i>
+              </div>
+              <span class="trend-up text-sm">
+                <i class="fas fa-arrow-up mr-1"></i>
+                +12.5%
+              </span>
+            </div>
+            <div class="currency-display">$127,450</div>
+            <h3 class="font-semibold text-gray-700">Total Balance</h3>
+            <div class="progress-banking mt-3">
+              <div class="progress-banking-fill" style="width: 85%"></div>
+            </div>
+          </div>
+          
+          <div class="bank-card p-6">
+            <div class="flex items-center justify-between mb-4">
+              <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+                <i class="fas fa-chart-line text-green-600 text-xl"></i>
+              </div>
+              <span class="trend-up text-sm">
+                <i class="fas fa-arrow-up mr-1"></i>
+                +8.2%
+              </span>
+            </div>
+            <div class="currency-display">$84,320</div>
+            <h3 class="font-semibold text-gray-700">Investments</h3>
+            <div class="progress-banking mt-3">
+              <div class="progress-banking-fill" style="width: 70%"></div>
+            </div>
+          </div>
+          
+          <div class="bank-card p-6">
+            <div class="flex items-center justify-between mb-4">
+              <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
+                <i class="fas fa-piggy-bank text-purple-600 text-xl"></i>
+              </div>
+              <span class="trend-up text-sm">
+                <i class="fas fa-arrow-up mr-1"></i>
+                +5.1%
+              </span>
+            </div>
+            <div class="currency-display">$23,890</div>
+            <h3 class="font-semibold text-gray-700">Savings</h3>
+            <div class="progress-banking mt-3">
+              <div class="progress-banking-fill" style="width: 60%"></div>
+            </div>
+          </div>
+          
+          <div class="bank-card p-6">
+            <div class="flex items-center justify-between mb-4">
+              <div class="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center">
+                <i class="fas fa-credit-card text-red-600 text-xl"></i>
+              </div>
+              <span class="trend-down text-sm">
+                <i class="fas fa-arrow-down mr-1"></i>
+                -2.3%
+              </span>
+            </div>
+            <div class="currency-display">$5,240</div>
+            <h3 class="font-semibold text-gray-700">Credit Used</h3>
+            <div class="progress-banking mt-3">
+              <div class="progress-banking-fill" style="width: 25%"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Charts and Transactions -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+          <div class="bank-card p-6">
+            <h3 class="text-xl font-semibold mb-6">Monthly Spending</h3>
+            <div class="h-64 flex items-end justify-between px-4">
+              <div class="chart-bar w-12 h-32"></div>
+              <div class="chart-bar w-12 h-48"></div>
+              <div class="chart-bar w-12 h-36"></div>
+              <div class="chart-bar w-12 h-52"></div>
+              <div class="chart-bar w-12 h-28"></div>
+              <div class="chart-bar w-12 h-44"></div>
+              <div class="chart-bar w-12 h-40"></div>
+            </div>
+            <div class="flex justify-between text-sm text-gray-500 mt-4">
+              <span>Jan</span>
+              <span>Feb</span>
+              <span>Mar</span>
+              <span>Apr</span>
+              <span>May</span>
+              <span>Jun</span>
+              <span>Jul</span>
+            </div>
+          </div>
+          
+          <div class="bank-card p-6">
+            <h3 class="text-xl font-semibold mb-6">Recent Transactions</h3>
+            <div class="space-y-4">
+              <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                <div class="flex items-center space-x-3">
+                  <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
+                    <i class="fas fa-shopping-cart text-blue-600"></i>
+                  </div>
+                  <div>
+                    <p class="font-medium">Amazon Purchase</p>
+                    <p class="text-sm text-gray-500">Today, 2:30 PM</p>
+                  </div>
+                </div>
+                <span class="font-semibold text-red-600">-$89.99</span>
+              </div>
+              
+              <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                <div class="flex items-center space-x-3">
+                  <div class="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
+                    <i class="fas fa-arrow-down text-green-600"></i>
+                  </div>
+                  <div>
+                    <p class="font-medium">Salary Deposit</p>
+                    <p class="text-sm text-gray-500">Yesterday, 9:00 AM</p>
+                  </div>
+                </div>
+                <span class="font-semibold text-green-600">+$5,200.00</span>
+              </div>
+              
+              <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                <div class="flex items-center space-x-3">
+                  <div class="w-10 h-10 bg-purple-100 rounded-full flex items-center justify-center">
+                    <i class="fas fa-home text-purple-600"></i>
+                  </div>
+                  <div>
+                    <p class="font-medium">Rent Payment</p>
+                    <p class="text-sm text-gray-500">Dec 1, 8:00 AM</p>
+                  </div>
+                </div>
+                <span class="font-semibold text-red-600">-$1,200.00</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="flex justify-center space-x-4">
+          <button class="bank-button">
+            <i class="fas fa-plus mr-2"></i>
+            New Investment
+          </button>
+          <button class="bank-button">
+            <i class="fas fa-paper-plane mr-2"></i>
+            Transfer Money
+          </button>
+          <button class="bank-button">
+            <i class="fas fa-download mr-2"></i>
+            Generate Report
+          </button>
+        </div>
+      </div>
+    </main>
+  </div>
+</body>
+</html> 

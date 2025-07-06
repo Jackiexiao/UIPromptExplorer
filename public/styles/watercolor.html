@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Watercolor Art Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Poppins:wght@300;400;500;600&display=swap');
+    
+    body {
+      background: linear-gradient(135deg, #fef7f0 0%, #f8f4f0 50%, #f0f8ff 100%);
+      color: #4a5568;
+      font-family: 'Poppins', sans-serif;
+      position: relative;
+    }
+    
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: 
+        radial-gradient(circle at 20% 20%, rgba(255, 182, 193, 0.3) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(173, 216, 230, 0.3) 0%, transparent 50%),
+        radial-gradient(circle at 40% 60%, rgba(221, 160, 221, 0.2) 0%, transparent 50%);
+      pointer-events: none;
+      z-index: -1;
+    }
+    
+    .watercolor-nav {
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(248, 244, 240, 0.9) 100%);
+      backdrop-filter: blur(10px);
+      border-bottom: 3px solid transparent;
+      border-image: linear-gradient(90deg, #ff69b4, #87ceeb, #dda0dd) 1;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    }
+    
+    .watercolor-sidebar {
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.8) 0%, rgba(248, 244, 240, 0.8) 100%);
+      backdrop-filter: blur(10px);
+      border-right: 3px solid transparent;
+      border-image: linear-gradient(180deg, #ff69b4, #87ceeb) 1;
+    }
+    
+    .watercolor-card {
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(248, 244, 240, 0.7) 100%);
+      backdrop-filter: blur(10px);
+      border: 2px solid transparent;
+      border-radius: 20px;
+      box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.8);
+      transition: all 0.4s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .watercolor-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(135deg, 
+        rgba(255, 182, 193, 0.1) 0%, 
+        rgba(173, 216, 230, 0.1) 50%, 
+        rgba(221, 160, 221, 0.1) 100%);
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      border-radius: 18px;
+    }
+    
+    .watercolor-card:hover::before {
+      opacity: 1;
+    }
+    
+    .watercolor-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 
+        0 12px 40px rgba(0, 0, 0, 0.15),
+        inset 0 1px 0 rgba(255, 255, 255, 0.9);
+      border-image: linear-gradient(135deg, #ff69b4, #87ceeb, #dda0dd) 1;
+    }
+    
+    .watercolor-button {
+      background: linear-gradient(135deg, #ff69b4 0%, #ff1493 100%);
+      color: white;
+      border: none;
+      padding: 0.75rem 2rem;
+      border-radius: 25px;
+      font-weight: 500;
+      transition: all 0.4s ease;
+      box-shadow: 0 4px 15px rgba(255, 105, 180, 0.3);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .watercolor-button::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+      transition: left 0.6s ease;
+    }
+    
+    .watercolor-button:hover::before {
+      left: 100%;
+    }
+    
+    .watercolor-button:hover {
+      background: linear-gradient(135deg, #ff1493 0%, #dc143c 100%);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(255, 105, 180, 0.4);
+    }
+    
+    .artistic-number {
+      font-size: 2.5rem;
+      font-weight: 600;
+      background: linear-gradient(135deg, #ff69b4 0%, #87ceeb 50%, #dda0dd 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      font-family: 'Dancing Script', cursive;
+    }
+    
+    .watercolor-progress {
+      background: rgba(255, 255, 255, 0.5);
+      height: 12px;
+      border-radius: 10px;
+      overflow: hidden;
+      position: relative;
+      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    
+    .watercolor-progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #ff69b4, #87ceeb, #dda0dd);
+      border-radius: 10px;
+      transition: width 1s ease;
+      position: relative;
+    }
+    
+    .watercolor-progress-fill::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.6), transparent);
+      animation: shimmer 2s infinite;
+    }
+    
+    @keyframes shimmer {
+      0% { transform: translateX(-100%); }
+      100% { transform: translateX(100%); }
+    }
+    
+    .sidebar-item {
+      padding: 1rem 1.5rem;
+      border-radius: 15px;
+      margin: 0.5rem 0;
+      transition: all 0.4s ease;
+      cursor: pointer;
+      position: relative;
+    }
+    
+    .sidebar-item:hover {
+      background: linear-gradient(135deg, rgba(255, 182, 193, 0.3), rgba(173, 216, 230, 0.3));
+      color: #ff1493;
+      transform: translateX(5px);
+    }
+    
+    .sidebar-item.active {
+      background: linear-gradient(135deg, #ff69b4 0%, #87ceeb 100%);
+      color: white;
+      box-shadow: 0 4px 15px rgba(255, 105, 180, 0.3);
+    }
+    
+    .art-card {
+      background: rgba(255, 255, 255, 0.8);
+      border: 2px solid transparent;
+      border-radius: 15px;
+      padding: 1rem;
+      margin: 0.5rem 0;
+      transition: all 0.4s ease;
+      position: relative;
+    }
+    
+    .art-card:hover {
+      background: rgba(255, 255, 255, 0.9);
+      border-image: linear-gradient(135deg, #ff69b4, #87ceeb) 1;
+      transform: scale(1.02);
+    }
+    
+    .chart-bar-watercolor {
+      background: linear-gradient(135deg, #ff69b4 0%, #87ceeb 50%, #dda0dd 100%);
+      border-radius: 10px 10px 0 0;
+      transition: all 0.4s ease;
+      position: relative;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    
+    .chart-bar-watercolor:hover {
+      background: linear-gradient(135deg, #dda0dd 0%, #87ceeb 50%, #ff69b4 100%);
+      transform: scale(1.05);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+    }
+    
+    .floating-blob {
+      position: fixed;
+      border-radius: 50%;
+      opacity: 0.3;
+      animation: float 6s ease-in-out infinite;
+      pointer-events: none;
+      z-index: -1;
+    }
+    
+    @keyframes float {
+      0%, 100% { transform: translateY(0px) scale(1); }
+      50% { transform: translateY(-20px) scale(1.1); }
+    }
+    
+    .watercolor-title {
+      font-family: 'Dancing Script', cursive;
+      font-size: 3rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #ff69b4 0%, #87ceeb 50%, #dda0dd 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+    
+    .watercolor-badge {
+      background: linear-gradient(135deg, #ff69b4 0%, #87ceeb 100%);
+      color: white;
+      padding: 0.25rem 1rem;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 500;
+      box-shadow: 0 2px 8px rgba(255, 105, 180, 0.3);
+    }
+  </style>
+</head>
+<body>
+  <!-- Floating Elements -->
+  <div class="floating-blob w-32 h-32 bg-pink-300" style="top: 10%; left: 10%; animation-delay: 0s;"></div>
+  <div class="floating-blob w-24 h-24 bg-blue-300" style="top: 20%; right: 15%; animation-delay: 2s;"></div>
+  <div class="floating-blob w-20 h-20 bg-purple-300" style="bottom: 30%; left: 20%; animation-delay: 4s;"></div>
+  <div class="floating-blob w-28 h-28 bg-pink-200" style="bottom: 10%; right: 10%; animation-delay: 1s;"></div>
+
+  <!-- Navigation -->
+  <nav class="watercolor-nav p-4">
+    <div class="container mx-auto flex justify-between items-center">
+      <div class="flex items-center space-x-4">
+        <i class="fas fa-palette text-2xl text-pink-500"></i>
+        <div>
+          <h1 class="text-xl font-bold text-gray-700">Artisan Studio</h1>
+          <p class="text-sm opacity-80">Creative Dashboard</p>
+        </div>
+      </div>
+      <div class="flex items-center space-x-6">
+        <div class="text-center">
+          <p class="text-xs opacity-60">MOOD</p>
+          <p class="text-lg font-bold text-pink-500">Inspired</p>
+        </div>
+        <div class="text-center">
+          <p class="text-xs opacity-60">WEATHER</p>
+          <p class="text-lg font-bold text-blue-500">Sunny</p>
+        </div>
+        <button class="hover:text-pink-500 transition">
+          <i class="fas fa-heart"></i>
+        </button>
+        <div class="flex items-center space-x-3">
+          <div class="w-8 h-8 bg-gradient-to-r from-pink-400 to-blue-400 rounded-full"></div>
+          <div>
+            <p class="text-sm font-medium">Luna Artist</p>
+            <span class="watercolor-badge">Creator</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="flex">
+    <!-- Sidebar -->
+    <aside class="watercolor-sidebar w-64 min-h-screen p-6">
+      <div class="space-y-2">
+        <div class="sidebar-item active">
+          <div class="flex items-center space-x-3">
+            <i class="fas fa-home"></i>
+            <span>Gallery</span>
+          </div>
+        </div>
+        <div class="sidebar-item">
+          <div class="flex items-center space-x-3">
+            <i class="fas fa-brush"></i>
+            <span>Creations</span>
+          </div>
+        </div>
+        <div class="sidebar-item">
+          <div class="flex items-center space-x-3">
+            <i class="fas fa-images"></i>
+            <span>Collections</span>
+          </div>
+        </div>
+        <div class="sidebar-item">
+          <div class="flex items-center space-x-3">
+            <i class="fas fa-users"></i>
+            <span>Community</span>
+          </div>
+        </div>
+        <div class="sidebar-item">
+          <div class="flex items-center space-x-3">
+            <i class="fas fa-star"></i>
+            <span>Inspiration</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="mt-8 watercolor-card p-4">
+        <h3 class="font-semibold mb-3 text-pink-500">Creative Flow</h3>
+        <div class="space-y-3">
+          <div class="flex items-center justify-between">
+            <span class="text-sm">Inspiration</span>
+            <span class="text-xs text-pink-500">92%</span>
+          </div>
+          <div class="watercolor-progress">
+            <div class="watercolor-progress-fill" style="width: 92%"></div>
+          </div>
+          <div class="flex items-center justify-between">
+            <span class="text-sm">Focus</span>
+            <span class="text-xs text-blue-500">78%</span>
+          </div>
+          <div class="watercolor-progress">
+            <div class="watercolor-progress-fill" style="width: 78%"></div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 p-8">
+      <div class="container mx-auto">
+        <!-- Header -->
+        <div class="mb-8 text-center">
+          <h2 class="watercolor-title">Welcome to Your Creative Space</h2>
+          <p class="text-gray-600">Where imagination meets digital artistry</p>
+        </div>
+
+        <!-- Art Metrics -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+          <div class="watercolor-card p-6 text-center">
+            <div class="flex items-center justify-center mb-4">
+              <i class="fas fa-paint-brush text-3xl text-pink-500"></i>
+            </div>
+            <div class="artistic-number">247</div>
+            <h3 class="font-semibold text-gray-600">Artworks</h3>
+            <div class="watercolor-progress mt-3">
+              <div class="watercolor-progress-fill" style="width: 85%"></div>
+            </div>
+          </div>
+          
+          <div class="watercolor-card p-6 text-center">
+            <div class="flex items-center justify-center mb-4">
+              <i class="fas fa-heart text-3xl text-red-400"></i>
+            </div>
+            <div class="artistic-number">1.2K</div>
+            <h3 class="font-semibold text-gray-600">Likes</h3>
+            <div class="watercolor-progress mt-3">
+              <div class="watercolor-progress-fill" style="width: 72%"></div>
+            </div>
+          </div>
+          
+          <div class="watercolor-card p-6 text-center">
+            <div class="flex items-center justify-center mb-4">
+              <i class="fas fa-users text-3xl text-blue-500"></i>
+            </div>
+            <div class="artistic-number">89</div>
+            <h3 class="font-semibold text-gray-600">Followers</h3>
+            <div class="watercolor-progress mt-3">
+              <div class="watercolor-progress-fill" style="width: 60%"></div>
+            </div>
+          </div>
+          
+          <div class="watercolor-card p-6 text-center">
+            <div class="flex items-center justify-center mb-4">
+              <i class="fas fa-trophy text-3xl text-yellow-500"></i>
+            </div>
+            <div class="artistic-number">12</div>
+            <h3 class="font-semibold text-gray-600">Awards</h3>
+            <div class="watercolor-progress mt-3">
+              <div class="watercolor-progress-fill" style="width: 90%"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Content Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+          <!-- Activity Chart -->
+          <div class="watercolor-card p-6">
+            <h3 class="text-xl font-semibold mb-6 text-pink-500">Creative Activity</h3>
+            <div class="h-64 flex items-end justify-between px-4">
+              <div class="chart-bar-watercolor w-12 h-32"></div>
+              <div class="chart-bar-watercolor w-12 h-48"></div>
+              <div class="chart-bar-watercolor w-12 h-24"></div>
+              <div class="chart-bar-watercolor w-12 h-56"></div>
+              <div class="chart-bar-watercolor w-12 h-36"></div>
+              <div class="chart-bar-watercolor w-12 h-44"></div>
+              <div class="chart-bar-watercolor w-12 h-52"></div>
+            </div>
+            <div class="flex justify-between text-sm text-gray-500 mt-4">
+              <span>Mon</span>
+              <span>Tue</span>
+              <span>Wed</span>
+              <span>Thu</span>
+              <span>Fri</span>
+              <span>Sat</span>
+              <span>Sun</span>
+            </div>
+          </div>
+          
+          <!-- Recent Works -->
+          <div class="watercolor-card p-6">
+            <h3 class="text-xl font-semibold mb-6 text-blue-500">Recent Masterpieces</h3>
+            <div class="space-y-4">
+              <div class="art-card">
+                <div class="flex items-center justify-between">
+                  <div class="flex items-center space-x-3">
+                    <div class="w-12 h-12 bg-gradient-to-r from-pink-300 to-blue-300 rounded-lg"></div>
+                    <div>
+                      <p class="font-medium">Sunset Dreams</p>
+                      <p class="text-sm text-gray-500">Watercolor • 2 hours ago</p>
+                    </div>
+                  </div>
+                  <div class="flex items-center space-x-2">
+                    <i class="fas fa-heart text-red-400"></i>
+                    <span class="text-sm">24</span>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="art-card">
+                <div class="flex items-center justify-between">
+                  <div class="flex items-center space-x-3">
+                    <div class="w-12 h-12 bg-gradient-to-r from-purple-300 to-pink-300 rounded-lg"></div>
+                    <div>
+                      <p class="font-medium">Ocean Waves</p>
+                      <p class="text-sm text-gray-500">Digital • 1 day ago</p>
+                    </div>
+                  </div>
+                  <div class="flex items-center space-x-2">
+                    <i class="fas fa-heart text-red-400"></i>
+                    <span class="text-sm">31</span>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="art-card">
+                <div class="flex items-center justify-between">
+                  <div class="flex items-center space-x-3">
+                    <div class="w-12 h-12 bg-gradient-to-r from-blue-300 to-purple-300 rounded-lg"></div>
+                    <div>
+                      <p class="font-medium">Mountain Mist</p>
+                      <p class="text-sm text-gray-500">Mixed Media • 3 days ago</p>
+                    </div>
+                  </div>
+                  <div class="flex items-center space-x-2">
+                    <i class="fas fa-heart text-red-400"></i>
+                    <span class="text-sm">18</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="flex justify-center space-x-4">
+          <button class="watercolor-button">
+            <i class="fas fa-plus mr-2"></i>
+            New Creation
+          </button>
+          <button class="watercolor-button">
+            <i class="fas fa-upload mr-2"></i>
+            Upload Art
+          </button>
+          <button class="watercolor-button">
+            <i class="fas fa-share mr-2"></i>
+            Share Gallery
+          </button>
+        </div>
+      </div>
+    </main>
+  </div>
+</body>
+</html> 

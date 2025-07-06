@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vintage Heritage Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap');
+    
+    body {
+      background: linear-gradient(135deg, #f4f1e8 0%, #e8dcc6 50%, #d2b48c 100%);
+      color: #5d4e37;
+      font-family: 'Crimson Text', serif;
+      position: relative;
+    }
+    
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: 
+        radial-gradient(circle at 30% 20%, rgba(139, 69, 19, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 70% 80%, rgba(160, 82, 45, 0.1) 0%, transparent 50%),
+        url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="50" cy="50" r="0.5" fill="%23d2b48c" opacity="0.3"/><circle cx="25" cy="25" r="0.3" fill="%23cd853f" opacity="0.2"/><circle cx="75" cy="75" r="0.4" fill="%23daa520" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+      pointer-events: none;
+      z-index: -1;
+    }
+    
+    .vintage-nav {
+      background: linear-gradient(135deg, #8b4513 0%, #a0522d 100%);
+      border-bottom: 4px solid #cd853f;
+      box-shadow: 
+        0 4px 20px rgba(139, 69, 19, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    }
+    
+    .vintage-sidebar {
+      background: linear-gradient(180deg, #f5deb3 0%, #daa520 100%);
+      border-right: 3px solid #cd853f;
+      box-shadow: 
+        3px 0 15px rgba(139, 69, 19, 0.2),
+        inset -1px 0 0 rgba(255, 255, 255, 0.3);
+    }
+    
+    .vintage-card {
+      background: linear-gradient(135deg, #faf0e6 0%, #f5deb3 100%);
+      border: 3px solid #cd853f;
+      border-radius: 15px;
+      box-shadow: 
+        0 8px 25px rgba(139, 69, 19, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.5);
+      transition: all 0.4s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .vintage-card::before {
+      content: '';
+      position: absolute;
+      top: -2px;
+      left: -2px;
+      right: -2px;
+      bottom: -2px;
+      background: linear-gradient(45deg, #cd853f, #daa520, #cd853f);
+      border-radius: 18px;
+      z-index: -1;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+    
+    .vintage-card:hover::before {
+      opacity: 1;
+    }
+    
+    .vintage-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 
+        0 12px 35px rgba(139, 69, 19, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.6);
+    }
+    
+    .vintage-button {
+      background: linear-gradient(135deg, #cd853f 0%, #daa520 100%);
+      color: #ffffff;
+      border: 2px solid #8b4513;
+      padding: 0.75rem 2rem;
+      border-radius: 25px;
+      font-weight: 600;
+      font-family: 'Playfair Display', serif;
+      transition: all 0.4s ease;
+      box-shadow: 
+        0 4px 15px rgba(205, 133, 63, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .vintage-button::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+      transition: left 0.6s ease;
+    }
+    
+    .vintage-button:hover::before {
+      left: 100%;
+    }
+    
+    .vintage-button:hover {
+      background: linear-gradient(135deg, #daa520 0%, #b8860b 100%);
+      transform: translateY(-2px);
+      box-shadow: 
+        0 6px 20px rgba(205, 133, 63, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.4);
+    }
+    
+    .heritage-number {
+      font-size: 2.5rem;
+      font-weight: 900;
+      color: #8b4513;
+      font-family: 'Playfair Display', serif;
+      text-shadow: 2px 2px 4px rgba(139, 69, 19, 0.3);
+    }
+    
+    .vintage-progress {
+      background: rgba(139, 69, 19, 0.2);
+      height: 12px;
+      border-radius: 10px;
+      border: 2px solid #cd853f;
+      overflow: hidden;
+      position: relative;
+    }
+    
+    .vintage-progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #cd853f, #daa520, #b8860b);
+      border-radius: 8px;
+      transition: width 1s ease;
+      position: relative;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    }
+    
+    .vintage-progress-fill::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+      animation: vintage-shimmer 3s infinite;
+    }
+    
+    @keyframes vintage-shimmer {
+      0% { transform: translateX(-100%); }
+      100% { transform: translateX(100%); }
+    }
+    
+    .sidebar-item {
+      padding: 1rem 1.5rem;
+      border-radius: 12px;
+      margin: 0.5rem 0;
+      transition: all 0.4s ease;
+      cursor: pointer;
+      border: 2px solid transparent;
+      font-family: 'Playfair Display', serif;
+      font-weight: 600;
+    }
+    
+    .sidebar-item:hover {
+      background: rgba(205, 133, 63, 0.2);
+      border-color: #cd853f;
+      color: #8b4513;
+      transform: translateX(5px);
+    }
+    
+    .sidebar-item.active {
+      background: linear-gradient(135deg, #cd853f 0%, #daa520 100%);
+      color: #ffffff;
+      border-color: #8b4513;
+      box-shadow: 0 4px 15px rgba(205, 133, 63, 0.3);
+    }
+    
+    .heritage-card {
+      background: rgba(250, 240, 230, 0.9);
+      border: 2px solid #cd853f;
+      border-radius: 12px;
+      padding: 1rem;
+      margin: 0.5rem 0;
+      transition: all 0.4s ease;
+      position: relative;
+    }
+    
+    .heritage-card:hover {
+      background: rgba(245, 222, 179, 0.9);
+      border-color: #daa520;
+      transform: scale(1.02);
+      box-shadow: 0 4px 15px rgba(139, 69, 19, 0.2);
+    }
+    
+    .chart-bar-vintage {
+      background: linear-gradient(135deg, #cd853f 0%, #daa520 100%);
+      border-radius: 8px 8px 0 0;
+      border: 2px solid #8b4513;
+      transition: all 0.4s ease;
+      position: relative;
+      box-shadow: 0 2px 8px rgba(139, 69, 19, 0.2);
+    }
+    
+    .chart-bar-vintage:hover {
+      background: linear-gradient(135deg, #daa520 0%, #b8860b 100%);
+      transform: scale(1.05);
+      box-shadow: 0 4px 12px rgba(139, 69, 19, 0.3);
+    }
+    
+    .decorative-border {
+      border: 3px solid #cd853f;
+      border-image: repeating-linear-gradient(
+        45deg,
+        #cd853f,
+        #cd853f 10px,
+        #daa520 10px,
+        #daa520 20px
+      ) 1;
+      position: relative;
+    }
+    
+    .decorative-border::before {
+      content: '❦';
+      position: absolute;
+      top: -15px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #f5deb3;
+      padding: 0 10px;
+      color: #8b4513;
+      font-size: 20px;
+    }
+    
+    .vintage-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 3rem;
+      font-weight: 900;
+      color: #8b4513;
+      text-align: center;
+      margin-bottom: 1rem;
+      text-shadow: 3px 3px 6px rgba(139, 69, 19, 0.3);
+      position: relative;
+    }
+    
+    .vintage-title::after {
+      content: '⚜ ⚜ ⚜';
+      display: block;
+      font-size: 1rem;
+      color: #cd853f;
+      margin-top: 0.5rem;
+    }
+    
+    .vintage-badge {
+      background: linear-gradient(135deg, #8b4513 0%, #a0522d 100%);
+      color: #f5deb3;
+      padding: 0.25rem 1rem;
+      border-radius: 20px;
+      border: 2px solid #cd853f;
+      font-size: 0.75rem;
+      font-weight: 600;
+      font-family: 'Playfair Display', serif;
+      box-shadow: 0 2px 8px rgba(139, 69, 19, 0.3);
+    }
+    
+    .ornamental {
+      color: #cd853f;
+      font-size: 1.5rem;
+      margin: 0 1rem;
+    }
+    
+    .aged-paper {
+      background: 
+        radial-gradient(circle at 20% 20%, rgba(139, 69, 19, 0.1) 0%, transparent 20%),
+        radial-gradient(circle at 80% 80%, rgba(160, 82, 45, 0.1) 0%, transparent 20%),
+        linear-gradient(135deg, #faf0e6 0%, #f5deb3 100%);
+    }
+    
+    .sepia-filter {
+      filter: sepia(30%) contrast(1.1) brightness(1.05);
+    }
+  </style>
+</head>
+<body class="sepia-filter">
+  <!-- Navigation -->
+  <nav class="vintage-nav text-white p-4">
+    <div class="container mx-auto flex justify-between items-center">
+      <div class="flex items-center space-x-4">
+        <i class="fas fa-crown text-2xl text-yellow-300"></i>
+        <div>
+          <h1 class="text-xl font-bold font-serif">Heritage Manor</h1>
+          <p class="text-sm opacity-80">Timeless Elegance Dashboard</p>
+        </div>
+      </div>
+      <div class="flex items-center space-x-6">
+        <div class="text-center">
+          <p class="text-xs opacity-60">SEASON</p>
+          <p class="text-lg font-bold text-yellow-300">Autumn</p>
+        </div>
+        <span class="ornamental">❦</span>
+        <div class="text-center">
+          <p class="text-xs opacity-60">YEAR</p>
+          <p class="text-lg font-bold text-yellow-300">MMXXV</p>
+        </div>
+        <span class="ornamental">⚜</span>
+        <button class="hover:text-yellow-300 transition">
+          <i class="fas fa-bell"></i>
+        </button>
+        <div class="flex items-center space-x-3">
+          <div class="w-8 h-8 bg-gradient-to-r from-yellow-600 to-yellow-800 rounded-full border-2 border-yellow-300"></div>
+          <div>
+            <p class="text-sm font-medium">Lord Wellington</p>
+            <span class="vintage-badge">Noble</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="flex">
+    <!-- Sidebar -->
+    <aside class="vintage-sidebar w-64 min-h-screen p-6">
+      <div class="space-y-2">
+        <div class="sidebar-item active">
+          <div class="flex items-center space-x-3">
+            <i class="fas fa-home"></i>
+            <span>Manor Hall</span>
+          </div>
+        </div>
+        <div class="sidebar-item">
+          <div class="flex items-center space-x-3">
+            <i class="fas fa-book"></i>
+            <span>Library</span>
+          </div>
+        </div>
+        <div class="sidebar-item">
+          <div class="flex items-center space-x-3">
+            <i class="fas fa-wine-glass"></i>
+            <span>Wine Cellar</span>
+          </div>
+        </div>
+        <div class="sidebar-item">
+          <div class="flex items-center space-x-3">
+            <i class="fas fa-chess"></i>
+            <span>Game Room</span>
+          </div>
+        </div>
+        <div class="sidebar-item">
+          <div class="flex items-center space-x-3">
+            <i class="fas fa-portrait"></i>
+            <span>Gallery</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="mt-8 vintage-card p-4 decorative-border aged-paper">
+        <h3 class="font-semibold mb-3 text-amber-800">Estate Status</h3>
+        <div class="space-y-3">
+          <div class="flex items-center justify-between">
+            <span class="text-sm">Prestige</span>
+            <span class="text-xs text-amber-700">95%</span>
+          </div>
+          <div class="vintage-progress">
+            <div class="vintage-progress-fill" style="width: 95%"></div>
+          </div>
+          <div class="flex items-center justify-between">
+            <span class="text-sm">Prosperity</span>
+            <span class="text-xs text-amber-700">88%</span>
+          </div>
+          <div class="vintage-progress">
+            <div class="vintage-progress-fill" style="width: 88%"></div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 p-8 aged-paper">
+      <div class="container mx-auto">
+        <!-- Header -->
+        <div class="mb-8 text-center">
+          <h2 class="vintage-title">Welcome to Heritage Manor</h2>
+          <p class="text-gray-600 font-serif italic">Where tradition meets timeless elegance</p>
+        </div>
+
+        <!-- Heritage Metrics -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+          <div class="vintage-card p-6 text-center">
+            <div class="flex items-center justify-center mb-4">
+              <i class="fas fa-scroll text-3xl text-amber-700"></i>
+            </div>
+            <div class="heritage-number">247</div>
+            <h3 class="font-semibold text-gray-700 font-serif">Ancient Artifacts</h3>
+            <div class="vintage-progress mt-3">
+              <div class="vintage-progress-fill" style="width: 85%"></div>
+            </div>
+          </div>
+          
+          <div class="vintage-card p-6 text-center">
+            <div class="flex items-center justify-center mb-4">
+              <i class="fas fa-gem text-3xl text-amber-600"></i>
+            </div>
+            <div class="heritage-number">1,847</div>
+            <h3 class="font-semibold text-gray-700 font-serif">Precious Items</h3>
+            <div class="vintage-progress mt-3">
+              <div class="vintage-progress-fill" style="width: 72%"></div>
+            </div>
+          </div>
+          
+          <div class="vintage-card p-6 text-center">
+            <div class="flex items-center justify-center mb-4">
+              <i class="fas fa-users text-3xl text-amber-800"></i>
+            </div>
+            <div class="heritage-number">89</div>
+            <h3 class="font-semibold text-gray-700 font-serif">Distinguished Guests</h3>
+            <div class="vintage-progress mt-3">
+              <div class="vintage-progress-fill" style="width: 60%"></div>
+            </div>
+          </div>
+          
+          <div class="vintage-card p-6 text-center">
+            <div class="flex items-center justify-center mb-4">
+              <i class="fas fa-award text-3xl text-yellow-600"></i>
+            </div>
+            <div class="heritage-number">XII</div>
+            <h3 class="font-semibold text-gray-700 font-serif">Royal Honors</h3>
+            <div class="vintage-progress mt-3">
+              <div class="vintage-progress-fill" style="width: 90%"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Content Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+          <!-- Monthly Activities -->
+          <div class="vintage-card p-6 decorative-border">
+            <h3 class="text-xl font-semibold mb-6 text-amber-800 font-serif">Monthly Activities</h3>
+            <div class="h-64 flex items-end justify-between px-4">
+              <div class="chart-bar-vintage w-12 h-32"></div>
+              <div class="chart-bar-vintage w-12 h-48"></div>
+              <div class="chart-bar-vintage w-12 h-24"></div>
+              <div class="chart-bar-vintage w-12 h-56"></div>
+              <div class="chart-bar-vintage w-12 h-36"></div>
+              <div class="chart-bar-vintage w-12 h-44"></div>
+              <div class="chart-bar-vintage w-12 h-52"></div>
+            </div>
+            <div class="flex justify-between text-sm text-gray-600 mt-4 font-serif">
+              <span>Jan</span>
+              <span>Feb</span>
+              <span>Mar</span>
+              <span>Apr</span>
+              <span>May</span>
+              <span>Jun</span>
+              <span>Jul</span>
+            </div>
+          </div>
+          
+          <!-- Recent Acquisitions -->
+          <div class="vintage-card p-6 decorative-border">
+            <h3 class="text-xl font-semibold mb-6 text-amber-800 font-serif">Recent Acquisitions</h3>
+            <div class="space-y-4">
+              <div class="heritage-card">
+                <div class="flex items-center justify-between">
+                  <div class="flex items-center space-x-3">
+                    <div class="w-12 h-12 bg-gradient-to-r from-amber-400 to-yellow-600 rounded-lg border-2 border-amber-600"></div>
+                    <div>
+                      <p class="font-medium font-serif">Ming Dynasty Vase</p>
+                      <p class="text-sm text-gray-600 italic">Porcelain • 3 days ago</p>
+                    </div>
+                  </div>
+                  <span class="vintage-badge">Rare</span>
+                </div>
+              </div>
+              
+              <div class="heritage-card">
+                <div class="flex items-center justify-between">
+                  <div class="flex items-center space-x-3">
+                    <div class="w-12 h-12 bg-gradient-to-r from-yellow-600 to-amber-800 rounded-lg border-2 border-amber-600"></div>
+                    <div>
+                      <p class="font-medium font-serif">Victorian Pocket Watch</p>
+                      <p class="text-sm text-gray-600 italic">Gold • 1 week ago</p>
+                    </div>
+                  </div>
+                  <span class="vintage-badge">Exquisite</span>
+                </div>
+              </div>
+              
+              <div class="heritage-card">
+                <div class="flex items-center justify-between">
+                  <div class="flex items-center space-x-3">
+                    <div class="w-12 h-12 bg-gradient-to-r from-amber-600 to-yellow-800 rounded-lg border-2 border-amber-600"></div>
+                    <div>
+                      <p class="font-medium font-serif">Renaissance Painting</p>
+                      <p class="text-sm text-gray-600 italic">Oil Canvas • 2 weeks ago</p>
+                    </div>
+                  </div>
+                  <span class="vintage-badge">Masterpiece</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="flex justify-center space-x-4">
+          <button class="vintage-button">
+            <i class="fas fa-plus mr-2"></i>
+            Add to Collection
+          </button>
+          <button class="vintage-button">
+            <i class="fas fa-search mr-2"></i>
+            Appraise Items
+          </button>
+          <button class="vintage-button">
+            <i class="fas fa-share mr-2"></i>
+            Share Heritage
+          </button>
+        </div>
+      </div>
+    </main>
+  </div>
+</body>
+</html> 
